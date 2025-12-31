@@ -509,20 +509,17 @@
     }
     
     async function loadAvatar() {
-        // 优先从 localStorage
+        // 优先从 localStorage（本地测试用）
         let avatar = localStorage.getItem('avatarImage');
         if (avatar) return avatar;
-        // 尝试从 avatar.json 读取
-        try {
-            const response = await fetch('avatar.json');
-            if (response.ok) {
-                const data = await response.json();
-                if (data.avatar) {
-                    localStorage.setItem('avatarImage', data.avatar);
-                    return data.avatar;
-                }
-            }
-        } catch(e) {}
+        // 尝试加载图片文件（线上用）
+        const formats = ['avatar.png', 'avatar.jpg', 'avatar.jpeg', 'avatar.webp'];
+        for (const file of formats) {
+            try {
+                const response = await fetch(file, { method: 'HEAD' });
+                if (response.ok) return file;
+            } catch(e) {}
+        }
         return null;
     }
     

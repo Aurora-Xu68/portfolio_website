@@ -512,24 +512,33 @@
         // 优先从 localStorage（本地测试用）
         let avatar = localStorage.getItem('avatarImage');
         if (avatar) return avatar;
-        // 尝试加载图片文件（线上用）
-        const formats = ['avatar.png', 'avatar.jpg', 'avatar.jpeg', 'avatar.webp'];
-        for (const file of formats) {
-            try {
-                const response = await fetch(file, { method: 'HEAD' });
-                if (response.ok) return file;
-            } catch(e) {}
-        }
-        return null;
+        // 直接返回 avatar.jpg（线上用）
+        return 'avatar.jpg';
     }
     
     async function init() {
         const cms = await loadCMS();
         
-        // 头像
-        const avatar = await loadAvatar();
-        if (avatar) {
-            document.getElementById('mainAvatar').innerHTML = `<img src="${avatar}" alt="头像">`;
+        // 头像 - 直接设置，让浏览器自己判断图片是否存在
+        const avatarEl = document.getElementById('mainAvatar');
+        const localAvatar = localStorage.getItem('avatarImage');
+        if (localAvatar) {
+            avatarEl.innerHTML = `<img src="${localAvatar}" alt="头像">`;
+        } else {
+            // 尝试加载 avatar.jpg
+            const img = new Image();
+            img.onload = function() {
+                avatarEl.innerHTML = `<img src="avatar.jpg" alt="头像">`;
+            };
+            img.onerror = function() {
+                // 如果 jpg 不存在，试试 png
+                const img2 = new Image();
+                img2.onload = function() {
+                    avatarEl.innerHTML = `<img src="avatar.png" alt="头像">`;
+                };
+                img2.src = 'avatar.png';
+            };
+            img.src = 'avatar.jpg';
         }
         
         if (cms?.home) {

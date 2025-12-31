@@ -63,9 +63,24 @@
         </div>
     </div>
     <script>
-    function loadCMS() { try { return JSON.parse(localStorage.getItem('websiteData')); } catch(e) { return null; } }
-    function renderProjects() {
-        const cms = loadCMS(), grid = document.getElementById('projectsGrid');
+    async function loadCMS() {
+        const local = localStorage.getItem('websiteData');
+        if (local) {
+            try { return JSON.parse(local); } catch(e) {}
+        }
+        try {
+            const response = await fetch('data.json');
+            if (response.ok) {
+                const data = await response.json();
+                localStorage.setItem('websiteData', JSON.stringify(data));
+                return data;
+            }
+        } catch(e) {}
+        return null;
+    }
+    async function renderProjects() {
+        const cms = await loadCMS();
+        const grid = document.getElementById('projectsGrid');
         let projects = cms?.portfolio?.projects || [];
         if (cms?.portfolio?.title) document.getElementById('pageTitle').textContent = cms.portfolio.title;
         if (cms?.portfolio?.subtitle) document.getElementById('pageSubtitle').textContent = cms.portfolio.subtitle;

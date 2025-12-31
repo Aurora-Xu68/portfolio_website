@@ -487,16 +487,50 @@
     }
     
     // ========== CMS数据加载 ==========
-    function loadCMS() {
-        try { return JSON.parse(localStorage.getItem('websiteData')); }
-        catch(e) { return null; }
+    async function loadCMS() {
+        // 优先从 localStorage 读取
+        const local = localStorage.getItem('websiteData');
+        if (local) {
+            try { return JSON.parse(local); } catch(e) {}
+        }
+        // 如果 localStorage 没有，尝试从 data.json 读取
+        try {
+            const response = await fetch('data.json');
+            if (response.ok) {
+                const data = await response.json();
+                // 保存到 localStorage 以便后续使用
+                localStorage.setItem('websiteData', JSON.stringify(data));
+                return data;
+            }
+        } catch(e) {
+            console.log('No data.json found, using defaults');
+        }
+        return null;
     }
     
-    function init() {
-        const cms = loadCMS();
+    async function loadAvatar() {
+        // 优先从 localStorage
+        let avatar = localStorage.getItem('avatarImage');
+        if (avatar) return avatar;
+        // 尝试从 avatar.json 读取
+        try {
+            const response = await fetch('avatar.json');
+            if (response.ok) {
+                const data = await response.json();
+                if (data.avatar) {
+                    localStorage.setItem('avatarImage', data.avatar);
+                    return data.avatar;
+                }
+            }
+        } catch(e) {}
+        return null;
+    }
+    
+    async function init() {
+        const cms = await loadCMS();
         
         // 头像
-        const avatar = localStorage.getItem('avatarImage');
+        const avatar = await loadAvatar();
         if (avatar) {
             document.getElementById('mainAvatar').innerHTML = `<img src="${avatar}" alt="头像">`;
         }

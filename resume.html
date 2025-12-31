@@ -63,7 +63,21 @@
         </div>
     </main>
     <script>
-    function loadCMS() { try { return JSON.parse(localStorage.getItem('websiteData')); } catch(e) { return null; } }
+    async function loadCMS() {
+        const local = localStorage.getItem('websiteData');
+        if (local) {
+            try { return JSON.parse(local); } catch(e) {}
+        }
+        try {
+            const response = await fetch('data.json');
+            if (response.ok) {
+                const data = await response.json();
+                localStorage.setItem('websiteData', JSON.stringify(data));
+                return data;
+            }
+        } catch(e) {}
+        return null;
+    }
     function renderEdu(edu) {
         const c = document.getElementById('educationTimeline');
         if (!edu?.length) { c.innerHTML = '<p class="text-gray-500">暂无</p>'; return; }
@@ -80,8 +94,8 @@
         if (!arr.length) { c.innerHTML = '<li class="text-gray-500">暂无</li>'; return; }
         c.innerHTML = arr.map(i => `<li class="flex items-start"><span class="text-purple-600 mr-2">•</span><span class="text-gray-700">${i}</span></li>`).join('');
     }
-    function init() {
-        const cms = loadCMS();
+    async function init() {
+        const cms = await loadCMS();
         if (cms?.resume) {
             if (cms.resume.title) document.getElementById('pageTitle').textContent = cms.resume.title;
             if (cms.resume.subtitle) document.getElementById('pageSubtitle').textContent = cms.resume.subtitle;

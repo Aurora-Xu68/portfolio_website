@@ -387,46 +387,79 @@
         resize();
         window.addEventListener('resize', resize);
         
-        // 使用网格分布确保粒子均匀
-        const totalParticles = 50;
-        const cols = Math.ceil(Math.sqrt(totalParticles * (particlesCanvas.width / particlesCanvas.height)));
-        const rows = Math.ceil(totalParticles / cols);
+        // 初始粒子数量（留一些空间给鼠标产生的粒子）
+        const initialParticles = 40;
+        const cols = Math.ceil(Math.sqrt(initialParticles * (particlesCanvas.width / particlesCanvas.height)));
+        const rows = Math.ceil(initialParticles / cols);
         const cellWidth = particlesCanvas.width / cols;
         const cellHeight = particlesCanvas.height / rows;
         
         for (let row = 0; row < rows; row++) {
             for (let col = 0; col < cols; col++) {
-                if (particles.length >= totalParticles) break;
+                if (particles.length >= initialParticles) break;
                 particles.push({
-                    // 在每个网格内随机位置
                     x: col * cellWidth + Math.random() * cellWidth,
                     y: row * cellHeight + Math.random() * cellHeight,
                     vx: (Math.random() - 0.5) * 0.8,
                     vy: (Math.random() - 0.5) * 0.8,
                     size: Math.random() * 3 + 1,
-                    opacity: Math.random() * 0.5 + 0.2
+                    opacity: Math.random() * 0.5 + 0.2,
+                    life: -1  // -1 表示永久粒子
                 });
             }
         }
         
-        document.addEventListener('mousemove', e => { mouseX = e.clientX; mouseY = e.clientY; });
+        let lastMouseX = 0, lastMouseY = 0;
+        document.addEventListener('mousemove', e => {
+            mouseX = e.clientX;
+            mouseY = e.clientY;
+            
+            // 鼠标移动一定距离才产生新粒子
+            const moveDist = Math.sqrt((mouseX - lastMouseX) ** 2 + (mouseY - lastMouseY) ** 2);
+            if (moveDist > 30 && particles.length < 60) {
+                // 产生新粒子
+                particles.push({
+                    x: mouseX + (Math.random() - 0.5) * 20,
+                    y: mouseY + (Math.random() - 0.5) * 20,
+                    vx: (Math.random() - 0.5) * 2,
+                    vy: (Math.random() - 0.5) * 2,
+                    size: Math.random() * 2 + 1.5,
+                    opacity: 0.7,
+                    life: 300  // 生命值，会逐渐消失
+                });
+                lastMouseX = mouseX;
+                lastMouseY = mouseY;
+            }
+        });
+        
         animateParticles();
     }
     
     function animateParticles() {
         particlesCtx.clearRect(0, 0, particlesCanvas.width, particlesCanvas.height);
         
+        // 移除已消亡的粒子
+        for (let i = particles.length - 1; i >= 0; i--) {
+            if (particles[i].life !== -1 && particles[i].life <= 0) {
+                particles.splice(i, 1);
+            }
+        }
+        
         particles.forEach((p, i) => {
+            // 处理生命值
+            if (p.life !== -1) {
+                p.life--;
+                p.opacity = Math.max(0, (p.life / 300) * 0.7);
+            }
+            
             const dx = mouseX - p.x, dy = mouseY - p.y;
             const dist = Math.sqrt(dx*dx + dy*dy);
             
             // 鼠标拨动效果
             if (dist < 150) {
                 const f = (150-dist)/150;
-                // 粒子被鼠标推开
                 p.vx -= (dx/dist)*f*0.3;
                 p.vy -= (dy/dist)*f*0.3;
-                // 靠近鼠标时变大变亮
                 p.currentSize = p.size * (1 + f * 0.6);
                 p.currentOpacity = Math.min(1, p.opacity + f * 0.4);
             } else {
@@ -434,7 +467,7 @@
                 p.currentOpacity = p.opacity;
             }
             
-            // 保持基础漂浮速度（不要完全停下来）
+            // 保持基础漂浮速度
             if (Math.abs(p.vx) < 0.3) p.vx += (Math.random() - 0.5) * 0.1;
             if (Math.abs(p.vy) < 0.3) p.vy += (Math.random() - 0.5) * 0.1;
             
@@ -443,7 +476,7 @@
             p.vx = Math.max(-maxSpeed, Math.min(maxSpeed, p.vx));
             p.vy = Math.max(-maxSpeed, Math.min(maxSpeed, p.vy));
             
-            // 轻微阻尼（只在速度很快时生效）
+            // 轻微阻尼
             if (Math.abs(p.vx) > 0.8) p.vx *= 0.99;
             if (Math.abs(p.vy) > 0.8) p.vy *= 0.99;
             

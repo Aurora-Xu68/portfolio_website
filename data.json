@@ -12,7 +12,7 @@
   },
   "resume": {
     "title": "简历与经历",
-    "subtitle": "教育背景、工作经历与专业资质的完整展示",
+    "subtitle": "",
     "education": [
       {
         "school": "新南威尔士大学",
@@ -43,7 +43,7 @@
   },
   "portfolio": {
     "title": "项目案例",
-    "subtitle": "数据分析与商业洞察项目，展示数据驱动决策和问题解决能力",
+    "subtitle": "",
     "projects": [
       {
         "id": "case1",
@@ -109,7 +109,7 @@
   },
   "contact": {
     "title": "联系我",
-    "subtitle": "欢迎交流项目机会，探讨数据分析在HR领域的应用",
+    "subtitle": "",
     "email": "1657715662@qq.com",
     "phone": "17379828211",
     "location": "中国杭州",

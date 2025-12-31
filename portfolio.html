@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>项目案例 - 徐蕴玮</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@300;400;500;700&family=Noto+Serif+SC:wght@400;500;700&display=swap" rel="stylesheet">
+    <style>
+        * { font-family: 'Noto Sans SC', sans-serif; }
+        .serif-font { font-family: 'Noto Serif SC', serif; }
+        :root { --accent-purple: #8B5CF6; --deep-purple: #6B46C1; --border-light: rgba(139,92,246,0.2); }
+        body { background: #FFFFFF; color: #1F2937; }
+        .navbar { position: fixed; top: 0; left: 0; right: 0; z-index: 30; background: rgba(255,255,255,0.9); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); border-bottom: 1px solid var(--border-light); padding: 1rem 2rem; }
+        .gradient-text { background: linear-gradient(135deg, var(--accent-purple), var(--deep-purple)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+        .project-card { background: rgba(255,255,255,0.9); backdrop-filter: blur(10px); border: 1px solid var(--border-light); border-radius: 20px; padding: 1.5rem; transition: all 0.4s ease; cursor: pointer; position: relative; overflow: hidden; }
+        .project-card::before { content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 4px; background: linear-gradient(90deg, var(--accent-purple), #A78BFA); transform: scaleX(0); transform-origin: left; transition: transform 0.4s ease; }
+        .project-card:hover::before { transform: scaleX(1); }
+        .project-card:hover { transform: translateY(-8px) rotateX(2deg); box-shadow: 0 25px 80px rgba(139,92,246,0.2); }
+        .skill-tag { display: inline-block; background: rgba(139,92,246,0.1); border: 1px solid rgba(139,92,246,0.3); color: var(--deep-purple); padding: 0.4rem 0.8rem; border-radius: 20px; font-size: 0.8rem; margin: 0.2rem; }
+        .filter-btn { background: white; border: 2px solid var(--border-light); color: #6B7280; padding: 0.6rem 1.2rem; border-radius: 30px; font-weight: 500; cursor: pointer; transition: all 0.3s ease; margin: 0.25rem; }
+        .filter-btn:hover, .filter-btn.active { background: var(--accent-purple); border-color: var(--accent-purple); color: white; }
+        .btn-primary { background: linear-gradient(135deg, var(--accent-purple), var(--deep-purple)); color: white; padding: 0.75rem 1.5rem; border-radius: 8px; font-weight: 600; text-decoration: none; display: inline-block; }
+        .modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.6); z-index: 100; padding: 2rem; overflow-y: auto; }
+        .modal.active { display: flex; justify-content: center; align-items: flex-start; }
+        .modal-content { background: white; border-radius: 20px; max-width: 800px; width: 100%; max-height: 90vh; overflow-y: auto; position: relative; margin-top: 2rem; }
+        .modal-close { position: absolute; top: 1rem; right: 1rem; background: var(--accent-purple); color: white; border: none; width: 40px; height: 40px; border-radius: 50%; cursor: pointer; font-size: 1.5rem; }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <div class="max-w-7xl mx-auto flex justify-between items-center">
+            <div class="text-xl font-bold serif-font text-purple-700">徐蕴玮</div>
+            <div class="hidden md:flex space-x-8">
+                <a href="index.html" class="text-gray-700 hover:text-purple-700 font-medium">首页</a>
+                <a href="resume.html" class="text-gray-700 hover:text-purple-700 font-medium">简历与经历</a>
+                <a href="portfolio.html" class="text-purple-700 font-medium">项目案例</a>
+                <a href="contact.html" class="text-gray-700 hover:text-purple-700 font-medium">联系</a>
+            </div>
+        </div>
+    </nav>
+    <main class="pt-24 px-6">
+        <div class="max-w-6xl mx-auto py-12">
+            <div class="text-center mb-12">
+                <h1 class="text-5xl font-bold serif-font mb-6 gradient-text" id="pageTitle">项目案例</h1>
+                <p class="text-xl text-gray-600 max-w-3xl mx-auto" id="pageSubtitle">深度的商业分析案例和HR实践项目，展示数据驱动决策和问题解决能力</p>
+            </div>
+            <div class="flex flex-wrap justify-center mb-10">
+                <button class="filter-btn active" data-filter="all">全部项目</button>
+                <button class="filter-btn" data-filter="数据分析">数据分析</button>
+                <button class="filter-btn" data-filter="HR实践">HR实践</button>
+                <button class="filter-btn" data-filter="战略规划">战略规划</button>
+            </div>
+            <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6" id="projectsGrid"></div>
+            <div class="text-center mt-12"><a href="index.html" class="btn-primary">返回首页</a></div>
+        </div>
+    </main>
+    <div class="modal" id="caseModal">
+        <div class="modal-content">
+            <button class="modal-close" onclick="closeModal()">&times;</button>
+            <div id="modalBody"></div>
+        </div>
+    </div>
+    <script>
+    function loadCMS() { try { return JSON.parse(localStorage.getItem('websiteData')); } catch(e) { return null; } }
+    function renderProjects() {
+        const cms = loadCMS(), grid = document.getElementById('projectsGrid');
+        let projects = cms?.portfolio?.projects || [];
+        if (cms?.portfolio?.title) document.getElementById('pageTitle').textContent = cms.portfolio.title;
+        if (cms?.portfolio?.subtitle) document.getElementById('pageSubtitle').textContent = cms.portfolio.subtitle;
+        if (!projects.length) { grid.innerHTML = '<div class="text-center py-12 col-span-full text-gray-500">暂无项目数据</div>'; return; }
+        const colors = ['from-red-400 to-red-600','from-blue-400 to-blue-600','from-green-400 to-green-600','from-purple-400 to-purple-600','from-orange-400 to-orange-600'];
+        grid.innerHTML = projects.map((p, i) => {
+            let tags = typeof p.tags === 'string' ? p.tags.split(',').map(t=>t.trim()).filter(t=>t) : (p.tags||[]);
+            return `<div class="project-card" data-category="${p.category||''}" onclick='showDetail(${JSON.stringify(p).replace(/'/g,"&#39;")})'>
+                <div class="w-12 h-12 bg-gradient-to-br ${colors[i%5]} rounded-lg flex items-center justify-center mb-4">
+                    <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"></path></svg>
+                </div>
+                <h3 class="text-lg font-bold mb-2 serif-font text-gray-800">${p.name||''}</h3>
+                <p class="text-gray-600 mb-4 text-sm">${p.description||''}</p>
+                <div class="flex flex-wrap mb-4">${tags.slice(0,3).map(t=>`<span class="skill-tag">${t}</span>`).join('')}</div>
+                <div class="flex justify-between items-center"><span class="text-sm text-gray-500">${p.category||''}</span><span class="text-purple-600 font-medium text-sm">查看详情 →</span></div>
+            </div>`;
+        }).join('');
+        initFilter();
+        anime({ targets: '.project-card', opacity: [0,1], translateY: [30,0], delay: anime.stagger(100), duration: 600, easing: 'easeOutExpo' });
+    }
+    function initFilter() {
+        document.querySelectorAll('.filter-btn').forEach(btn => {
+            btn.addEventListener('click', function() {
+                document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+                this.classList.add('active');
+                const f = this.dataset.filter;
+                document.querySelectorAll('.project-card').forEach(card => {
+                    card.style.display = (f === 'all' || (card.dataset.category||'').includes(f)) ? 'block' : 'none';
+                });
+            });
+        });
+    }
+    function showDetail(p) {
+        const modal = document.getElementById('caseModal'), body = document.getElementById('modalBody');
+        let method = typeof p.methodology === 'string' ? p.methodology.split('\n').filter(m=>m.trim()) : (p.methodology||[]);
+        let tools = typeof p.tools === 'string' ? p.tools.split(',').map(t=>t.trim()).filter(t=>t) : (p.tools||[]);
+        let results = typeof p.results === 'string' ? p.results.split('\n').filter(r=>r.trim()) : (p.results||[]);
+        body.innerHTML = `<div class="p-8">
+            <h2 class="text-3xl font-bold serif-font mb-2 gradient-text">${p.name||''}</h2>
+            <p class="text-gray-500 mb-6">${p.period||''}</p>
+            <div class="mb-6"><h3 class="text-lg font-bold mb-2 text-purple-700">项目背景</h3><p class="text-gray-700">${p.background||'暂无'}</p></div>
+            <div class="mb-6"><h3 class="text-lg font-bold mb-2 text-purple-700">项目描述</h3><p class="text-gray-700">${p.description||'暂无'}</p></div>
+            <div class="mb-6"><h3 class="text-lg font-bold mb-2 text-purple-700">研究方法</h3>${method.length ? `<ul class="space-y-1">${method.map(m=>`<li class="flex items-start"><span class="text-purple-600 mr-2">•</span><span class="text-gray-700">${m}</span></li>`).join('')}</ul>` : '<p class="text-gray-500">暂无</p>'}</div>
+            <div class="mb-6"><h3 class="text-lg font-bold mb-2 text-purple-700">使用工具</h3>${tools.length ? `<div class="flex flex-wrap">${tools.map(t=>`<span class="skill-tag">${t}</span>`).join('')}</div>` : '<p class="text-gray-500">暂无</p>'}</div>
+            <div class="mb-6"><h3 class="text-lg font-bold mb-2 text-purple-700">项目成果</h3>${results.length ? `<ul class="space-y-1">${results.map(r=>`<li class="flex items-start"><span class="text-purple-600 mr-2">•</span><span class="text-gray-700">${r}</span></li>`).join('')}</ul>` : '<p class="text-gray-500">暂无</p>'}</div>
+            <div class="text-center pt-4"><button class="btn-primary" onclick="closeModal()">关闭</button></div>
+        </div>`;
+        modal.classList.add('active');
+    }
+    function closeModal() { document.getElementById('caseModal').classList.remove('active'); }
+    document.addEventListener('DOMContentLoaded', () => {
+        renderProjects();
+        document.getElementById('caseModal').addEventListener('click', e => { if (e.target.id === 'caseModal') closeModal(); });
+    });
+    </script>
+</body>
+</html>

@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>简历与经历 - 徐蕴玮</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@300;400;500;700&family=Noto+Serif+SC:wght@400;500;700&display=swap" rel="stylesheet">
+    <style>
+        * { font-family: 'Noto Sans SC', sans-serif; }
+        .serif-font { font-family: 'Noto Serif SC', serif; }
+        :root { --accent-purple: #8B5CF6; --deep-purple: #6B46C1; --border-light: rgba(139,92,246,0.2); }
+        body { background: #FFFFFF; color: #1F2937; }
+        .navbar { position: fixed; top: 0; left: 0; right: 0; z-index: 30; background: rgba(255,255,255,0.9); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); border-bottom: 1px solid var(--border-light); padding: 1rem 2rem; }
+        .gradient-text { background: linear-gradient(135deg, var(--accent-purple), var(--deep-purple)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+        .section-card { background: rgba(255,255,255,0.8); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); border: 1px solid var(--border-light); border-radius: 20px; padding: 2rem; margin-bottom: 2rem; box-shadow: 0 10px 40px rgba(0,0,0,0.05); transition: all 0.4s ease; }
+        .section-card:hover { transform: translateY(-5px); box-shadow: 0 20px 60px rgba(139,92,246,0.15); }
+        .timeline-item { position: relative; padding-left: 2rem; padding-bottom: 2rem; border-left: 3px solid var(--border-light); }
+        .timeline-item:last-child { padding-bottom: 0; }
+        .timeline-item::before { content: ''; position: absolute; left: -8px; top: 0; width: 14px; height: 14px; background: linear-gradient(135deg, var(--accent-purple), var(--deep-purple)); border-radius: 50%; border: 3px solid white; box-shadow: 0 0 0 3px var(--accent-purple); }
+        .btn-primary { background: linear-gradient(135deg, var(--accent-purple), var(--deep-purple)); color: white; padding: 0.75rem 1.5rem; border-radius: 10px; font-weight: 600; text-decoration: none; display: inline-block; transition: all 0.3s ease; }
+        .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 8px 25px rgba(139,92,246,0.3); }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <div class="max-w-7xl mx-auto flex justify-between items-center">
+            <div class="text-xl font-bold serif-font text-purple-700">徐蕴玮</div>
+            <div class="hidden md:flex space-x-8">
+                <a href="index.html" class="text-gray-700 hover:text-purple-700 font-medium">首页</a>
+                <a href="resume.html" class="text-purple-700 font-medium">简历与经历</a>
+                <a href="portfolio.html" class="text-gray-700 hover:text-purple-700 font-medium">项目案例</a>
+                <a href="contact.html" class="text-gray-700 hover:text-purple-700 font-medium">联系</a>
+            </div>
+        </div>
+    </nav>
+    <main class="pt-24 px-6">
+        <div class="max-w-4xl mx-auto py-12">
+            <div class="text-center mb-12">
+                <h1 class="text-5xl font-bold serif-font mb-6 gradient-text" id="pageTitle">简历与经历</h1>
+                <p class="text-xl text-gray-600 max-w-2xl mx-auto" id="pageSubtitle">教育背景、工作经历与专业资质的完整展示</p>
+            </div>
+            <div class="section-card">
+                <h2 class="text-2xl font-bold mb-6 text-purple-700 serif-font">教育背景</h2>
+                <div id="educationTimeline"><p class="text-gray-500">正在加载...</p></div>
+            </div>
+            <div class="section-card">
+                <h2 class="text-2xl font-bold mb-6 text-purple-700 serif-font">工作经历</h2>
+                <div id="workTimeline"><p class="text-gray-500">正在加载...</p></div>
+            </div>
+            <div class="grid md:grid-cols-2 gap-6">
+                <div class="section-card">
+                    <h2 class="text-2xl font-bold mb-4 text-purple-700 serif-font">资格证书</h2>
+                    <ul id="certificates" class="space-y-2"></ul>
+                </div>
+                <div class="section-card">
+                    <h2 class="text-2xl font-bold mb-4 text-purple-700 serif-font">荣誉奖项</h2>
+                    <ul id="honors" class="space-y-2"></ul>
+                </div>
+            </div>
+            <div class="text-center mt-8"><a href="portfolio.html" class="btn-primary">查看项目案例</a></div>
+        </div>
+    </main>
+    <script>
+    function loadCMS() { try { return JSON.parse(localStorage.getItem('websiteData')); } catch(e) { return null; } }
+    function renderEdu(edu) {
+        const c = document.getElementById('educationTimeline');
+        if (!edu?.length) { c.innerHTML = '<p class="text-gray-500">暂无</p>'; return; }
+        c.innerHTML = edu.map(e => `<div class="timeline-item"><div class="text-sm text-purple-600 font-medium mb-1">${e.period||''}</div><h3 class="text-lg font-bold text-gray-800">${e.school||''} · ${e.degree||''}</h3><div class="text-purple-700 font-medium mb-2">${e.major||''}</div><p class="text-gray-600 text-sm whitespace-pre-line">${e.description||''}</p></div>`).join('');
+    }
+    function renderWork(work) {
+        const c = document.getElementById('workTimeline');
+        if (!work?.length) { c.innerHTML = '<p class="text-gray-500">暂无</p>'; return; }
+        c.innerHTML = work.map(w => `<div class="timeline-item"><div class="text-sm text-purple-600 font-medium mb-1">${w.period||''}</div><h3 class="text-lg font-bold text-gray-800">${w.company||''}</h3><div class="text-purple-700 font-medium mb-2">${w.position||''} ${w.department ? '· '+w.department : ''}</div><p class="text-gray-600 text-sm whitespace-pre-line">${w.description||''}</p></div>`).join('');
+    }
+    function renderList(id, items) {
+        const c = document.getElementById(id);
+        let arr = typeof items === 'string' ? items.split('\n').map(s=>s.trim()).filter(s=>s) : (items||[]);
+        if (!arr.length) { c.innerHTML = '<li class="text-gray-500">暂无</li>'; return; }
+        c.innerHTML = arr.map(i => `<li class="flex items-start"><span class="text-purple-600 mr-2">•</span><span class="text-gray-700">${i}</span></li>`).join('');
+    }
+    function init() {
+        const cms = loadCMS();
+        if (cms?.resume) {
+            if (cms.resume.title) document.getElementById('pageTitle').textContent = cms.resume.title;
+            if (cms.resume.subtitle) document.getElementById('pageSubtitle').textContent = cms.resume.subtitle;
+            renderEdu(cms.resume.education);
+            renderWork(cms.resume.workExperience);
+            renderList('certificates', cms.resume.certificates);
+            renderList('honors', cms.resume.honors);
+        }
+        anime({ targets: '.section-card', opacity: [0,1], translateY: [30,0], delay: anime.stagger(100), duration: 600, easing: 'easeOutExpo' });
+    }
+    document.addEventListener('DOMContentLoaded', init);
+    </script>
+</body>
+</html>

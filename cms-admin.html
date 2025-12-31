@@ -1,0 +1,656 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CMS后台管理 - 徐蕴玮个人网站</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <style>
+        * { font-family: 'Noto Sans SC', sans-serif; }
+        body { background: linear-gradient(135deg, #F8FAFC 0%, #F1F5F9 100%); min-height: 100vh; }
+        .sidebar { background: linear-gradient(180deg, #6B46C1 0%, #8B5CF6 50%, #A78BFA 100%); position: fixed; left: 0; top: 0; width: 240px; height: 100vh; color: white; box-shadow: 4px 0 20px rgba(107,70,193,0.2); overflow-y: auto; }
+        .main { margin-left: 240px; min-height: 100vh; }
+        .nav-item { padding: 14px 24px; cursor: pointer; transition: all 0.3s ease; border-left: 4px solid transparent; display: flex; align-items: center; gap: 12px; font-weight: 500; }
+        .nav-item:hover { background: rgba(255,255,255,0.15); }
+        .nav-item.active { background: rgba(255,255,255,0.2); border-left-color: white; }
+        .card { background: white; border-radius: 16px; padding: 24px; margin-bottom: 20px; box-shadow: 0 4px 20px rgba(0,0,0,0.06); border: 1px solid rgba(139,92,246,0.1); }
+        .card-title { font-size: 1.1rem; font-weight: 700; color: #1F2937; margin-bottom: 20px; padding-bottom: 12px; border-bottom: 2px solid rgba(139,92,246,0.1); }
+        .form-label { display: block; font-weight: 600; margin-bottom: 8px; font-size: 0.875rem; color: #374151; }
+        .form-input, .form-textarea { width: 100%; padding: 12px 16px; border: 2px solid #E5E7EB; border-radius: 10px; font-size: 0.95rem; transition: all 0.2s ease; background: #FAFAFA; }
+        .form-input:focus, .form-textarea:focus { outline: none; border-color: #8B5CF6; background: white; box-shadow: 0 0 0 4px rgba(139,92,246,0.1); }
+        .form-textarea { resize: vertical; min-height: 100px; }
+        .btn-primary { background: linear-gradient(135deg, #8B5CF6, #6B46C1); color: white; padding: 12px 24px; border-radius: 10px; font-weight: 600; border: none; cursor: pointer; transition: all 0.3s ease; box-shadow: 0 4px 15px rgba(139,92,246,0.3); }
+        .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(139,92,246,0.4); }
+        .btn-secondary { background: white; color: #6B46C1; border: 2px solid #8B5CF6; padding: 10px 20px; border-radius: 10px; font-weight: 600; cursor: pointer; }
+        .btn-secondary:hover { background: #F5F3FF; }
+        .btn-danger { background: #FEE2E2; color: #DC2626; border: none; padding: 8px 16px; border-radius: 8px; font-size: 0.85rem; cursor: pointer; }
+        .btn-success { background: #10B981; color: white; padding: 12px 24px; border-radius: 10px; font-weight: 600; border: none; cursor: pointer; }
+        .section { display: none; padding: 32px; }
+        .section.active { display: block; }
+        .list-item { background: #F9FAFB; border: 1px solid #E5E7EB; border-radius: 12px; padding: 20px; margin-bottom: 16px; }
+        .detail-section { background: linear-gradient(135deg, #F5F3FF 0%, #EDE9FE 100%); border-radius: 12px; padding: 20px; margin-top: 16px; border: 1px solid rgba(139,92,246,0.2); }
+        .status { position: fixed; top: 24px; right: 24px; padding: 16px 24px; border-radius: 12px; z-index: 1000; font-weight: 600; box-shadow: 0 10px 40px rgba(0,0,0,0.15); animation: slideIn 0.3s ease; }
+        @keyframes slideIn { from { transform: translateX(100px); opacity: 0; } to { transform: translateX(0); opacity: 1; } }
+        .status.success { background: #10B981; color: white; }
+        .status.error { background: #EF4444; color: white; }
+        .status.info { background: #3B82F6; color: white; }
+        .avatar-upload { width: 120px; height: 120px; border-radius: 50%; background: linear-gradient(135deg, #8B5CF6, #6B46C1); display: flex; align-items: center; justify-content: center; cursor: pointer; overflow: hidden; margin: 0 auto; border: 4px solid white; box-shadow: 0 8px 30px rgba(139,92,246,0.3); }
+        .avatar-upload img { width: 100%; height: 100%; object-fit: cover; }
+        .avatar-upload .placeholder { color: white; font-size: 2.5rem; font-weight: bold; }
+        .info-box { background: #DBEAFE; border: 1px solid #3B82F6; border-radius: 12px; padding: 16px; margin-bottom: 16px; }
+        .warning-box { background: #FEF3C7; border: 1px solid #F59E0B; border-radius: 12px; padding: 16px; margin-bottom: 16px; }
+        .success-box { background: #D1FAE5; border: 1px solid #10B981; border-radius: 12px; padding: 16px; margin-bottom: 16px; }
+    </style>
+</head>
+<body>
+    <div class="sidebar">
+        <div class="p-6 border-b border-white border-opacity-20">
+            <h1 class="text-xl font-bold">CMS管理系统</h1>
+            <p class="text-sm text-purple-200 mt-1">徐蕴玮个人网站</p>
+        </div>
+        <nav class="mt-4">
+            <div class="nav-item active" onclick="showSection('home')">🏠 首页管理</div>
+            <div class="nav-item" onclick="showSection('resume')">📄 简历管理</div>
+            <div class="nav-item" onclick="showSection('portfolio')">📁 项目案例</div>
+            <div class="nav-item" onclick="showSection('contact')">📧 联系页面</div>
+            <div class="nav-item" onclick="showSection('deploy')">🚀 部署设置</div>
+        </nav>
+        <div class="p-4 border-t border-white border-opacity-20 mt-4">
+            <button class="btn-primary w-full mb-2" onclick="saveAll()">💾 保存所有更改</button>
+            <button class="btn-secondary w-full mb-2 text-sm" onclick="exportData()">📤 导出数据</button>
+            <label class="btn-secondary w-full block text-center text-sm cursor-pointer">📥 导入数据<input type="file" accept=".json" onchange="importData(event)" class="hidden"></label>
+        </div>
+    </div>
+    <div class="main">
+        <!-- 首页管理 -->
+        <div id="section-home" class="section active">
+            <h2 class="text-2xl font-bold mb-6 text-purple-700">首页管理</h2>
+            <div class="card">
+                <div class="card-title">头像设置</div>
+                <div class="text-center">
+                    <div class="avatar-upload" onclick="document.getElementById('avatarInput').click()">
+                        <div id="avatarPreview"><span class="placeholder">徐</span></div>
+                    </div>
+                    <input type="file" id="avatarInput" accept="image/*" onchange="handleAvatarUpload(event)" class="hidden">
+                    <p class="text-sm text-gray-500 mt-3">点击上传头像</p>
+                    <button class="btn-secondary mt-2 text-sm" onclick="resetAvatar()">重置头像</button>
+                </div>
+            </div>
+            <div class="card">
+                <div class="card-title">基本信息</div>
+                <div class="mb-4"><label class="form-label">姓名</label><input type="text" id="homeName" class="form-input" placeholder="徐蕴玮"></div>
+                <div class="mb-4"><label class="form-label">个人简介</label><textarea id="homeBio" class="form-textarea" rows="4" placeholder="个人简介..."></textarea></div>
+                <div><label class="form-label">打字机文字（每行一个）</label><textarea id="homeTypedTexts" class="form-textarea" rows="3" placeholder="HR与商业分析探索者&#10;数据驱动决策实践者"></textarea></div>
+            </div>
+        </div>
+        <!-- 简历管理 -->
+        <div id="section-resume" class="section">
+            <h2 class="text-2xl font-bold mb-6 text-purple-700">简历管理</h2>
+            <div class="card">
+                <div class="card-title">页面设置</div>
+                <div class="grid md:grid-cols-2 gap-4">
+                    <div><label class="form-label">页面标题</label><input type="text" id="resumeTitle" class="form-input" value="简历与经历"></div>
+                    <div><label class="form-label">页面副标题</label><input type="text" id="resumeSubtitle" class="form-input" value="教育背景、工作经历与专业资质的完整展示"></div>
+                </div>
+            </div>
+            <div class="card">
+                <div class="flex justify-between items-center mb-4"><div class="card-title mb-0">教育经历</div><button class="btn-secondary" onclick="addEducation()">+ 添加</button></div>
+                <div id="educationList"></div>
+            </div>
+            <div class="card">
+                <div class="flex justify-between items-center mb-4"><div class="card-title mb-0">工作经历</div><button class="btn-secondary" onclick="addWork()">+ 添加</button></div>
+                <div id="workList"></div>
+            </div>
+            <div class="grid md:grid-cols-2 gap-6">
+                <div class="card"><div class="card-title">资格证书</div><textarea id="resumeCertificates" class="form-textarea" rows="4" placeholder="每行一个证书"></textarea></div>
+                <div class="card"><div class="card-title">荣誉奖项</div><textarea id="resumeHonors" class="form-textarea" rows="4" placeholder="每行一个奖项"></textarea></div>
+            </div>
+        </div>
+        <!-- 项目案例 -->
+        <div id="section-portfolio" class="section">
+            <h2 class="text-2xl font-bold mb-6 text-purple-700">项目案例管理</h2>
+            <div class="card">
+                <div class="card-title">页面设置</div>
+                <div class="grid md:grid-cols-2 gap-4">
+                    <div><label class="form-label">页面标题</label><input type="text" id="portfolioTitle" class="form-input" value="项目案例"></div>
+                    <div><label class="form-label">页面副标题</label><input type="text" id="portfolioSubtitle" class="form-input"></div>
+                </div>
+            </div>
+            <div class="card">
+                <div class="flex justify-between items-center mb-4"><div class="card-title mb-0">项目列表</div><button class="btn-secondary" onclick="addProject()">+ 添加项目</button></div>
+                <div id="projectsList"></div>
+            </div>
+        </div>
+        <!-- 联系页面 -->
+        <div id="section-contact" class="section">
+            <h2 class="text-2xl font-bold mb-6 text-purple-700">联系页面管理</h2>
+            <div class="card">
+                <div class="card-title">基本联系信息</div>
+                <div class="grid md:grid-cols-2 gap-4">
+                    <div><label class="form-label">邮箱</label><input type="email" id="contactEmail" class="form-input" placeholder="your@email.com"></div>
+                    <div><label class="form-label">电话</label><input type="text" id="contactPhone" class="form-input" placeholder="手机号码"></div>
+                    <div><label class="form-label">所在地</label><input type="text" id="contactLocation" class="form-input" placeholder="北京市"></div>
+                    <div><label class="form-label">可入职时间</label><input type="text" id="contactAvailability" class="form-input" placeholder="2026年1月"></div>
+                </div>
+            </div>
+            <div class="card">
+                <div class="card-title">求职意向</div>
+                <div class="grid md:grid-cols-2 gap-4">
+                    <div><label class="form-label">目标岗位（每行一个）</label><textarea id="contactTargetPositions" class="form-textarea" rows="4"></textarea></div>
+                    <div><label class="form-label">期望地点（每行一个）</label><textarea id="contactExpectedLocations" class="form-textarea" rows="4"></textarea></div>
+                </div>
+                <div class="mt-4"><label class="form-label">核心优势（每行一个）</label><textarea id="contactCoreStrengths" class="form-textarea" rows="4"></textarea></div>
+            </div>
+            <div class="card">
+                <div class="card-title">📧 EmailJS 邮件配置（重要！）</div>
+                <div class="info-box">
+                    <p class="font-bold text-blue-800 mb-2">配置后，访客可以直接在网页上给你发邮件！</p>
+                    <ol class="text-sm text-blue-700 list-decimal list-inside space-y-1">
+                        <li>访问 <a href="https://www.emailjs.com/" target="_blank" class="underline font-bold">emailjs.com</a> 注册免费账号</li>
+                        <li>Email Services → Add New Service → 选择你的邮箱（如Gmail/QQ）</li>
+                        <li>Email Templates → Create New Template → 使用默认模板</li>
+                        <li>复制 Service ID、Template ID、Public Key 填入下方</li>
+                    </ol>
+                </div>
+                <div class="grid md:grid-cols-3 gap-4">
+                    <div><label class="form-label">Service ID</label><input type="text" id="emailjsServiceId" class="form-input" placeholder="service_xxxxxx"></div>
+                    <div><label class="form-label">Template ID</label><input type="text" id="emailjsTemplateId" class="form-input" placeholder="template_xxxxxx"></div>
+                    <div><label class="form-label">Public Key</label><input type="text" id="emailjsPublicKey" class="form-input" placeholder="xxxxxxxxxxx"></div>
+                </div>
+                <p class="text-sm text-gray-500 mt-3">免费额度：每月200封邮件，足够个人使用</p>
+            </div>
+        </div>
+        <!-- 部署设置 -->
+        <div id="section-deploy" class="section">
+            <h2 class="text-2xl font-bold mb-6 text-purple-700">🚀 部署设置</h2>
+            
+            <div class="card">
+                <div class="card-title">🌐 推荐部署方案：GitHub + Cloudflare Pages + 自定义域名</div>
+                <div class="info-box">
+                    <p class="font-bold text-blue-800 mb-2">为什么选择这个方案？</p>
+                    <ul class="text-sm text-blue-700 space-y-1">
+                        <li>• <strong>GitHub</strong>：免费代码托管，版本管理</li>
+                        <li>• <strong>Cloudflare Pages</strong>：免费托管，全球CDN加速，比GitHub Pages更快</li>
+                        <li>• <strong>自定义域名</strong>：专业形象，如 xuyunwei.com</li>
+                        <li>• <strong>全部免费</strong>（域名除外，约 ¥50-80/年）</li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="card">
+                <div class="card-title">📌 第一步：创建 GitHub 仓库并上传文件</div>
+                <div class="space-y-3">
+                    <div class="flex gap-3 p-3 bg-gray-50 rounded-lg">
+                        <span class="bg-purple-600 text-white w-7 h-7 rounded-full flex items-center justify-center flex-shrink-0 font-bold text-sm">1</span>
+                        <div>
+                            <p class="font-medium">注册/登录 GitHub</p>
+                            <p class="text-sm text-gray-600">访问 <a href="https://github.com" target="_blank" class="text-purple-600 underline">github.com</a> 注册账号（已有账号直接登录）</p>
+                        </div>
+                    </div>
+                    <div class="flex gap-3 p-3 bg-gray-50 rounded-lg">
+                        <span class="bg-purple-600 text-white w-7 h-7 rounded-full flex items-center justify-center flex-shrink-0 font-bold text-sm">2</span>
+                        <div>
+                            <p class="font-medium">创建新仓库</p>
+                            <p class="text-sm text-gray-600">点击右上角 "+" → "New repository"</p>
+                            <p class="text-sm text-gray-600">仓库名填：<code class="bg-gray-200 px-2 py-1 rounded">my-portfolio</code>（或任意名称）</p>
+                            <p class="text-sm text-gray-600">选择 "Public"（公开） → 点击 "Create repository"</p>
+                        </div>
+                    </div>
+                    <div class="flex gap-3 p-3 bg-gray-50 rounded-lg">
+                        <span class="bg-purple-600 text-white w-7 h-7 rounded-full flex items-center justify-center flex-shrink-0 font-bold text-sm">3</span>
+                        <div>
+                            <p class="font-medium">上传网站文件</p>
+                            <p class="text-sm text-gray-600">在仓库页面点击 "uploading an existing file" 或 "Add file" → "Upload files"</p>
+                            <p class="text-sm text-gray-600">将下载的所有 HTML 文件 + data.json 拖入上传</p>
+                            <p class="text-sm text-gray-600">点击 "Commit changes" 完成</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="mt-4">
+                    <button class="btn-primary" onclick="downloadDeployPackage()">📥 下载部署文件包</button>
+                </div>
+            </div>
+            
+            <div class="card">
+                <div class="card-title">📌 第二步：连接 Cloudflare Pages</div>
+                <div class="space-y-3">
+                    <div class="flex gap-3 p-3 bg-gray-50 rounded-lg">
+                        <span class="bg-blue-600 text-white w-7 h-7 rounded-full flex items-center justify-center flex-shrink-0 font-bold text-sm">1</span>
+                        <div>
+                            <p class="font-medium">注册 Cloudflare 账号</p>
+                            <p class="text-sm text-gray-600">访问 <a href="https://dash.cloudflare.com/sign-up" target="_blank" class="text-purple-600 underline">cloudflare.com</a> 注册（免费）</p>
+                        </div>
+                    </div>
+                    <div class="flex gap-3 p-3 bg-gray-50 rounded-lg">
+                        <span class="bg-blue-600 text-white w-7 h-7 rounded-full flex items-center justify-center flex-shrink-0 font-bold text-sm">2</span>
+                        <div>
+                            <p class="font-medium">进入 Pages</p>
+                            <p class="text-sm text-gray-600">登录后，左侧菜单点击 "Workers & Pages" → "Pages"</p>
+                        </div>
+                    </div>
+                    <div class="flex gap-3 p-3 bg-gray-50 rounded-lg">
+                        <span class="bg-blue-600 text-white w-7 h-7 rounded-full flex items-center justify-center flex-shrink-0 font-bold text-sm">3</span>
+                        <div>
+                            <p class="font-medium">连接 GitHub</p>
+                            <p class="text-sm text-gray-600">点击 "Create a project" → "Connect to Git"</p>
+                            <p class="text-sm text-gray-600">选择 "GitHub" → 授权 Cloudflare 访问你的 GitHub</p>
+                            <p class="text-sm text-gray-600">选择你刚创建的仓库（如 my-portfolio）</p>
+                        </div>
+                    </div>
+                    <div class="flex gap-3 p-3 bg-gray-50 rounded-lg">
+                        <span class="bg-blue-600 text-white w-7 h-7 rounded-full flex items-center justify-center flex-shrink-0 font-bold text-sm">4</span>
+                        <div>
+                            <p class="font-medium">配置构建设置</p>
+                            <p class="text-sm text-gray-600">Project name：填你喜欢的名字（会生成 xxx.pages.dev 域名）</p>
+                            <p class="text-sm text-gray-600">Build command：<strong>留空</strong>（我们是纯静态网站）</p>
+                            <p class="text-sm text-gray-600">Build output directory：<strong>留空</strong> 或填 <code class="bg-gray-200 px-1 rounded">/</code></p>
+                            <p class="text-sm text-gray-600">点击 "Save and Deploy"</p>
+                        </div>
+                    </div>
+                    <div class="flex gap-3 p-3 bg-green-50 rounded-lg border border-green-200">
+                        <span class="bg-green-600 text-white w-7 h-7 rounded-full flex items-center justify-center flex-shrink-0 font-bold text-sm">✓</span>
+                        <div>
+                            <p class="font-medium text-green-800">部署完成！</p>
+                            <p class="text-sm text-green-700">等待1-2分钟，你的网站就能通过 <code class="bg-green-100 px-2 py-1 rounded">你的项目名.pages.dev</code> 访问了</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="card">
+                <div class="card-title">📌 第三步：购买并绑定自定义域名（可选）</div>
+                <div class="warning-box">
+                    <p class="text-amber-800 text-sm">💡 如果你暂时不需要自定义域名，可以跳过这步，直接使用免费的 .pages.dev 域名</p>
+                </div>
+                <div class="space-y-3 mt-4">
+                    <div class="flex gap-3 p-3 bg-gray-50 rounded-lg">
+                        <span class="bg-orange-500 text-white w-7 h-7 rounded-full flex items-center justify-center flex-shrink-0 font-bold text-sm">1</span>
+                        <div>
+                            <p class="font-medium">在 Cloudflare 购买域名</p>
+                            <p class="text-sm text-gray-600">Cloudflare 控制台 → 左侧 "Domain Registration" → "Register Domains"</p>
+                            <p class="text-sm text-gray-600">搜索你想要的域名（如 xuyunwei.com）</p>
+                            <p class="text-sm text-gray-600">价格约 $8-10/年（约 ¥60-80）</p>
+                            <p class="text-sm text-gray-600">按提示完成购买</p>
+                        </div>
+                    </div>
+                    <div class="flex gap-3 p-3 bg-gray-50 rounded-lg">
+                        <span class="bg-orange-500 text-white w-7 h-7 rounded-full flex items-center justify-center flex-shrink-0 font-bold text-sm">2</span>
+                        <div>
+                            <p class="font-medium">绑定域名到 Pages 项目</p>
+                            <p class="text-sm text-gray-600">进入你的 Pages 项目 → "Custom domains" 标签</p>
+                            <p class="text-sm text-gray-600">点击 "Set up a custom domain"</p>
+                            <p class="text-sm text-gray-600">输入你购买的域名 → "Continue"</p>
+                            <p class="text-sm text-gray-600">由于域名也在 Cloudflare，DNS会自动配置，点击 "Activate domain"</p>
+                        </div>
+                    </div>
+                    <div class="flex gap-3 p-3 bg-green-50 rounded-lg border border-green-200">
+                        <span class="bg-green-600 text-white w-7 h-7 rounded-full flex items-center justify-center flex-shrink-0 font-bold text-sm">✓</span>
+                        <div>
+                            <p class="font-medium text-green-800">完成！</p>
+                            <p class="text-sm text-green-700">等待几分钟DNS生效，就能通过你的域名访问网站了！</p>
+                            <p class="text-sm text-green-700">HTTPS 证书会自动配置，无需额外操作</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="card">
+                <div class="card-title">🔄 如何更新网站内容？</div>
+                <div class="info-box">
+                    <p class="font-bold text-blue-800 mb-2">超级简单！只需3步：</p>
+                    <ol class="text-sm text-blue-700 list-decimal list-inside space-y-2">
+                        <li>在 CMS 中修改内容 → 点击"保存所有更改"</li>
+                        <li>点击"下载部署文件包"得到新的 data.json</li>
+                        <li>去 GitHub 仓库，删除旧的 data.json，上传新的</li>
+                    </ol>
+                    <p class="text-sm text-blue-700 mt-3">Cloudflare Pages 会自动检测 GitHub 更新，几分钟内自动部署新版本！</p>
+                </div>
+            </div>
+            
+            <div class="card">
+                <div class="card-title">❓ 常见问题</div>
+                <div class="space-y-4">
+                    <div>
+                        <p class="font-bold">Q: 邮件功能在部署后能用吗？</p>
+                        <p class="text-gray-600 text-sm">A: 可以！只要在CMS配置好EmailJS，部署后访客就能给你发邮件。</p>
+                    </div>
+                    <div>
+                        <p class="font-bold">Q: 总共需要花多少钱？</p>
+                        <p class="text-gray-600 text-sm">A: 如果不买域名：<strong>完全免费</strong>。买域名的话约 ¥60-80/年。</p>
+                    </div>
+                    <div>
+                        <p class="font-bold">Q: Cloudflare Pages 和 GitHub Pages 有什么区别？</p>
+                        <p class="text-gray-600 text-sm">A: Cloudflare Pages 有全球CDN，国内访问更快；自定义域名配置更简单；构建更快。</p>
+                    </div>
+                    <div>
+                        <p class="font-bold">Q: 我不想买域名，可以吗？</p>
+                        <p class="text-gray-600 text-sm">A: 完全可以！Cloudflare 会给你一个免费的 xxx.pages.dev 域名，永久有效。</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div id="statusBar" class="status" style="display:none"></div>
+    <script>
+    let websiteData = { home: {}, resume: {}, portfolio: {}, contact: {} };
+    
+    // 初始化
+    document.addEventListener('DOMContentLoaded', () => {
+        loadData();
+        loadAvatar();
+    });
+    
+    function loadData() {
+        const saved = localStorage.getItem('websiteData');
+        if (saved) {
+            try { websiteData = JSON.parse(saved); } catch(e) {}
+        }
+        populateFields();
+        renderEducationList();
+        renderWorkList();
+        renderProjectsList();
+    }
+    
+    function populateFields() {
+        // 首页
+        document.getElementById('homeName').value = websiteData.home?.name || '';
+        document.getElementById('homeBio').value = websiteData.home?.bio || '';
+        document.getElementById('homeTypedTexts').value = (websiteData.home?.typedTexts || []).join('\n');
+        
+        // 简历
+        document.getElementById('resumeTitle').value = websiteData.resume?.title || '简历与经历';
+        document.getElementById('resumeSubtitle').value = websiteData.resume?.subtitle || '';
+        document.getElementById('resumeCertificates').value = Array.isArray(websiteData.resume?.certificates) 
+            ? websiteData.resume.certificates.join('\n') 
+            : (websiteData.resume?.certificates || '');
+        document.getElementById('resumeHonors').value = Array.isArray(websiteData.resume?.honors)
+            ? websiteData.resume.honors.join('\n')
+            : (websiteData.resume?.honors || '');
+        
+        // 项目
+        document.getElementById('portfolioTitle').value = websiteData.portfolio?.title || '项目案例';
+        document.getElementById('portfolioSubtitle').value = websiteData.portfolio?.subtitle || '';
+        
+        // 联系
+        document.getElementById('contactEmail').value = websiteData.contact?.email || '';
+        document.getElementById('contactPhone').value = websiteData.contact?.phone || '';
+        document.getElementById('contactLocation').value = websiteData.contact?.location || '';
+        document.getElementById('contactAvailability').value = websiteData.contact?.availability || '';
+        document.getElementById('contactTargetPositions').value = Array.isArray(websiteData.contact?.targetPositions)
+            ? websiteData.contact.targetPositions.join('\n')
+            : (websiteData.contact?.targetPositions || '');
+        document.getElementById('contactExpectedLocations').value = Array.isArray(websiteData.contact?.expectedLocations)
+            ? websiteData.contact.expectedLocations.join('\n')
+            : (websiteData.contact?.expectedLocations || '');
+        document.getElementById('contactCoreStrengths').value = Array.isArray(websiteData.contact?.coreStrengths)
+            ? websiteData.contact.coreStrengths.join('\n')
+            : (websiteData.contact?.coreStrengths || '');
+        
+        // EmailJS
+        document.getElementById('emailjsServiceId').value = websiteData.contact?.emailjs?.serviceId || '';
+        document.getElementById('emailjsTemplateId').value = websiteData.contact?.emailjs?.templateId || '';
+        document.getElementById('emailjsPublicKey').value = websiteData.contact?.emailjs?.publicKey || '';
+    }
+    
+    function collectFields() {
+        // 首页
+        websiteData.home.name = document.getElementById('homeName').value;
+        websiteData.home.bio = document.getElementById('homeBio').value;
+        websiteData.home.typedTexts = document.getElementById('homeTypedTexts').value.split('\n').filter(t => t.trim());
+        
+        // 简历
+        websiteData.resume.title = document.getElementById('resumeTitle').value;
+        websiteData.resume.subtitle = document.getElementById('resumeSubtitle').value;
+        websiteData.resume.certificates = document.getElementById('resumeCertificates').value;
+        websiteData.resume.honors = document.getElementById('resumeHonors').value;
+        
+        // 项目
+        websiteData.portfolio.title = document.getElementById('portfolioTitle').value;
+        websiteData.portfolio.subtitle = document.getElementById('portfolioSubtitle').value;
+        
+        // 联系
+        websiteData.contact.email = document.getElementById('contactEmail').value;
+        websiteData.contact.phone = document.getElementById('contactPhone').value;
+        websiteData.contact.location = document.getElementById('contactLocation').value;
+        websiteData.contact.availability = document.getElementById('contactAvailability').value;
+        websiteData.contact.targetPositions = document.getElementById('contactTargetPositions').value;
+        websiteData.contact.expectedLocations = document.getElementById('contactExpectedLocations').value;
+        websiteData.contact.coreStrengths = document.getElementById('contactCoreStrengths').value;
+        
+        // EmailJS
+        if (!websiteData.contact.emailjs) websiteData.contact.emailjs = {};
+        websiteData.contact.emailjs.serviceId = document.getElementById('emailjsServiceId').value;
+        websiteData.contact.emailjs.templateId = document.getElementById('emailjsTemplateId').value;
+        websiteData.contact.emailjs.publicKey = document.getElementById('emailjsPublicKey').value;
+    }
+    
+    function saveAll() {
+        collectFields();
+        localStorage.setItem('websiteData', JSON.stringify(websiteData));
+        showStatus('✅ 保存成功！', 'success');
+    }
+    
+    function showSection(name) {
+        document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+        document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
+        document.getElementById('section-' + name).classList.add('active');
+        event.target.classList.add('active');
+    }
+    
+    function showStatus(msg, type) {
+        const bar = document.getElementById('statusBar');
+        bar.textContent = msg;
+        bar.className = 'status ' + type;
+        bar.style.display = 'block';
+        setTimeout(() => bar.style.display = 'none', 3000);
+    }
+    
+    // 头像
+    function loadAvatar() {
+        const avatar = localStorage.getItem('avatarImage');
+        if (avatar) {
+            document.getElementById('avatarPreview').innerHTML = '<img src="' + avatar + '">';
+        }
+    }
+    
+    function handleAvatarUpload(event) {
+        const file = event.target.files[0];
+        if (!file) return;
+        const reader = new FileReader();
+        reader.onload = function(e) {
+            localStorage.setItem('avatarImage', e.target.result);
+            document.getElementById('avatarPreview').innerHTML = '<img src="' + e.target.result + '">';
+            showStatus('头像已更新', 'success');
+        };
+        reader.readAsDataURL(file);
+    }
+    
+    function resetAvatar() {
+        localStorage.removeItem('avatarImage');
+        document.getElementById('avatarPreview').innerHTML = '<span class="placeholder">徐</span>';
+        showStatus('头像已重置', 'success');
+    }
+    // 教育列表
+    function renderEducationList() {
+        const container = document.getElementById('educationList');
+        const edu = websiteData.resume?.education || [];
+        if (!edu.length) { container.innerHTML = '<p class="text-gray-500 text-center py-4">暂无教育经历</p>'; return; }
+        container.innerHTML = edu.map((item, i) => `
+            <div class="list-item">
+                <div class="flex justify-between items-start mb-3">
+                    <h4 class="font-bold text-purple-700">${item.school || '未命名'}</h4>
+                    <button class="btn-danger" onclick="deleteEducation(${i})">删除</button>
+                </div>
+                <div class="grid md:grid-cols-2 gap-3">
+                    <div><label class="form-label text-xs">学校</label><input type="text" class="form-input" value="${item.school||''}" onchange="updateEducation(${i},'school',this.value)"></div>
+                    <div><label class="form-label text-xs">专业</label><input type="text" class="form-input" value="${item.major||''}" onchange="updateEducation(${i},'major',this.value)"></div>
+                    <div><label class="form-label text-xs">时间</label><input type="text" class="form-input" value="${item.period||''}" onchange="updateEducation(${i},'period',this.value)"></div>
+                    <div><label class="form-label text-xs">学位</label><input type="text" class="form-input" value="${item.degree||''}" onchange="updateEducation(${i},'degree',this.value)"></div>
+                </div>
+                <div class="mt-3"><label class="form-label text-xs">描述</label><textarea class="form-textarea" rows="2" onchange="updateEducation(${i},'description',this.value)">${item.description||''}</textarea></div>
+            </div>
+        `).join('');
+    }
+    function addEducation() {
+        if (!websiteData.resume) websiteData.resume = {};
+        if (!websiteData.resume.education) websiteData.resume.education = [];
+        websiteData.resume.education.push({school:'',major:'',period:'',degree:'',description:''});
+        renderEducationList();
+    }
+    function updateEducation(i,f,v) { if(websiteData.resume?.education?.[i]) websiteData.resume.education[i][f]=v; }
+    function deleteEducation(i) { if(confirm('确定删除？')){websiteData.resume.education.splice(i,1);renderEducationList();} }
+    
+    // 工作列表
+    function renderWorkList() {
+        const container = document.getElementById('workList');
+        const work = websiteData.resume?.workExperience || [];
+        if (!work.length) { container.innerHTML = '<p class="text-gray-500 text-center py-4">暂无工作经历</p>'; return; }
+        container.innerHTML = work.map((item, i) => `
+            <div class="list-item">
+                <div class="flex justify-between items-start mb-3">
+                    <h4 class="font-bold text-purple-700">${item.company || '未命名'}</h4>
+                    <button class="btn-danger" onclick="deleteWork(${i})">删除</button>
+                </div>
+                <div class="grid md:grid-cols-2 gap-3">
+                    <div><label class="form-label text-xs">公司</label><input type="text" class="form-input" value="${item.company||''}" onchange="updateWork(${i},'company',this.value)"></div>
+                    <div><label class="form-label text-xs">职位</label><input type="text" class="form-input" value="${item.position||''}" onchange="updateWork(${i},'position',this.value)"></div>
+                    <div><label class="form-label text-xs">时间</label><input type="text" class="form-input" value="${item.period||''}" onchange="updateWork(${i},'period',this.value)"></div>
+                    <div><label class="form-label text-xs">部门</label><input type="text" class="form-input" value="${item.department||''}" onchange="updateWork(${i},'department',this.value)"></div>
+                </div>
+                <div class="mt-3"><label class="form-label text-xs">描述</label><textarea class="form-textarea" rows="3" onchange="updateWork(${i},'description',this.value)">${item.description||''}</textarea></div>
+            </div>
+        `).join('');
+    }
+    function addWork() {
+        if (!websiteData.resume) websiteData.resume = {};
+        if (!websiteData.resume.workExperience) websiteData.resume.workExperience = [];
+        websiteData.resume.workExperience.push({company:'',position:'',period:'',department:'',description:''});
+        renderWorkList();
+    }
+    function updateWork(i,f,v) { if(websiteData.resume?.workExperience?.[i]) websiteData.resume.workExperience[i][f]=v; }
+    function deleteWork(i) { if(confirm('确定删除？')){websiteData.resume.workExperience.splice(i,1);renderWorkList();} }
+    
+    // 项目列表
+    function renderProjectsList() {
+        const container = document.getElementById('projectsList');
+        const projects = websiteData.portfolio?.projects || [];
+        if (!projects.length) { container.innerHTML = '<p class="text-gray-500 text-center py-4">暂无项目</p>'; return; }
+        container.innerHTML = projects.map((item, i) => `
+            <div class="list-item">
+                <div class="flex justify-between items-start mb-3">
+                    <h4 class="font-bold text-purple-700">${item.name || '未命名项目'}</h4>
+                    <div class="flex gap-2">
+                        <button class="btn-secondary text-xs px-2 py-1" onclick="moveProject(${i},-1)" ${i===0?'disabled style="opacity:0.5"':''}>↑</button>
+                        <button class="btn-secondary text-xs px-2 py-1" onclick="moveProject(${i},1)" ${i===projects.length-1?'disabled style="opacity:0.5"':''}>↓</button>
+                        <button class="btn-danger" onclick="deleteProject(${i})">删除</button>
+                    </div>
+                </div>
+                <div class="grid md:grid-cols-2 gap-3">
+                    <div><label class="form-label text-xs">项目名称</label><input type="text" class="form-input" value="${item.name||''}" onchange="updateProject(${i},'name',this.value)"></div>
+                    <div><label class="form-label text-xs">项目周期</label><input type="text" class="form-input" value="${item.period||''}" onchange="updateProject(${i},'period',this.value)"></div>
+                </div>
+                <div class="mt-3"><label class="form-label text-xs">项目描述</label><textarea class="form-textarea" rows="2" onchange="updateProject(${i},'description',this.value)">${item.description||''}</textarea></div>
+                <div class="mt-3"><label class="form-label text-xs">技术标签（逗号分隔）</label><input type="text" class="form-input" value="${item.tags||''}" onchange="updateProject(${i},'tags',this.value)"></div>
+                <div class="mt-3"><label class="form-label text-xs">项目分类</label><input type="text" class="form-input" value="${item.category||''}" onchange="updateProject(${i},'category',this.value)" placeholder="数据分析,战略规划,HR实践"></div>
+                <div class="detail-section">
+                    <h5 class="font-bold text-sm text-purple-700 mb-3">详情（点击查看时显示）</h5>
+                    <div class="mb-3"><label class="form-label text-xs">项目背景</label><textarea class="form-textarea" rows="2" onchange="updateProject(${i},'background',this.value)">${item.background||''}</textarea></div>
+                    <div class="mb-3"><label class="form-label text-xs">研究方法（每行一个）</label><textarea class="form-textarea" rows="3" onchange="updateProject(${i},'methodology',this.value)">${item.methodology||''}</textarea></div>
+                    <div class="mb-3"><label class="form-label text-xs">使用工具（逗号分隔）</label><input type="text" class="form-input" value="${item.tools||''}" onchange="updateProject(${i},'tools',this.value)"></div>
+                    <div><label class="form-label text-xs">项目成果（每行一个）</label><textarea class="form-textarea" rows="3" onchange="updateProject(${i},'results',this.value)">${item.results||''}</textarea></div>
+                </div>
+            </div>
+        `).join('');
+    }
+    function addProject() {
+        if (!websiteData.portfolio) websiteData.portfolio = {};
+        if (!websiteData.portfolio.projects) websiteData.portfolio.projects = [];
+        websiteData.portfolio.projects.push({id:'case'+Date.now(),name:'',period:'',tags:'',description:'',category:'数据分析',background:'',methodology:'',tools:'',results:''});
+        renderProjectsList();
+    }
+    function updateProject(i,f,v) { if(websiteData.portfolio?.projects?.[i]) websiteData.portfolio.projects[i][f]=v; }
+    function deleteProject(i) { if(confirm('确定删除？')){websiteData.portfolio.projects.splice(i,1);renderProjectsList();} }
+    function moveProject(i,d) {
+        const arr = websiteData.portfolio.projects;
+        const ni = i + d;
+        if (ni < 0 || ni >= arr.length) return;
+        [arr[i], arr[ni]] = [arr[ni], arr[i]];
+        renderProjectsList();
+    }
+    // 导入导出
+    function exportData() {
+        collectFields();
+        const blob = new Blob([JSON.stringify(websiteData, null, 2)], {type: 'application/json'});
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = 'website-data-' + new Date().toISOString().split('T')[0] + '.json';
+        a.click();
+        URL.revokeObjectURL(url);
+        showStatus('数据已导出', 'success');
+    }
+    
+    function importData(event) {
+        const file = event.target.files[0];
+        if (!file) return;
+        const reader = new FileReader();
+        reader.onload = function(e) {
+            try {
+                websiteData = JSON.parse(e.target.result);
+                localStorage.setItem('websiteData', JSON.stringify(websiteData));
+                populateFields();
+                renderEducationList();
+                renderWorkList();
+                renderProjectsList();
+                showStatus('数据导入成功！', 'success');
+            } catch(err) {
+                showStatus('导入失败：文件格式错误', 'error');
+            }
+        };
+        reader.readAsText(file);
+    }
+    
+    // 下载部署包
+    async function downloadDeployPackage() {
+        collectFields();
+        showStatus('正在准备部署包...', 'info');
+        
+        // 准备数据文件
+        const dataJson = JSON.stringify(websiteData, null, 2);
+        const avatarData = localStorage.getItem('avatarImage') || '';
+        
+        // 由于浏览器限制，我们提供单独下载
+        // 先下载 data.json
+        const dataBlob = new Blob([dataJson], {type: 'application/json'});
+        const dataUrl = URL.createObjectURL(dataBlob);
+        
+        const a = document.createElement('a');
+        a.href = dataUrl;
+        a.download = 'data.json';
+        a.click();
+        URL.revokeObjectURL(dataUrl);
+        
+        // 如果有头像，也导出
+        if (avatarData) {
+            setTimeout(() => {
+                const avatarBlob = new Blob([JSON.stringify({avatar: avatarData})], {type: 'application/json'});
+                const avatarUrl = URL.createObjectURL(avatarBlob);
+                const b = document.createElement('a');
+                b.href = avatarUrl;
+                b.download = 'avatar.json';
+                b.click();
+                URL.revokeObjectURL(avatarUrl);
+            }, 500);
+        }
+        
+        showStatus('✅ data.json 已下载！请将此文件与 HTML 文件一起上传到 GitHub', 'success');
+        
+        // 显示提示
+        setTimeout(() => {
+            alert('部署步骤：\n\n1. 已下载 data.json（你的网站数据）\n2. 将 data.json 与所有 HTML 文件放在同一文件夹\n3. 全部上传到 GitHub 仓库\n4. 启用 GitHub Pages\n\n注意：HTML 文件需要从原始下载包获取，或联系开发者获取最新版本');
+        }, 1000);
+    }
+    </script>
+</body>
+</html>

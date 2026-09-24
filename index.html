@@ -1,0 +1,752 @@
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Aurora Xu 徐蕴玮</title>
+<link rel="stylesheet" href="assets/fonts/f-SHSerif.css"><link rel="stylesheet" href="assets/fonts/f-WenKai.css"><link rel="stylesheet" href="assets/fonts/f-ZQFS.css">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,400&family=EB+Garamond:ital,wght@0,400;0,500;1,400&family=Newsreader:opsz,wght@6..72,300;6..72,400&family=Instrument+Serif&family=Fraunces:opsz,wght@9..144,300;9..144,400&family=Crimson+Pro:wght@300;400&family=Spectral:wght@300;400&family=Libre+Caslon+Text:wght@400&family=Cardo:wght@400&family=Sorts+Mill+Goudy&family=Castoro&family=Bodoni+Moda:opsz,wght@6..96,400&family=Playfair+Display:wght@400&family=Libre+Baskerville:wght@400&family=Gilda+Display&family=Cormorant:wght@300;400&family=Inter:wght@300;400;500&family=Manrope:wght@300;400;500&family=Jost:wght@300;400;500&family=Inter+Tight:wght@300;400&family=Geist:wght@300;400&family=DM+Sans:wght@300;400&family=Noto+Sans+SC:wght@300;400;500&family=Noto+Serif+SC:wght@300;400&display=swap">
+<style>
+:root{
+  color-scheme:light;
+  --ground:#F7F5FC;--surface:#FDFCFF;--tint:#F1ECFD;--line:#E5DDF6;
+  --ink:#271F3F;--ink-2:#625A7B;--mute:#AFA8C5;--accent:#7C52DC;--accent-deep:#5B3AB0;
+  /* Latin faces are swappable (preview panel); CJK: large = Source Han Serif (thin), small = LXGW Bright */
+  --ed:'Newsreader';--es:'Gilda Display';--et:'Castoro';--el:'Gilda Display';--etw:300;
+  /* Chinese: --zd = large type, --zs = small headings; body stays 思源黑体 (Noto Sans SC) as in the specimen */
+  --zd:'SHSerif';--zs:'WenKai';--zb:'ZQFS';--zdw:300;
+  --serif:var(--ed),var(--zd),'SHSerif',serif;
+  --ks:var(--es),var(--zs),'Noto Sans SC',serif;
+  --sans:var(--et),var(--zb),'Noto Sans SC',sans-serif;
+  --latin:var(--el),var(--zb),'Noto Sans SC',sans-serif;
+  --ease:cubic-bezier(.2,.8,.2,1);
+  --gut:clamp(20px,5vw,72px);
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{background:var(--ground);color:var(--ink);font-family:var(--sans);font-weight:var(--etw);line-height:1.75;margin:0;overflow-x:hidden}
+body.lock{overflow:hidden}
+a{color:inherit;text-decoration:none}
+button{font:inherit;color:inherit;background:none;border:0;padding:0;cursor:pointer;text-align:left}
+@media (hover:hover) and (pointer:fine){body.fx-cursor,body.fx-cursor a,body.fx-cursor button{cursor:none}}
+:focus-visible{outline:1.5px solid var(--accent);outline-offset:4px;border-radius:6px}
+.wrap{max-width:1240px;margin:0 auto;padding-inline:var(--gut)}
+
+/* ---------- nav ---------- */
+nav.top{position:fixed;top:env(safe-area-inset-top,0px);left:0;right:0;z-index:40;transition:background .5s,box-shadow .5s}
+nav.top.solid{background:rgba(247,245,252,.82);-webkit-backdrop-filter:blur(16px);backdrop-filter:blur(16px);box-shadow:0 1px 0 var(--line)}
+nav.top .wrap{display:flex;justify-content:space-between;align-items:center;padding-block:22px}
+.logo{font-family:var(--latin);font-weight:500;font-size:12px;letter-spacing:.38em;color:var(--ink)}
+.links{display:flex;gap:4px;align-items:center;font-size:14px;color:var(--ink-2)}
+.links>a{padding:6px 12px}
+.links>a.on{color:var(--accent)}
+.lang{display:inline-flex;gap:2px;padding:3px;border-radius:99px;background:var(--surface);border:1px solid var(--line);margin-left:12px}
+.lang button{font-family:var(--latin);font-size:11px;letter-spacing:.12em;padding:4px 11px;border-radius:99px;color:var(--mute)}
+.lang button[aria-pressed="true"]{background:var(--tint);color:var(--accent)}
+
+/* ---------- hero ---------- */
+.hero{position:relative;min-height:100svh;display:flex;align-items:center;overflow:hidden}
+#stars{position:absolute;inset:0;width:100%;height:100%;display:block}
+.hero::after{content:none}
+.hero .wrap{position:relative;z-index:2;width:100%;padding-block:130px 90px}
+.who{display:flex;align-items:baseline;gap:18px;flex-wrap:wrap}
+.who .zh{font-family:var(--serif);font-weight:600;font-size:22px;letter-spacing:.2em;color:var(--accent-deep);display:inline-flex;overflow:hidden}
+.who .zh span{display:inline-block;transition:transform 1s var(--ease),opacity 1s var(--ease)}
+.who .en{font-family:var(--latin);font-size:11px;letter-spacing:.42em;color:var(--mute);text-transform:uppercase}
+.statement{font-family:var(--serif);font-weight:500;font-size:clamp(40px,6.4vw,92px);line-height:1.28;letter-spacing:.02em;margin:34px 0 0;max-width:12.5em;color:var(--mute)}
+.statement .k{color:var(--ink)}
+.statement .w{display:inline-block;transition:opacity 1s var(--ease),filter 1s var(--ease),transform 1s var(--ease)}
+.sub{margin:36px 0 0;max-width:34em;color:var(--ink-2);font-size:16px}
+.cta{display:flex;gap:12px;flex-wrap:wrap;margin-top:40px}
+.pre .who .zh span{transform:translateY(105%);opacity:0}
+.pre .statement .w{opacity:0;filter:blur(10px);transform:translateY(12px)}
+.pre .fade{opacity:0;transform:translateY(10px)}
+.fade{transition:opacity 1s var(--ease) 1.5s,transform 1s var(--ease) 1.5s}
+.corner{position:absolute;right:var(--gut);bottom:34px;z-index:2;font-family:var(--latin);font-size:11px;letter-spacing:.24em;color:var(--mute);text-align:right;line-height:1.9}
+
+/* ---------- buttons ---------- */
+.btn{display:inline-flex;align-items:center;gap:10px;padding:14px 26px;border-radius:99px;font-size:14px;letter-spacing:.08em;transition:background .5s var(--ease),border-color .5s,box-shadow .5s}
+.btn .rt{display:inline-block;height:1.5em;line-height:1.5em;overflow:hidden}
+.btn .rt>span{display:flex;flex-direction:column;transition:transform .6s var(--ease)}
+.btn:hover .rt>span{transform:translateY(-50%)}
+.btn-solid{background:linear-gradient(135deg,#8B63E6,#6B46C9);color:#FDFCFF;box-shadow:0 12px 28px -14px rgba(124,82,220,.7)}
+.btn-solid:hover{box-shadow:0 16px 34px -14px rgba(124,82,220,.85)}
+.btn-ghost{border:1px solid var(--line);background:var(--surface);color:var(--ink)}
+.btn-ghost:hover{border-color:#CDBDF3}
+
+/* ---------- section heads ---------- */
+section.blk{padding-block:clamp(90px,12vw,160px) 0}
+.sh{display:flex;align-items:center;gap:14px;margin-bottom:44px}
+.sh::before{content:"";width:28px;height:1px;background:var(--accent);order:-2}
+html[lang=en] .sh small{display:none}
+.sh small{font-family:var(--latin);font-size:10px;letter-spacing:.34em;color:var(--mute);text-transform:uppercase;order:1}
+.sh h2{font-family:var(--sans);font-weight:400;font-size:15px;margin:0;letter-spacing:.16em;line-height:1.6;color:var(--ink-2);order:-1}
+.sh h2 .m{color:var(--mute)}
+.rise{overflow:hidden;padding-bottom:.06em}
+.rise .ln{display:block;clip-path:inset(0 100% 0 0);transition:clip-path 1.3s cubic-bezier(.7,0,.2,1)}
+.rise.in .ln{clip-path:inset(0 0 0 0)}
+
+/* ---------- about ---------- */
+.about{display:grid;grid-template-columns:minmax(0,5fr) minmax(0,7fr);gap:clamp(32px,6vw,96px);align-items:center}
+.portrait{border-radius:30px;overflow:hidden;aspect-ratio:4/4.8;background:var(--tint)}
+.portrait img{width:100%;height:100%;object-fit:cover;display:block;will-change:filter,transform}
+.about .txt p{font-size:clamp(17px,1.5vw,20px);line-height:2.05;color:var(--mute);margin:0 0 22px}
+.about .txt p b{color:var(--ink);font-weight:400}
+.more{display:inline-flex;align-items:center;gap:12px;margin-top:18px;font-size:14px;letter-spacing:.08em;color:var(--ink)}
+.more i{font-style:normal;width:34px;height:34px;border-radius:50%;border:1px solid var(--line);display:grid;place-items:center;transition:transform .5s var(--ease),background .5s,color .5s,border-color .5s}
+.more:hover i{transform:translateX(4px);background:var(--ink);color:var(--ground);border-color:var(--ink)}
+
+/* ---------- path ---------- */
+.tl{position:relative;padding-left:44px;max-width:920px}
+.tl::before,.tl .fill{content:"";position:absolute;left:6px;top:14px;bottom:14px;width:1px;background:var(--line)}
+.tl .fill{background:linear-gradient(var(--accent),#B9A2F2);transform-origin:top;transform:scaleY(var(--p,0))}
+.ti{position:relative}
+.ti::before{content:"";position:absolute;left:-43px;top:34px;width:11px;height:11px;border-radius:50%;background:var(--surface);border:1px solid #C9B8F4;transition:background .5s,border-color .5s,box-shadow .5s}
+.ti.on::before{background:var(--accent);border-color:var(--accent);box-shadow:0 0 0 5px rgba(124,82,220,.14)}
+.ti{display:grid;grid-template-columns:minmax(0,2fr) minmax(0,5fr);gap:24px;padding:28px 0;border-top:1px solid var(--line)}
+.ti:last-child{border-bottom:1px solid var(--line)}
+.ti .d{font-family:var(--latin);font-size:13px;letter-spacing:.06em;color:var(--mute);padding-top:6px}
+.ti h3{font-family:var(--serif);font-weight:500;font-size:22px;margin:0}
+.ti .r{font-size:14px;color:var(--ink-2);margin-top:4px}
+.ti{cursor:pointer}.ti>div:last-child{display:flex;justify-content:space-between;gap:20px;align-items:flex-start}
+.ti .ar{flex:none;color:var(--accent);opacity:0;transform:translateX(-10px);transition:opacity .5s,transform .6s var(--ease);padding-top:8px}
+.ti:hover .ar{opacity:1;transform:none}.ti h3{transition:color .5s}.ti:hover h3{color:var(--accent-deep)}
+@media (hover:none){.ti .ar{opacity:1;transform:none}}
+.entry{scroll-margin-top:110px;border-radius:14px;transition:background 1.2s}
+.cvl{color:var(--ink)!important}.cvl i{font-style:normal;color:var(--accent)}
+@media (max-width:900px){.links>a:not(.cvl){display:none!important}.links>a.cvl{display:inline-block}}
+/* preview panel (prototype only) */
+.rvp{box-sizing:border-box;position:fixed;right:16px;bottom:16px;z-index:110;background:rgba(253,252,255,.94);-webkit-backdrop-filter:blur(12px);backdrop-filter:blur(12px);border:1px solid var(--line);border-radius:16px;box-shadow:0 18px 40px -24px rgba(91,58,176,.5);font-family:'Inter',sans-serif;font-size:12px;color:var(--ink-2);max-width:calc(100vw - 32px)}
+.rvp .sz{width:min(340px,calc(100vw - 32px));max-height:min(70vh,640px);overflow:auto;padding:0 16px 14px}
+.rvp .sz h4{margin:14px 0 6px;font-size:11px;font-weight:500;letter-spacing:.14em;color:var(--ink)}
+.rvp .row{display:grid;grid-template-columns:26px minmax(0,1fr) 26px;grid-template-areas:'l l v' 'm s p';gap:2px 8px;align-items:center;padding:6px;margin:0 -6px;border-radius:8px}
+.rvp .row>span{grid-area:l}.rvp .row>b{grid-area:v}.rvp .row>input{grid-area:s;min-width:0}.rvp .row>.st[data-d='-1']{grid-area:m}.rvp .row>.st[data-d='1']{grid-area:p}
+.rvp .st{width:26px;height:26px;border-radius:50%;border:1px solid var(--line);background:var(--surface);color:var(--accent-deep);text-align:center;font-size:15px;line-height:1}
+.rvp .st:hover{background:var(--tint)}
+.rvp .row:hover{background:var(--tint)}
+.rvp .row span{font-size:12px;color:var(--ink-2);line-height:1.35}
+.rvp .row span i{display:block;font-style:normal;font-size:10.5px;color:var(--mute)}
+.rvp input[type=range]{width:100%;accent-color:var(--accent)}
+.rvp .row b{font:500 12px 'Inter',sans-serif;color:var(--accent-deep);text-align:right;margin:0;letter-spacing:0}
+.rvp .ft{position:sticky;bottom:-14px;background:rgba(253,252,255,.97);padding:10px 0 4px;margin-top:10px;border-top:1px solid var(--line);display:flex;gap:14px;font-size:12px}
+.rvp .ft button{color:var(--accent)}
+.rvp textarea{width:100%;height:120px;margin-top:8px;font:11px/1.5 'Inter',monospace;color:var(--ink-2);border:1px solid var(--line);border-radius:8px;padding:8px;background:var(--surface)}
+.fsbox{position:fixed;inset:0;z-index:115;background:rgba(39,31,63,.18);display:grid;place-items:center;padding:16px}
+.fsbox[hidden]{display:none}
+.fsbox>div{width:min(560px,100%);background:var(--surface);border:1px solid var(--line);border-radius:18px;padding:22px;box-shadow:0 30px 70px -30px rgba(91,58,176,.5);font-family:'Inter','Noto Sans SC',sans-serif}
+.fsbox b{font-weight:500;color:var(--ink)}.fsbox p{margin:6px 0 12px;font-size:13px;color:var(--ink-2)}
+.fsbox textarea{width:100%;height:min(52vh,460px);font:12px/1.7 'Inter','Noto Sans SC',sans-serif;color:var(--ink);border:1px solid var(--line);border-radius:10px;padding:10px;background:var(--ground);resize:vertical}
+.fsbox .acts{display:flex;gap:16px;align-items:center;margin-top:12px;font-size:13px}.fsbox .acts button{color:var(--accent)}.fsbox #fsX{margin-left:auto;color:var(--ink-2)}
+.rvp .modes{padding:0 16px 4px}.rvp .tst{margin:0 0 8px;font-size:11px;color:var(--mute)}.rvp .modes button{width:100%;text-align:left;padding:9px 12px;border-radius:10px;background:var(--tint);color:var(--accent-deep);font-size:12px}
+.spbar{position:fixed;left:50%;bottom:16px;transform:translateX(-50%);z-index:112;width:min(640px,calc(100vw - 24px));background:rgba(253,252,255,.97);border:1px solid #CDBDF3;border-radius:16px;box-shadow:0 20px 50px -24px rgba(91,58,176,.55);padding:12px 14px;font-family:'Inter','Noto Sans SC',sans-serif}
+.spbar[hidden]{display:none}
+.spinfo{font-size:13px;color:var(--ink);line-height:1.5}.spinfo small{display:block;color:var(--ink-2);font-size:12px}
+.spkeys{display:flex;flex-wrap:wrap;gap:6px;align-items:center;margin-top:8px}
+.spkeys button{min-width:34px;height:32px;padding:0 10px;border-radius:9px;border:1px solid var(--line);background:var(--surface);color:var(--accent-deep);font-size:13px}
+.spkeys button:hover{background:var(--tint)}.spkeys .sep{width:1px;height:20px;background:var(--line);margin:0 4px}.spkeys .ex{margin-left:auto;background:var(--accent);color:#fff;border-color:var(--accent)}
+.sphint{margin-top:6px;font-size:11px;color:var(--mute)}
+body.spmode .rvp{display:none}
+.sp-sel{outline:2px solid var(--accent)!important;outline-offset:5px;border-radius:4px}
+@media (hover:none){.sphint{display:none}}
+.fs-hl{outline:1.5px dashed var(--accent)!important;outline-offset:4px;border-radius:4px}
+.rvp summary{list-style:none;padding:10px 16px;cursor:pointer;color:var(--accent-deep);letter-spacing:.06em}
+.rvp summary::-webkit-details-marker{display:none}
+.rvp .in{padding:2px 16px 14px;display:grid;grid-template-columns:auto minmax(0,1fr);gap:8px 12px;align-items:center;width:min(430px,calc(100vw - 32px))}
+.rvp .in h4{grid-column:1/-1;margin:8px 0 0;font-size:11px;font-weight:500;letter-spacing:.14em;color:var(--ink)}
+.rvp label{font-size:12px;color:var(--ink-2);white-space:nowrap}
+.rvp select{font:inherit;font-size:12px;color:var(--accent-deep);background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:6px 8px;width:100%}
+.rvp .now{grid-column:1/-1;font-size:11px;line-height:1.7;color:var(--mute);border-top:1px solid var(--line);padding-top:8px;margin-top:4px}
+.rvp .now button{margin-left:6px;color:var(--accent)}
+.rvp b{font-weight:500;color:var(--ink);font-size:11px;letter-spacing:.12em;margin-top:4px}
+.seg{display:flex;flex-wrap:wrap;gap:6px}
+.seg button{padding:5px 11px;border-radius:99px;border:1px solid var(--line);background:var(--surface);color:var(--ink-2);font-size:12px}
+.seg button[aria-pressed="true"]{background:var(--tint);border-color:#CDBDF3;color:var(--accent-deep)}
+
+/* ---------- projects: big editorial rows, hover expands ---------- */
+.pj{border-top:1px solid var(--line)}
+.pj-row{border-bottom:1px solid var(--line);position:relative;transition:background .6s var(--ease)}
+.pj-row::before{content:"";position:absolute;inset:0 calc(var(--gut) * -1);background:var(--surface);opacity:0;transition:opacity .6s var(--ease);z-index:-1;border-radius:0}
+.pj-row.open::before{opacity:1}
+.pj-head{display:grid;grid-template-columns:minmax(0,3fr) minmax(0,9fr);gap:24px;align-items:baseline;padding:30px 0}
+.pj-head .d{font-family:var(--latin);font-size:13px;letter-spacing:.06em;color:var(--mute)}
+.pj-head .t{display:flex;justify-content:space-between;align-items:baseline;gap:24px}
+.pj-head h3{margin:0;font-family:var(--serif);font-weight:500;font-size:clamp(22px,2.6vw,34px);line-height:1.35;color:var(--mute);transition:color .5s var(--ease)}
+.pj-head .cat{font-size:13px;color:var(--mute);white-space:nowrap}
+.pj-row.open h3,.pj:not(.has-open) h3{color:var(--ink)}
+.pj.has-open .pj-row:not(.open) h3{color:var(--mute)}
+.pj-body{display:grid;grid-template-rows:0fr;transition:grid-template-rows .65s var(--ease)}
+.pj-body>div{overflow:hidden}
+.pj-in{display:grid;grid-template-columns:minmax(0,3fr) minmax(0,9fr);gap:24px;padding:0 0 34px;opacity:0;transform:translateY(-8px);transition:opacity .5s .05s,transform .65s var(--ease)}
+.pj-in p{margin:0 0 18px;font-size:16px;color:var(--ink-2);max-width:40em}
+.pj-in .foot{display:flex;flex-wrap:wrap;gap:10px 22px;align-items:center}
+.tools{font-size:13px;color:var(--mute)}
+.pj-row.open .pj-body{grid-template-rows:1fr}
+.pj-row.open .pj-in{opacity:1;transform:none}
+.open-btn{font-size:14px;letter-spacing:.08em;color:var(--ink);display:inline-flex;align-items:center;gap:10px}
+.open-btn i{font-style:normal;color:var(--accent)}
+
+/* ---------- toolkit + marquee ---------- */
+.band{overflow:hidden;padding-block:clamp(70px,9vw,120px) 10px;-webkit-mask-image:linear-gradient(90deg,transparent,#000 14%,#000 86%,transparent);mask-image:linear-gradient(90deg,transparent,#000 14%,#000 86%,transparent)}
+.track{display:flex;width:max-content;animation:mq 55s linear infinite}
+.track span{font-family:var(--serif);font-weight:400;font-size:clamp(42px,6.5vw,88px);letter-spacing:.08em;white-space:nowrap;color:#DCD1F6;padding-right:.6em}
+@keyframes mq{to{transform:translateX(-50%)}}
+.kit{display:grid;grid-template-columns:minmax(0,3fr) repeat(4,minmax(0,2.25fr));gap:24px}
+.kit h3{font-size:13px;letter-spacing:.14em;color:var(--ink);font-weight:500;margin:0 0 12px}
+.kit p{margin:0;font-size:14px;line-height:2.1;color:var(--ink-2)}
+
+/* ---------- contact ---------- */
+.contact{padding-bottom:40px}
+.contact .big{max-width:18em}
+.contact .big{font-family:var(--serif);font-weight:500;font-size:clamp(30px,4.2vw,60px);line-height:1.35;margin:0;color:var(--mute)}
+.contact .big .k{color:var(--ink)}
+.contact .row{display:flex;flex-wrap:wrap;gap:14px 28px;margin-top:38px;align-items:center}
+.contact .mail{font-family:var(--latin);font-size:clamp(18px,1.8vw,22px);letter-spacing:.02em;color:var(--accent-deep)}
+footer{display:flex;justify-content:space-between;flex-wrap:wrap;gap:12px;padding-block:28px 40px;margin-top:80px;border-top:1px solid var(--line);font-size:12px;letter-spacing:.14em;color:var(--mute)}
+
+/* reveal */
+.rv{opacity:0;transform:translateY(22px);transition:opacity 1s var(--ease),transform 1s var(--ease)}
+.rv.in{opacity:1;transform:none}
+
+/* ---------- detail view ---------- */
+.detail{position:fixed;inset:0;z-index:70;background:var(--ground);overflow-y:auto;visibility:hidden}
+.detail.show{visibility:visible}
+.detail .bar{position:sticky;top:0;z-index:2;background:rgba(247,245,252,.86);-webkit-backdrop-filter:blur(14px);backdrop-filter:blur(14px);border-bottom:1px solid var(--line)}
+.detail .bar .wrap{display:flex;justify-content:space-between;align-items:center;padding-block:18px}
+.back{display:inline-flex;align-items:center;gap:10px;font-size:14px;letter-spacing:.08em}
+.detail .head{padding-block:clamp(60px,9vw,120px) 50px}
+.detail .kick{font-family:var(--latin);font-size:11px;letter-spacing:.36em;color:var(--mute);text-transform:uppercase}
+.detail h1{font-family:var(--serif);font-weight:500;font-size:clamp(34px,5vw,72px);line-height:1.25;margin:18px 0 0;max-width:14em;letter-spacing:.02em;text-wrap:balance}
+.meta{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:24px;margin-top:48px;padding-top:26px;border-top:1px solid var(--line)}
+.meta div{font-size:15px;color:var(--ink)}
+.meta small{display:block;font-family:var(--latin);font-size:11px;letter-spacing:.3em;color:var(--mute);text-transform:uppercase;margin-bottom:6px}
+.chap{display:grid;grid-template-columns:minmax(0,3fr) minmax(0,9fr);gap:24px;padding-block:48px;border-top:1px solid var(--line)}
+.chap h2{margin:0;font-family:var(--sans);font-weight:var(--etw);font-size:14px;letter-spacing:.16em;color:var(--ink-2);display:flex;gap:12px;align-items:baseline}
+.chap h2 i{font-style:normal;font-family:var(--latin);font-size:11px;letter-spacing:.1em;color:var(--accent)}
+.chap h2 small{display:none;font-family:var(--latin);font-weight:400;font-size:11px;letter-spacing:.32em;color:var(--mute);text-transform:uppercase;margin-top:6px}
+.chap p{margin:0;font-size:17px;line-height:2;color:var(--ink-2);max-width:40em}
+.steps{list-style:none;margin:0;padding:0;counter-reset:s;display:grid;gap:0}
+.steps li{counter-increment:s;display:grid;grid-template-columns:48px 1fr;gap:12px;padding:16px 0;border-bottom:1px solid var(--line);font-size:16px;color:var(--ink-2)}
+.steps li:first-child{padding-top:0}
+.steps li::before{content:counter(s,decimal-leading-zero);font-family:var(--latin);font-size:13px;color:var(--accent);padding-top:3px}
+.bullets{list-style:none;margin:0;padding:0;display:grid;gap:14px}
+.bullets li{position:relative;padding-left:22px;font-size:16px;color:var(--ink-2)}
+.bullets li::before{content:"";position:absolute;left:0;top:.8em;width:8px;height:1px;background:var(--accent)}
+.next{display:flex;justify-content:space-between;align-items:center;gap:20px;padding-block:44px 80px;border-top:1px solid var(--line)}
+.next small{display:block;font-family:var(--latin);font-size:11px;letter-spacing:.3em;color:var(--mute);text-transform:uppercase}
+.next b{font-family:var(--serif);font-weight:500;font-size:clamp(20px,2.4vw,30px)}
+.courses{columns:2;column-gap:40px;margin:14px 0 0;padding:0;list-style:none}
+.courses li{font-size:15px;color:var(--ink-2);padding:6px 0;break-inside:avoid;border-bottom:1px dashed var(--line)}
+.entry{padding-bottom:30px;margin-bottom:30px;border-bottom:1px solid var(--line)}
+.entry:last-child{border:0;margin:0;padding:0}
+.entry h3{margin:0;font-family:var(--serif);font-weight:500;font-size:22px}
+.entry .r{font-size:14px;color:var(--accent-deep);margin-top:2px}
+.entry .d{font-family:var(--latin);font-size:12px;letter-spacing:.08em;color:var(--mute);margin-top:4px}
+.entry p{margin:14px 0 0;font-size:16px;line-height:1.95;color:var(--ink-2)}
+.entry .bullets{margin-top:14px}
+.stack{display:grid;grid-template-columns:minmax(0,8em) minmax(0,1fr);gap:12px 24px;margin:0}
+.stack dt{font-size:13px;letter-spacing:.08em;color:var(--mute);padding-top:2px}
+.stack dd{margin:0;font-size:16px;color:var(--ink-2)}
+.stack dd small{display:block;margin-top:4px;font-size:12px;color:var(--mute)}
+@media (max-width:600px){.stack{grid-template-columns:1fr;gap:2px}.stack dd{margin-bottom:12px}}
+.grp{margin:22px 0 0;font-family:var(--ks);font-weight:400;font-size:14px;letter-spacing:.12em;color:var(--accent-deep)}
+
+/* ---------- cursor ---------- */
+.cur,.ring{position:fixed;left:0;top:0;pointer-events:none;z-index:120;border-radius:50%;opacity:0;transition:opacity .3s}
+body.fx-cursor .cur,body.fx-cursor .ring{opacity:1}
+.cur{width:7px;height:7px;margin:-3.5px 0 0 -3.5px;background:var(--accent);box-shadow:0 0 12px rgba(124,82,220,.55)}
+.ring{width:38px;height:38px;margin:-19px 0 0 -19px;border:1px solid rgba(124,82,220,.38);background:rgba(255,255,255,.22);box-shadow:0 8px 22px -8px rgba(91,58,176,.4);transition:opacity .3s,width .5s var(--ease),height .5s var(--ease),margin .5s var(--ease)}
+body.c-lens .ring,body.c-lens .cur{opacity:0}
+body.c-link .ring{width:56px;height:56px;margin:-28px 0 0 -28px}
+/* lens = contrast colour on anything clickable */
+[data-lens]{position:relative}
+[data-lens]:not(.more):not(.open-btn):not(.back):not(.btn){display:inline-block}
+@property --lr{syntax:'<length>';inherits:false;initial-value:0px}
+.lens{position:absolute;pointer-events:none;color:#FDFCFF!important;-webkit-text-fill-color:#FDFCFF;background:var(--accent);--lr:0px;
+  -webkit-mask:radial-gradient(circle var(--lr) at var(--lx,50%) var(--ly,50%),#000 calc(100% - 2px),transparent 100%);mask:radial-gradient(circle var(--lr) at var(--lx,50%) var(--ly,50%),#000 calc(100% - 2px),transparent 100%);
+  transition:--lr .5s var(--ease);white-space:inherit}
+[data-lens]:hover>.lens{--lr:var(--lrh,40px)}
+.btn>.lens{border-radius:99px;overflow:hidden}
+.btn-solid>.lens{background:#FDFCFF;color:var(--accent-deep)!important;-webkit-text-fill-color:var(--accent-deep)}
+.btn-ghost>.lens{background:var(--accent)}
+@media (hover:none){.lens{display:none}}
+
+@media (max-width:900px){
+  .links>a,.links>a[data-lens]{display:none}
+  .sh,.tl,.pj-head,.pj-in,.contact,.chap{grid-template-columns:1fr;gap:10px}
+  .ti{grid-template-columns:1fr;gap:4px}
+  .about{grid-template-columns:1fr}
+  .portrait{max-width:440px}
+  .pj-head .t{flex-direction:column;gap:6px}
+  .kit{grid-template-columns:1fr 1fr}
+  .kit>div:first-child{grid-column:1/-1}
+  .meta{grid-template-columns:1fr;gap:14px}
+  .courses{columns:1}
+  .corner{display:none}
+  .hero::after{background:linear-gradient(180deg,rgba(247,245,252,.2),rgba(247,245,252,.85) 60%)}
+}
+@media (prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}.pre .who .zh span,.pre .statement .w,.pre .fade,.rv,.rise .ln{opacity:1!important;transform:none!important;filter:none!important}}
+.disp,.detail h1,.ghost h1,.nx .t{font-family:var(--serif)!important;font-weight:var(--zdw)!important;letter-spacing:.01em}
+.pj-head h3,.ti h3,.entry h3,.who .zh{font-family:var(--ks)!important;font-weight:400!important}
+.btn,.more,.back,.links>a,.open-btn,.prv,.chap h2{font-family:var(--ks)}
+.sh h2{font-family:var(--ks)!important;font-weight:var(--etw)!important}
+.sh h2{font-size:17px;letter-spacing:.12em;color:var(--ink)}
+.pj-head h3{letter-spacing:.02em}
+.who .zh{font-size:24px;letter-spacing:.24em}
+/* live clock */
+.corner b{font-weight:400;color:var(--ink-2)}
+/* button icon slide-in */
+.btn .ic{display:inline-block;width:0;opacity:0;overflow:hidden;transform:translateX(-6px);transition:width .5s var(--ease),opacity .4s,transform .5s var(--ease)}
+.btn:hover .ic{width:1em;opacity:1;transform:none}
+/* full-page detail */
+.wipe{position:fixed;inset:0;z-index:95;background:var(--tint);visibility:hidden;transform:translateY(100%);pointer-events:none}
+.detail .head h1{transition:clip-path 1.1s var(--ease) .1s,transform 1.1s var(--ease) .1s}
+#dbody.enter .head h1{clip-path:inset(0 0 100% 0);transform:translateY(34px)}
+main{transition:opacity .6s var(--ease),filter .6s var(--ease),transform .7s var(--ease)}
+body.paged main{opacity:0;filter:blur(8px);transform:translateX(-6vw)}
+.detail{opacity:0;transform:translateX(7vw);transition:opacity .6s var(--ease),transform .7s var(--ease),visibility 0s .7s}
+.detail.show{opacity:1;transform:none;transition:opacity .6s var(--ease),transform .7s var(--ease),visibility 0s}
+.detail .bar{background:rgba(247,245,252,.8)}
+#dbody>*{transition:opacity .7s var(--ease),transform .8s var(--ease),filter .7s var(--ease)}
+#dbody.enter>*{opacity:0;transform:translateY(26px)}
+#dbody.enter>.head{transform:none}
+#dbody.enter>*:nth-child(2){transition-delay:.08s}#dbody.enter>*:nth-child(3){transition-delay:.14s}
+#dbody.leave>*{opacity:0;transform:translateY(-40px);filter:blur(6px)}
+#dbody.gl>*{transition-delay:0s!important}
+#dbody.sl-out>*{opacity:0;transform:translateX(-7vw);filter:blur(8px)}
+#dbody.sl-in>*{opacity:0;transform:translateX(7vw);filter:blur(8px);transition:none!important}
+.hide-t{visibility:hidden}
+.ghost{position:fixed;z-index:90;pointer-events:none;margin:0}
+.ghost h1{margin:0;line-height:1.25;max-width:14em;text-wrap:balance;color:var(--ink)}
+.ghost.go{transition:left .95s cubic-bezier(.7,0,.2,1),top .95s cubic-bezier(.7,0,.2,1),font-size .95s cubic-bezier(.7,0,.2,1),color .95s}
+/* next-project block: big title that becomes the next page's header */
+.nx{display:block;width:100%;padding-block:clamp(60px,9vw,120px) clamp(100px,14vw,180px);border-top:1px solid var(--line);text-align:left}
+.nx small{display:flex;gap:14px;align-items:center;font-family:var(--latin);font-size:11px;letter-spacing:.3em;color:var(--mute);text-transform:uppercase}
+.nx small i{font-style:normal;color:var(--accent)}
+.nx .t{display:block;font-size:clamp(34px,5vw,72px);line-height:1.25;max-width:14em;margin-top:18px;color:var(--mute);transition:color .6s var(--ease);text-wrap:balance}
+.nx:hover .t{color:var(--ink)}
+.nx .ar{display:inline-grid;place-items:center;width:52px;height:52px;margin-top:30px;border-radius:50%;border:1px solid var(--line);color:var(--accent);transition:transform .6s var(--ease),background .6s,color .6s,border-color .6s}
+.nx:hover .ar{transform:translateX(8px);background:var(--accent);color:var(--surface);border-color:var(--accent)}
+.prv{display:inline-block;margin-top:44px;font-size:13px;letter-spacing:.08em;color:var(--mute)}
+.prv:hover{color:var(--accent)}
+#top{overflow-x:hidden}
+
+/* spacing tuned by Aurora (2026-09) */
+.statement{line-height:1.23}
+.sub{line-height:1.9;letter-spacing:-.03em}
+.about .txt p{line-height:2.2}
+.sh{margin-top:2px}
+.contact .big{margin-top:-6px;line-height:1.7;letter-spacing:.03em}
+.meta div{line-height:1.8}
+.entry h3{margin-top:-4px}
+.entry .d{margin-top:6px}
+.chap p{line-height:2;letter-spacing:.02em}
+</style>
+
+<div class="wipe" id="wipe" aria-hidden="true"></div><div class="cur" id="cur"></div><div class="ring" id="ring"></div>
+
+<nav class="top" id="nav"><div class="wrap">
+  <a class="logo" href="#top" data-lens>AURORA XU</a>
+  <div class="links">
+    <a href="#about" data-lens data-k="n1"></a><a href="#path" data-lens data-k="n2"></a><a href="#work" data-lens data-k="n3"></a><a href="#contact" data-lens data-k="n4"></a>
+    <a href="#/cv" class="cvl" data-cv data-lens><span data-k="cvn"></span></a>
+    <div class="lang" role="group" aria-label="Language"><button id="lz" aria-pressed="true">中</button><button id="le" aria-pressed="false">EN</button></div>
+  </div>
+</div></nav>
+
+<main id="top" class="pre">
+  <header class="hero">
+    <canvas id="stars" aria-hidden="true"></canvas>
+    <div class="wrap">
+      <div class="who"><span class="zh" aria-label="徐蕴玮"><span>徐</span><span>蕴</span><span>玮</span></span><span class="en">Aurora Xu</span></div>
+      <h1 class="statement disp" id="statement"></h1>
+      <p class="sub fade" data-k="sub"></p>
+      <div class="cta fade">
+        <a class="btn btn-solid" href="#work" data-lens><span class="rt"><span><span data-k="b1"></span><span data-k="b1"></span></span></span><span class="ic">→</span></a>
+        <button class="btn btn-ghost" data-cv data-lens><span class="rt"><span><span data-k="b2"></span><span data-k="b2"></span></span></span><span class="ic">→</span></button>
+      </div>
+    </div>
+    <div class="corner fade" id="corner"></div>
+  </header>
+
+  <section class="blk" id="about"><div class="wrap">
+    <div class="sh"><h2 class="rise" id="h1"></h2><small>About</small></div>
+    <div class="about">
+      <div class="portrait" id="portrait"><img src="assets/avatar.jpg" alt="徐蕴玮 Aurora Xu" id="pimg"></div>
+      <div class="txt rv"><div id="aboutP"></div></div>
+    </div>
+  </div></section>
+
+  <section class="blk" id="path"><div class="wrap">
+    <div class="sh"><h2 class="rise" id="h2"></h2><small>Experience</small></div>
+    <div class="tl rv" id="rail"><span class="fill"></span><div id="tl"></div></div>
+  </div></section>
+
+  <section class="blk" id="work"><div class="wrap">
+    <div class="sh"><h2 class="rise" id="h3"></h2><small>Projects</small></div>
+    <div class="pj rv" id="pj"></div>
+  </div></section>
+
+  <div class="band" aria-hidden="true"><div class="track" id="track"></div></div>
+
+  <section class="blk" style="padding-top:40px"><div class="wrap">
+    <div class="kit rv" id="kit"></div>
+  </div></section>
+
+  <section class="blk" id="contact"><div class="wrap">
+    <div class="sh"><h2 class="rise" id="h4"></h2><small>Contact</small></div>
+    <div class="contact">
+      <div class="rv">
+        <p class="big disp" id="bigC"></p>
+        <div class="row">
+          <a class="mail" href="#contact" id="mail" data-lens>1657715662@qq.com</a>
+          <a class="btn btn-ghost" href="https://www.linkedin.com/in/yunwei-xu-83a056310/" target="_blank" rel="noopener" data-lens><span class="rt"><span><span>LinkedIn ↗</span><span>LinkedIn ↗</span></span></span></a>
+        </div>
+      </div>
+    </div>
+    <footer><span>© 2026 AURORA XU · 徐蕴玮</span><span data-k="foot"></span></footer>
+  </div></section>
+</main>
+
+<div class="detail" id="detail" aria-label="Detail">
+  <div class="bar"><div class="wrap"><button class="back" id="back" data-lens><span>←</span> <span data-k="back"></span></button><button class="logo" data-home>AURORA XU</button></div></div>
+  <div class="wrap" id="dbody"></div>
+</div>
+
+<div class="fsbox" id="fsBox" hidden><div><b>全部字号</b><p>已经全部选中，按 Ctrl+C（Mac 用 ⌘+C）复制，或点「复制」，然后粘贴发给我。</p><textarea id="fsTxt" readonly></textarea><div class="acts"><button id="fsDo">复制</button><span id="fsOk"></span><button id="fsX">关闭</button></div></div></div>
+<details class="rvp" id="szp" hidden><summary>排版调节 ▸</summary><div class="modes"><p class="tst" id="tuneSt">连接中…</p><button id="spOn">间距模式：点页面上的字来移动 ▸</button></div><div class="sz" id="sz"></div></details>
+<div class="spbar" id="spbar" hidden>
+  <div class="spinfo" id="spInfo">间距模式：点页面上任意一段文字来选中它</div>
+  <div class="spkeys"><button data-a="up" title="上移（键盘 ↑）">↑</button><button data-a="down" title="下移（键盘 ↓）">↓</button><button data-a="left" title="左移（键盘 ←）">←</button><button data-a="right" title="右移（键盘 →）">→</button>
+  <span class="sep"></span><button data-a="lh-" title="行距变小（Shift+↓）">行距 −</button><button data-a="lh+" title="行距变大（Shift+↑）">行距 +</button><button data-a="ls-" title="字间距变小（Shift+←）">字距 −</button><button data-a="ls+" title="字间距变大（Shift+→）">字距 +</button>
+  <span class="sep"></span><button data-a="undo" title="把这一项恢复原样">还原这项</button><button data-a="exit" class="ex">完成</button></div>
+  <div class="sphint">键盘：↑↓←→ 移动 2px · 按住 Alt/Option 一次 10px · Shift+↑↓ 行距（行与行）· Shift+←→ 字间距（字与字）· Esc 完成</div>
+</div>
+
+<script>
+const T={
+zh:{n1:'关于',n2:'经历',n3:'项目',n4:'联系',b1:'查看项目',b2:'完整简历',m1:'查看完整简历',back:'返回主页',cvn:'简历',foot:'样品页 · 内容待更新',
+ statement:[['让组织里的',0],['每一个决定',0],['，',0],['<br>',0],['既有',0],['温度',1],['，',0],['也有',0],['依据',1],['。',0]],
+ sub:'新南威尔士大学人力资源管理与商业分析硕士。在 HR 数据、HR 系统和产品之间工作，也自己动手做软件。',
+ corner:'SYDNEY · HANGZHOU<br>PEOPLE · DATA · SYSTEMS',
+ h1:'关于我',h2:'教育与经历',h3:'项目案例',h4:'保持联系',
+ about:['我是徐蕴玮，<b>新南威尔士大学人力资源管理与商业分析</b>硕士，2026 年 10 月毕业；本科就读于天津外国语大学人力资源管理与日语双专业。','在贝达药业组织与人才发展部，我管理三个 HR 学习平台，把各方的需求写成供应商可以直接开发的规格，也用 VBA 和 Python 把重复的 HR 数据工作自动化；更早在海康威视做 HRBP 与招聘。工作之外，我用 AI 编程工具做了两款自己的软件。','我反复练习的是同一件事：<b>把人的需求和数据，变成可以落地的系统与判断</b>。'],
+ path:[['2026.03 — 06','贝达药业','组织与人才发展实习生','w0'],['2024 — 2026.10','新南威尔士大学','硕士 · 人力资源管理与商业分析','e0'],['2022.05 — 07','海康威视','HRBP & 招聘实习生','w1'],['2019 — 2023','天津外国语大学','本科 · 人力资源管理与日语','e1']],
+ band:'Organisation · Strategy · Insight · 组织 · 策略 · 洞察 · ',
+ kit:[['工具箱',''],['人力资源','培训与项目设计<br>人才测评 · OPQ32r · Belbin<br>结构化面试 · 问卷调研'],['数据分析','SQL · Python · R<br>SAS Viya · Power BI<br>Tableau · Excel'],['HR 系统与产品','北森 LMS · 阔知<br>需求与字段级规格<br>SOP · 供应商协同'],['自动化与开发','VBA · AI 大模型 API<br>Claude Code<br>Cloudflare Workers']],
+ big:'无论是<span class="k">项目合作</span>，还是想聊聊<span class="k">组织、数据与系统</span>，都欢迎写信给我。',
+ open:'查看项目详情',
+ meta:['时间','类别','工具'],chap:['背景','过程','结果'],cvnote:'暂无 PDF 附件，这里是完整内容。',pdf:'下载 PDF',nextL:'下一个项目',prevL:'上一个项目',allL:'已是最后一个项目',backL:'回到主页',
+ cv:{kick:'Résumé',title:'简历',edu:'教育背景',work:'工作经历',prod:'独立产品',hon:'荣誉奖项',extra:'课外活动',courses:'主修课程'}},
+en:{n1:'About',n2:'Experience',n3:'Projects',n4:'Contact',b1:'View projects',b2:'Full résumé',m1:'Read the full résumé',back:'Back to home',cvn:'Résumé',foot:'Sample page · content pending',
+ statement:[['Every',0],['decision',0],['in',0],['an',0],['organisation,',0],['<br>',0],['made',0],['with',0],['warmth',1],['and',0],['with',0],['evidence.',1]],
+ sub:'Master of HR Management & Business Analytics, UNSW. I work between HR data, HR systems and product — and build software of my own.',
+ corner:'SYDNEY · HANGZHOU<br>PEOPLE · DATA · SYSTEMS',
+ h1:'About',h2:'Education & experience',h3:'Projects',h4:'Keep in touch',
+ about:['I am Aurora Xu, graduating from UNSW Sydney in October 2026 with a Master of Commerce in <b>HR Management & Business Analytics</b>, after a double major in HR Management and Japanese at Tianjin Foreign Studies University.','At Betta Pharmaceuticals I ran three HR learning platforms, turned stakeholders’ needs into specifications vendors could build against, and automated repetitive HR data work in VBA and Python; before that I worked in HRBP and recruitment at Hikvision. Outside work, I have built two software products with AI coding tools.','The thing I keep practising: <b>turning people’s needs and data into systems and judgement that hold up in practice</b>.'],
+ path:[['2026.03 — 06','Betta Pharmaceuticals','Organisational & Talent Development Intern','w0'],['2024 — 2026.10','UNSW Sydney','Master of Commerce · HRM & Business Analytics','e0'],['2022.05 — 07','Hikvision','HRBP & Recruiter Intern','w1'],['2019 — 2023','Tianjin Foreign Studies University','Bachelor · HR Management & Japanese','e1']],
+ band:'Organisation · Strategy · Insight · Warmth · Evidence · ',
+ kit:[['Toolkit',''],['People','Training & programme design<br>Assessment · OPQ32r · Belbin<br>Interviews · surveys'],['Analytics','SQL · Python · R<br>SAS Viya · Power BI<br>Tableau · Excel'],['HR systems & product','Beisen LMS · Kuozhi<br>Requirements & field specs<br>SOPs · vendor liaison'],['Automation & build','VBA · AI model APIs<br>Claude Code<br>Cloudflare Workers']],
+ big:'Whether it is a <span class="k">project</span>, or a conversation about <span class="k">organisations, data and systems</span>, I would love to hear from you.',
+ open:'Open case study',
+ meta:['Period','Category','Tools'],chap:['Context','Approach','Outcome'],cvnote:'No PDF attached yet — the full content is below.',pdf:'Download PDF',nextL:'Next project',prevL:'Previous project',allL:'That is the last one',backL:'Back to home',
+ cv:{kick:'Résumé',title:'Résumé',edu:'Education',work:'Experience',prod:'Independent products',hon:'Awards',extra:'Extra-curricular',courses:'Selected courses'}}};
+
+/* project + résumé detail content (Chinese source from data.json; English summaries for the main list) */
+const PJ=[{"zh": "Global Job Hunter 全球求职工具", "en": "Global Job Hunter", "d": "2026", "cat": {"zh": "独立产品", "en": "Independent product"}, "tools": "Claude Code · Cloudflare Workers · Supabase", "link": "global-job-hunter.com", "sum": {"zh": "一次搜遍多国招聘网站，智能筛选岗位、评估符合度，辅助改简历、准备面试与 networking，并追踪申请进度的一站式求职网页。", "en": "A one-stop job-search site: search job boards across countries at once, screen roles, score fit, get help with CVs, interviews and networking, and track every application."}, "bg": "在多个国家同时找工作时，职位散落在不同的招聘网站上；很多岗位投了才发现签证条件不符、不提供 sponsor，或者有经验年限的限制，一个个筛非常耗时。我想做一个工具，一次搜全，尽可能把找工作的流程理顺。", "how": ["把 HR 筛简历的标准做成自动筛选：签证、年限、职级不符的岗位先挡掉，并写明原因", "一次搜索覆盖多个国家的招聘网站和公司官网，重复的岗位自动合并", "用 AI 为岗位与简历的匹配度打分，并按岗位要求改写简历", "使用 Claude Code 等 AI 编程工具独立开发、上线", "早期返工较多，从逐条提需求改为先写清产品规则、再开发"], "out": ["已上线，目前免费，不注册也能使用", "形成先写规则、再开发的工作方式，减少返工"], "stack": [["开发工具", "Tools I work in", "Claude Code", "Claude Code"], ["我配置与部署", "Services I set up", "Cloudflare Workers · Supabase · GitHub Actions · AI API（Claude / OpenAI / Gemini）", "Cloudflare Workers · Supabase · GitHub Actions · AI APIs (Claude / OpenAI / Gemini)"], ["代码框架", "In the code", "React · Vite · Chrome 插件 · Playwright<small>由 AI 编写代码，我负责验收</small>", "React · Vite · Chrome extension · Playwright<small>Code written with AI; I review and accept it</small>"]]}, {"zh": "Daily Wise 作息排程应用", "en": "Daily Wise", "d": "2026", "cat": {"zh": "独立产品", "en": "Independent product"}, "tools": "Claude Code · Codex · Cloudflare Workers · Supabase", "link": "daily-wise.app", "sum": {"zh": "一款懂作息、会从使用习惯中学习的日程应用：按作息自动排程，日常只有两个主界面。", "en": "A scheduling app that follows your daily rhythm and learns from how you use it, with just two everyday screens."}, "bg": "待办清单几乎每次都要自己一条条排；日程 app 不是过于简洁，就是功能繁杂。我想要一个懂我作息、会学习着帮我安排日程、主界面简洁的工具，于是自己做了一个。", "how": ["设计按作息自动排程、并从使用习惯中学习的规则", "日常只保留 2 个主界面，规则内置，设置后置", "排程在本地计算，AI 只负责理解意图和生成文案", "使用 Claude Code、Codex 等 AI 编程工具开发", "早期逻辑走样后，改为规则单一来源、每次改动自动校验一致性"], "out": ["网页版已上线，正在自用验证", "建立规则与代码可追溯的开发方式，方便之后回头核查"], "stack": [["开发工具", "Tools I work in", "Claude Code · Codex", "Claude Code · Codex"], ["我配置与部署", "Services I set up", "Cloudflare Workers · Supabase", "Cloudflare Workers · Supabase"], ["代码框架", "In the code", "React Native · Expo<small>由 AI 编写代码，我负责验收</small>", "React Native · Expo<small>Code written with AI; I review and accept it</small>"]]}, {"zh": "CUTEA 奶茶店业务数据库", "en": "CUTEA Bubble Tea Operational Database", "d": "2026", "cat": {"zh": "数据建模 · 需求分析", "en": "Data modelling · Requirements"}, "tools": "SQL · ER · 3NF", "sum": {"zh": "课程小组项目：把奶茶店的 8 个业务流程转化为 14 表 3NF 数据库，并定义订单与库存管理的用户流程。", "en": "Group coursework: eight bubble-tea shop processes turned into a 14-table 3NF database, with user flows for orders and inventory."}, "bg": "课程小组项目。一家奶茶店需要一套能支撑订单、库存等日常运营的业务数据库。", "how": ["收集业务需求，并转化为数据结构", "将 8 个业务流程映射到 14 张表的 3NF 数据库", "为订单与库存管理定义用户流程、界面线框与流程文档", "对 500 条记录做 SQL 数据质量校验"], "out": ["在实现之前发现并修正一处设计缺陷", "团队依据这套文档完成实现"]}, {"zh": "汽车品牌危机舆情分析", "en": "Brand Crisis Sentiment Analysis", "d": "2025", "cat": {"zh": "数据分析 · 战略规划", "en": "Analytics · Strategy"}, "tools": "R · NodeXL", "sum": {"zh": "分析两个汽车品牌在社交媒体上的危机舆情，绘制意见领袖网络，提出主动式危机沟通策略。", "en": "Crisis sentiment for two automotive brands on social media, mapped through opinion-leader networks, leading to a proactive communication strategy."}, "bg": "两个汽车品牌因问题曝光引发消费者不满，在社交媒体上形成负面舆情。需要弄清楚舆情如何传播、由谁推动，再决定如何回应。", "how": ["用 R 采集并清洗推文数据", "用情感分析评估推文的情绪倾向", "用 NodeXL 构建社交网络图，识别意见领袖和高影响力节点", "用词云定位核心议题与情绪焦点", "按时间序列追踪舆情发展"], "out": ["定位负面舆情的核心是信任问题，而非技术缺陷", "梳理关键传播节点与二次传播路径", "提出主动式危机沟通策略"]}, {"zh": "HR 咨询公司美国市场进入战略", "en": "US Market Entry for an HR Consultancy", "d": "2025.06 — 09", "cat": {"zh": "HR 实践 · 战略规划", "en": "HR practice · Strategy"}, "tools": "PESTLE · 波特五力 · SWOT", "toolsEn": "PESTLE · Five Forces · SWOT", "sum": {"zh": "在前 Mercer 太平洋区合伙人指导下，为一家澳洲 HR 咨询公司完成进入美国市场的可行性评估与落地规划。", "en": "Under the guidance of a former Mercer Pacific partner, a market-entry feasibility study and go-to-market plan for an Australian HR consultancy."}, "bg": "一家澳大利亚精品 HR 咨询公司计划进入美国市场，需要判断是否可行、先切入哪里，以及如何以较低成本获客。项目在前 Mercer 太平洋区合伙人指导下完成。", "how": ["用 PESTLE 扫描美国市场的宏观环境", "用波特五力评估竞争强度与进入壁垒", "用 SWOT 梳理公司自身的优势与风险", "深度访谈创始人，了解获客痛点", "设计 LinkedIn + 行业会议的分阶段、低成本获客路径"], "out": ["完成美国市场进入可行性报告，识别高潜力细分市场", "提出分阶段落地规划", "以混合用工模式降低人力成本"]}, {"zh": "销售数据可视化分析", "en": "Retail Sales Diagnostics in Power BI", "d": "2025.07 — 09", "cat": {"zh": "数据分析", "en": "Analytics"}, "tools": "Power BI · DAX", "sum": {"zh": "整合多地区销售数据，搭建区域 × 产品 × 客户分析模型与交互式仪表板，提出产品组合与客户留存建议。", "en": "Multi-region sales data brought into a region × product × customer model in Power BI, leading to product-mix and retention recommendations."}, "bg": "零售商订单量创新高，但利润率没有达标，需要找出\"量增利降\"的原因。", "how": ["整合多地区销售数据", "搭建区域 × 产品 × 客户的分析模型", "制作交互式 Power BI 仪表板", "交叉分析区域、品类与客户的营收和利润"], "out": ["发现南部地区销售额最高（300 万美元），利润率却最低（0.2）", "提出调整产品组合的建议", "为高频客户设计留存方案"]}, {"zh": "Airbnb 定价与满意度建模", "en": "Airbnb Pricing & Satisfaction Modelling", "d": "2025.07 — 09", "cat": {"zh": "数据分析 · 产品设计", "en": "Analytics · Product"}, "tools": "SAS Viya", "sum": {"zh": "带领团队在 SAS Viya 中构建自动定价模型，并从房东的定价痛点出发提出两项产品方案。", "en": "Led a team building an automated pricing model in SAS Viya, and proposed two product features from hosts’ pricing pain points."}, "bg": "Airbnb 房东手动定价，同城相似房源价差很大，入住率波动明显。", "how": ["带领团队清洗数据、处理缺失与异常值", "筛选房源属性、地理位置、房东信息等关键特征", "在 SAS Viya 中训练线性回归与 Gradient Boosting 等模型并调优", "结合模型结果，分析房东的定价痛点"], "out": ["Gradient Boosting 模型的预测误差比线性基线低 19%", "提出「智能定价助手」与「房源优化工具」两项产品方案"]}, {"zh": "NSW 交通事故与保险定价", "en": "NSW Road Crashes & Insurance Pricing", "d": "2024.07 — 08", "cat": {"zh": "数据分析", "en": "Analytics"}, "tools": "Python · Pandas", "sum": {"zh": "用 Python 分析新南威尔士州五年的交通事故数据，按区域与车型划分风险，提出差异化保费建议。", "en": "Five years of NSW crash data analysed in Python to segment risk by area and vehicle type, informing differentiated premiums."}, "bg": "基于新南威尔士州五年的公开交通事故数据，保险公司需要重新评估风险定价。", "how": ["清洗事故记录，确保数据质量", "用热力图定位事故高发区域", "识别事故高发时段，结合疫情、洪水等外部因素分析趋势", "对比不同车型的事故频率与严重程度"], "out": ["识别三个高风险区域", "总结不同车型在频率与严重程度上的差异", "为三个高风险区域提出差异化保费模型"]}];
+const PJ_EN=[{"bg": "Job hunting in several countries at once means listings are scattered across many sites. Many roles turn out, only after applying, to have visa conditions you do not meet, no sponsorship, or experience limits, and screening them one by one is exhausting. I wanted one tool that searches everything at once and smooths out the whole process.", "how": ["Turned a recruiter’s screening criteria into automatic filters: roles that do not fit on visa, years of experience or seniority are set aside, with the reason shown", "One search covers job boards and company career sites across countries, and duplicate listings are merged automatically", "AI scores how well each role matches a CV, and tailors the CV to the role", "Built and shipped independently with AI coding tools such as Claude Code", "After a lot of early rework, moved from requesting features one at a time to writing clear product rules first"], "out": ["Live, currently free, and usable without signing up", "A rules-first way of building that cut down rework"]}, {"bg": "To-do lists had me ordering tasks by hand almost every time, and calendar apps were either too bare or overloaded. I wanted a tool that knows my daily rhythm, learns to plan my day, and keeps the main screens simple, so I built one.", "how": ["Designed rules that schedule around your daily rhythm and learn from how you use the app", "Kept just 2 everyday screens: rules built in, settings tucked away", "Scheduling is computed on the device; AI only interprets intent and writes the wording", "Built with AI coding tools such as Claude Code and Codex", "After the logic drifted early on, moved to a single source of truth for rules, with every change checked for consistency automatically"], "out": ["Web version live, being tested in my own daily use", "A way of building where every rule traces to the code, so it can be checked later"]}, {"bg": "Group coursework. A bubble-tea shop needed an operational database to support orders, inventory and day-to-day running.", "how": ["Gathered requirements and translated them into data structures", "Mapped 8 operational processes onto a 14-table 3NF database", "Defined user flows, wireframes and process documentation for order and inventory management", "Ran SQL data-quality checks across 500 records"], "out": ["Caught and fixed a design flaw before build", "The team implemented against the documentation"]}, {"bg": "Two automotive brands faced consumer anger after problems went public, and negative sentiment built on social media. The question was how it spread, who drove it, and how to respond.", "how": ["Collected and cleaned posts in R", "Scored the sentiment of each post", "Built network graphs in NodeXL to find opinion leaders and high-influence nodes", "Used word clouds to locate the core issues and emotions", "Tracked how the conversation developed over time"], "out": ["Showed the core of the backlash was trust, not a technical fault", "Mapped the key spreaders and how messages resurfaced", "Recommended a proactive crisis-communication strategy"]}, {"bg": "A boutique Australian HR consultancy planned to enter the US and needed to know whether it was viable, where to start, and how to win clients at low cost. The work was guided by a former Mercer Pacific partner.", "how": ["Scanned the US macro environment with PESTLE", "Assessed competition and entry barriers with Five Forces", "Summarised the firm’s strengths and risks with SWOT", "Interviewed the founder about client-acquisition pain points", "Designed a phased, low-cost go-to-market path through LinkedIn and industry events"], "out": ["A US market-entry feasibility report identifying high-potential segments", "A phased rollout plan", "A hybrid workforce model to keep staffing costs down"]}, {"bg": "A retailer hit record order volume, yet margins missed target. The question was why volume went up while profit went down.", "how": ["Integrated sales data across regions", "Built a region × product × customer model", "Created interactive Power BI dashboards", "Cross-analysed revenue and margin by region, category and customer"], "out": ["Found the highest-revenue region ($3M) had the lowest margin (0.2)", "Recommended product-mix adjustments", "Proposed retention strategies for high-frequency customers"]}, {"bg": "Hosts price their listings by hand, so similar homes in the same city vary widely in price and occupancy swings.", "how": ["Led the team through cleaning, missing values and outliers", "Selected listing, location and host features", "Trained and tuned linear regression and gradient boosting models in SAS Viya", "Read the model results against hosts’ pricing pain points"], "out": ["The gradient boosting model cut prediction error by 19% against the linear baseline", "Proposed two product features: a Smart Price Assistant and a Listing Enhancement Tool"]}, {"bg": "Using five years of public NSW crash data, an insurer needed to reassess how it prices risk.", "how": ["Cleaned the crash records", "Used heat maps to find crash hot spots", "Found peak periods and read trends against COVID, floods and other events", "Compared frequency and severity by vehicle type"], "out": ["Identified three high-risk regions", "Summarised how vehicle types differ in frequency and severity", "Proposed differentiated premium models for the three regions"]}];
+PJ.forEach((p,i)=>p.en_=PJ_EN[i]);
+const CV={"edu": [["新南威尔士大学（UNSW Sydney）", "硕士（Master of Commerce Extension）· 人力资源管理与商业分析", "2024 — 2026.10", "均分 Distinction。", ["数据库系统（ER 建模、3NF、星型模型、SQL）", "商业分析", "AI 商业应用", "社交媒体分析", "数据可视化", "商业分析中的代码应用", "跨国人力资源管理", "全球劳资关系", "战略人力资源管理"]], ["天津外国语大学", "本科 · 人力资源管理与日语", "2019 — 2023", "成绩 88.01/100，专业前 10%。", ["人力资源管理", "组织行为学", "劳动关系与劳动法", "薪酬福利管理", "招聘与面试", "培训与开发", "战略性绩效管理", "日语语言文学"]]], "work": [["贝达药业", "组织与人才发展实习生 · 杭州", "2026.03 — 06", "医药上市企业，3,000+ 人。", [["HR 数据与自动化", ["用 VBA 自动化产品线考核跟踪，每轮从 2 小时缩短到 15 分钟", "用 VBA 自动化全公司晋升资格测算（1,000+ 人、多轮规则）与组织架构图更新", "设计三个 HR 系统之间的数据映射模板，打通跨平台数据流转", "分析 AI 陪练平台的使用数据，撰写平台价值评估报告"]], ["HR 平台与供应商", ["端到端管理北森 LMS、阔知、AI 教练三个平台：账号、权限、课程目录、学习计划与学习记录", "收集 HR、法务与业务方的合规归档需求，写成供应商据以开发的字段级规格", "撰写北森管理员与 AI 平台操作两份 SOP，供其他部门自行搭建课程、开展活动"]], ["产品与研究", ["从工单与管理员、学员反馈中归纳 AI 教练平台的 5 个可用性问题，设计解决方案并写成规格交给供应商产品团队", "开发内部 AI 工具，按公司视觉规范生成演示文稿初稿"]], ["人才发展", ["设计 OPQ32r 特质到 Belbin 团队角色的映射，把 50 人中层管理者梯队分成角色互补的行动学习小组", "支持 50 人中层领导力项目 Elite Eagle 全周期：供应商甄选、物料、4 周现场统筹与复盘", "牵头 GCP 合规培训项目的培训模块：路线图、跨部门计划与合规记录体系", "独立开发财务、复盘方法论、引导师等培训课程，从大纲到课件与视频"]], ["交接", ["带教继任者完成六项工作流交接，建立平台运营知识库，交接期间业务不中断"]]]], ["海康威视", "HRBP & 招聘实习生 · 杭州", "2022.05 — 07", "", [["", ["承接研发、销售、产品质量三个部门的招聘：筛选 300+ 份简历、统筹 60+ 场面试，并优化职位说明书", "主导 200+ 人的员工满意度调研：设计问卷、分析反馈，定位新员工导师机制的问题，建议被纳入部门的导师机制调整", "搭建 Excel 招聘漏斗模型，跟踪各环节转化率，找出校招回报最高的简历来源"]]]]], "prod": [["Global Job Hunter 全球求职工具", "2026", "一次搜遍多国招聘网站与公司官网，按签证、年限、职级自动筛选并写明原因，用 AI 评估匹配度并改写简历；已上线，免费、免注册。global-job-hunter.com"], ["Daily Wise 作息排程应用", "2026", "按作息自动排程、并从使用习惯中学习的日程应用；排程在本地计算，AI 只负责理解意图与生成文案。网页版已上线。daily-wise.app"]], "hon": ["天津市人力资源管理比赛大学组三等奖", "连续三年获天津外国语大学校级奖学金", "全国大学生创新创业训练计划国家级项目结项"], "extra": ["带领辩论队参加 10+ 场比赛", "主导制作 12 期双语广播节目", "组织 20+ 场校园活动"]};
+const CV_EN={"edu": [["UNSW Sydney", "Master of Commerce (Extension) · HRM & Business Analytics", "2024 — Oct 2026", "Distinction average.", ["Database Systems (ER modelling, 3NF, star schema, SQL)", "Business Analytics", "AI for Business", "Social Media Analytics", "Data Visualisation", "Coding for Business Analytics", "International HRM", "Global Employment Relations", "Strategic HRM"]], ["Tianjin Foreign Studies University", "Bachelor of Human Resource Management & Japanese (double major)", "2019 — 2023", "GPA 88.01/100, top 10%.", ["Human Resource Management", "Organisational Behaviour", "Labour Relations & Law", "Compensation & Benefits", "Recruitment & Interviewing", "Training & Development", "Strategic Performance Management", "Japanese Language & Literature"]]], "work": [["Betta Pharmaceuticals", "Organisational & Talent Development Intern · Hangzhou", "Mar — Jun 2026", "Listed pharmaceutical company, 3,000+ employees.", [["HR data & automation", ["Automated assessment tracking across product-line groups in VBA, from 2 hours to 15 minutes per cycle", "Automated company-wide promotion-eligibility calculations (1,000+ employees, several rule rounds) and org-chart updates in VBA", "Built a mapping template to move data across three HR systems", "Analysed usage of the AI sales-practice platform and wrote its value assessment"]], ["HR platforms & vendors", ["Ran three platforms end to end (Beisen LMS, Kuozhi, AI coaching): accounts, permissions, course catalogues, learning plans and records", "Gathered compliance-archiving needs from HR, legal and the business, and wrote the field-level specification the vendor built against", "Wrote SOPs for Beisen administration and AI-platform operations that other departments use to build courses and run activities"]], ["Product & research", ["Synthesised tickets and admin/learner feedback into 5 usability issues for the AI coaching platform, and specified solutions for the vendor’s product team", "Built an internal AI tool that drafts presentations in the company’s visual standards"]], ["Talent development", ["Designed a mapping from OPQ32r traits to Belbin team roles to form role-balanced action-learning teams for a 50-person leadership cohort", "Supported the full cycle of the 50-person Elite Eagle leadership programme: vendor sourcing, materials, 4 weeks on site and review", "Led the L&D workstream of a GCP compliance training project: roadmap, cross-functional plan and compliance records", "Built finance, review-methodology and facilitator courses end to end, from outline to slides and video"]], ["Handover", ["Trained a successor across six workstreams and built a platform-operations knowledge base, with no gap in service"]]]], ["Hikvision", "HRBP & Recruiter Intern · Hangzhou", "May — Jul 2022", "", [["", ["Recruited for R&D, Sales and Product Quality: screened 300+ CVs, organised 60+ interviews and rewrote job descriptions", "Ran a satisfaction survey of 200+ staff: designed the questionnaire, analysed feedback and pinpointed gaps in new-hire mentoring; the recommendations fed into the department’s mentoring changes", "Built an Excel recruitment-funnel model tracking stage conversion to find the highest-yield campus sourcing channels"]]]]], "prod": [["Global Job Hunter", "2026", "Searches job boards and company career sites across countries at once, filters roles on visa, experience and seniority with the reason shown, and uses AI to score fit and tailor CVs. Live, free, no sign-up. global-job-hunter.com"], ["Daily Wise", "2026", "A scheduling app that plans around your daily rhythm and learns from use; scheduling runs on the device, with AI only interpreting intent and writing the wording. Web version live. daily-wise.app"]], "hon": ["Third Prize, Tianjin HR Management Competition (university division)", "Merit-based scholarship, three consecutive years, Tianjin Foreign Studies University", "Completed a national-level College Students’ Innovation and Entrepreneurship Training Program project"], "extra": ["Led the debate team through 10+ competitions", "Directed 12 bilingual radio programmes", "Organised 20+ campus events"]};
+/* one résumé entry: if a PDF exists for the current language, the nav link downloads it; otherwise it opens the résumé page */
+const CV_PDF={zh:'',en:''};
+let lang='en';/* this round previews English first */
+try{const s=localStorage.getItem('ax-lang6');if(s)lang=s}catch(e){}
+const $=id=>document.getElementById(id),$$=q=>document.querySelectorAll(q);
+
+/* lens: contrast-colour copy clipped to a circle under the cursor */
+function lensify(el){el.querySelectorAll(':scope>.lens').forEach(x=>x.remove());
+  const cs=getComputedStyle(el),btn=el.classList.contains('btn'),pad=btn?0:52;el.dataset.lpad=pad;const l=document.createElement('span');l.className='lens';l.setAttribute('aria-hidden','true');
+  l.innerHTML=el.innerHTML;l.style.cssText=`inset:-${pad}px;padding:${parseFloat(cs.paddingTop)+pad}px ${parseFloat(cs.paddingRight)+pad}px ${parseFloat(cs.paddingBottom)+pad}px ${parseFloat(cs.paddingLeft)+pad}px;display:${cs.display.includes('flex')?cs.display:'block'};align-items:${cs.alignItems};gap:${cs.gap};font:inherit;letter-spacing:inherit;justify-content:${cs.justifyContent}`;
+  el.appendChild(l)}
+function lensAll(){document.querySelectorAll('[data-lens]').forEach(lensify)}
+
+function render(){
+  const L=T[lang];document.documentElement.lang=lang==='zh'?'zh-CN':'en';
+  document.querySelectorAll('[data-k]').forEach(e=>{const v=L[e.dataset.k];if(v!=null)e.textContent=v});
+  {const out=[];L.statement.forEach(([w,k],i)=>{if(w==='<br>'){out.push('<br>');return}const h=`<span class="w${k?' k':''}" style="transition-delay:${.5+i*.08}s">${w}</span>`;
+    if(/^[，。、,.]$/.test(w)&&out.length&&out[out.length-1]!=='<br>')out[out.length-1]=`<span style="white-space:nowrap">${out[out.length-1]}${h}</span>`;else out.push(h)});
+  $('statement').innerHTML=out.join(lang==='en'?' ':'')}
+  tick();
+  ['h1','h2','h3','h4'].forEach(h=>$(h).innerHTML=`<span class="ln">${L[h]}</span>`);
+  $('aboutP').innerHTML=L.about.map(p=>`<p>${p}</p>`).join('');
+  $('tl').innerHTML=L.path.map(([d,h,r,id])=>`<div class="ti" data-open="cv:${id}" role="link" tabindex="0"><div class="d">${d}</div><div><div><h3>${h}</h3><div class="r">${r}</div></div><span class="ar">→</span></div></div>`).join('');
+  $$('.cvl span').forEach(e=>e.innerHTML=L.cvn+(CV_PDF[lang]?' <i>↓</i>':''));
+  $('track').innerHTML=`<span>${L.band.repeat(3)}</span><span>${L.band.repeat(3)}</span>`;
+  $('kit').innerHTML=L.kit.map(([h,p],i)=>i===0?`<div><h3 style="font-family:var(--latin);font-weight:400;letter-spacing:.36em;font-size:11px;color:var(--mute);text-transform:uppercase">${h}</h3></div>`:`<div><h3>${h}</h3><p>${p}</p></div>`).join('');
+  $('bigC').innerHTML=L.big;
+  renderPJ();
+  $('lz').setAttribute('aria-pressed',lang==='zh');$('le').setAttribute('aria-pressed',lang==='en');
+  lensAll();
+}
+function tick(){const f=z=>new Intl.DateTimeFormat('en-GB',{hour:'2-digit',minute:'2-digit',timeZone:z}).format(new Date());
+  $('corner').innerHTML=`SYDNEY <b>${f('Australia/Sydney')}</b> · HANGZHOU <b>${f('Asia/Shanghai')}</b><br>HR × BUSINESS ANALYTICS`}
+setInterval(()=>{if($('corner'))tick()},30000);
+function renderPJ(){
+  const el=$('pj');
+  el.innerHTML=PJ.map((p,i)=>`<div class="pj-row"><div class="pj-head"><div class="d">${p.d.split(' ')[0]}</div><div class="t"><h3><button data-open="p${i}" data-lens>${p[lang]}</button></h3><span class="cat">${p.cat[lang]}</span></div></div>
+   <div class="pj-body"><div><div class="pj-in"><div></div><div><p>${p.sum[lang]}</p><div class="foot"><button class="open-btn" data-open="p${i}" data-lens>${T[lang].open} <i>→</i></button><span class="tools">${lang==='en'&&p.toolsEn||p.tools}</span></div></div></div></div></div></div>`).join('');
+  const rows=[...el.children];let t;
+  const open=r=>{rows.forEach(x=>x.classList.toggle('open',x===r));el.classList.toggle('has-open',!!r)};
+  if(matchMedia('(hover:hover)').matches){
+    rows.forEach(r=>r.addEventListener('mouseenter',()=>{clearTimeout(t);t=setTimeout(()=>open(r),90)}));
+    el.onmouseleave=()=>{clearTimeout(t);t=setTimeout(()=>open(null),200)};
+  }else rows.forEach(r=>r.querySelector('.pj-head .d').parentElement.addEventListener('click',e=>{if(!e.target.closest('[data-open]'))open(r.classList.contains('open')?null:r)}));
+}
+
+/* ---------- detail pages (full page, hash-routed: #/p/2, #/cv, #/cv/e0) ---------- */
+function projectHTML(i){const p=PJ[i],L=T[lang],D=lang==='en'?p.en_:p,n=i<PJ.length-1?PJ[i+1]:null,N=x=>String(x).padStart(2,'0');
+  return `<div class="head"><div class="kick">Case study · ${N(i+1)} / ${N(PJ.length)}</div><h1 id="dh1">${p[lang]}</h1>
+   <div class="meta"><div><small>${L.meta[0]}</small>${p.d}</div><div><small>${L.meta[1]}</small>${p.cat[lang]}</div><div><small>${L.meta[2]}</small>${lang==='en'&&p.toolsEn||p.tools}</div></div>${p.link?`<a class="btn btn-ghost" href="https://${p.link}" target="_blank" rel="noopener" style="margin-top:30px" data-lens><span class="rt"><span><span>${p.link} ↗</span><span>${p.link} ↗</span></span></span></a>`:''}</div>
+   <div class="chap"><h2><i>01</i>${L.chap[0]}</h2><p>${D.bg}</p></div>
+   <div class="chap"><h2><i>02</i>${L.chap[1]}</h2><ol class="steps">${D.how.map(x=>`<li>${x}</li>`).join('')}</ol></div>
+   <div class="chap"><h2><i>03</i>${L.chap[2]}</h2><ul class="bullets">${D.out.map(x=>`<li>${x}</li>`).join('')}</ul></div>
+   ${p.stack?`<div class="chap"><h2><i>04</i>${lang==='en'?'Tech stack':'技术栈'}</h2><dl class="stack">${p.stack.map(r=>`<dt>${lang==='en'?r[1]:r[0]}</dt><dd>${lang==='en'?r[3]:r[2]}</dd>`).join('')}</dl></div>`:''}
+   <div style="padding-bottom:36px">${i>0?`<a class="prv" href="#/p/${i-1}" data-go="p${i-1}">← ${L.prevL} · ${PJ[i-1][lang]}</a>`:''}</div>
+   ${n?`<button class="nx" data-go="p${i+1}" data-relay><small>${L.nextL} <i>${N(i+2)} / ${N(PJ.length)}</i></small><span class="t">${n[lang]}</span><span class="ar">→</span></button>`
+      :`<button class="nx" data-home><small>${L.allL}</small><span class="t">${L.backL}</span><span class="ar">→</span></button>`}`}
+function cvHTML(){const C=T[lang].cv,L=T[lang],V=lang==='en'?CV_EN:CV;
+  return `<div class="head"><div class="kick">${C.kick}</div><h1 id="dh1">${C.title}</h1>
+   <div class="meta"><div><small>Email</small>1657715662@qq.com</div><div><small>Base</small>Sydney / Hangzhou</div><div><small>Languages</small>${lang==='en'?'Mandarin · English (PTE 71) · Japanese':'中文 · English（PTE 71）· 日本語'}</div></div>
+   <p style="margin:26px 0 0;font-size:13px;color:var(--mute)">${CV_PDF[lang]?`<a class="btn btn-ghost" href="${CV_PDF[lang]}" download>${L.pdf} ↓</a>`:L.cvnote}</p></div>
+   <div class="chap"><h2><i>01</i>${C.edu}</h2><div>${V.edu.map(([s,m,d,p,c],k)=>`<div class="entry" id="cv-e${k}"><h3>${s}</h3><div class="r">${m}</div><div class="d">${d}</div><p>${p}</p>${c.length?`<ul class="courses">${c.map(x=>`<li>${x}</li>`).join('')}</ul>`:''}</div>`).join('')}</div></div>
+   <div class="chap"><h2><i>02</i>${C.work}</h2><div>${V.work.map(([s,m,d,p,g],k)=>`<div class="entry" id="cv-w${k}"><h3>${s}</h3><div class="r">${m}</div><div class="d">${d}</div>${p?`<p>${p}</p>`:''}${g.map(([t,b])=>`${t?`<h4 class="grp">${t}</h4>`:''}<ul class="bullets">${b.map(x=>`<li>${x}</li>`).join('')}</ul>`).join('')}</div>`).join('')}</div></div>
+   <div class="chap"><h2><i>03</i>${C.prod}</h2><div>${V.prod.map(([s,d,p])=>`<div class="entry"><h3>${s}</h3><div class="d">${d}</div><p>${p}</p></div>`).join('')}</div></div>
+   <div class="chap"><h2><i>04</i>${C.hon}</h2><ul class="bullets">${V.hon.map(x=>`<li>${x}</li>`).join('')}</ul></div>
+   <div class="chap"><h2><i>05</i>${C.extra}</h2><ul class="bullets">${V.extra.map(x=>`<li>${x}</li>`).join('')}</ul></div>
+   <button class="nx" data-home><small>Aurora Xu</small><span class="t">${L.backL}</span><span class="ar">→</span></button>`}
+const det=$('detail'),db=$('dbody');let cur=null,busy=false,TR='slide';
+const wait=ms=>new Promise(r=>setTimeout(r,ms));
+function fill(key){cur=key;db.innerHTML=key.startsWith('cv')?cvHTML():projectHTML(+key.slice(1));lensAll()}
+function hashOf(k){return k.startsWith('cv')?'#/cv'+(k.includes(':')?'/'+k.split(':')[1]:''):'#/p/'+k.slice(1)}
+function keyOf(h){let m=h.match(/^#\/p\/(\d)$/);if(m)return 'p'+m[1];m=h.match(/^#\/cv(?:\/(\w+))?$/);if(m)return 'cv'+(m[1]?':'+m[1]:'');return null}
+function jump(key){const id=key.split(':')[1];if(!id)return;const el=$('cv-'+id);if(!el)return;
+  det.scrollTo({top:el.getBoundingClientRect().top+det.scrollTop-110,behavior:'smooth'});}
+/* shared-element flight: a title leaves its spot and settles as the next page's header */
+function ghostAt(src){const r=src.getBoundingClientRect(),cs=getComputedStyle(src),g=document.createElement('div');g.className='ghost';
+  const c=src.cloneNode(true);c.querySelectorAll('.lens').forEach(x=>x.remove());
+  g.innerHTML=`<h1 style="font-size:${cs.fontSize};color:${cs.color}">${c.textContent.trim()}</h1>`;
+  g.style.left=r.left+'px';g.style.top=r.top+'px';g.style.width=(innerWidth-r.left-20)+'px';document.body.appendChild(g);return g}
+async function fly(g){const h=$('dh1');h.classList.add('hide-t');const r=h.getBoundingClientRect(),fs=getComputedStyle(h).fontSize;
+  void g.offsetWidth;g.classList.add('go');g.style.left=r.left+'px';g.style.top=r.top+'px';
+  const t=g.firstChild;t.style.transition='font-size .95s cubic-bezier(.7,0,.2,1),color .95s';t.style.fontSize=fs;t.style.color=getComputedStyle(h).color;
+  await wait(980);h.classList.remove('hide-t');g.remove()}
+/* page change = a tinted panel rises from the bottom, covers, then keeps rising to reveal the new page */
+const wipe=$('wipe');
+async function curtain(swap){wipe.style.transition='none';wipe.style.transform='translateY(100%)';wipe.style.visibility='visible';void wipe.offsetWidth;
+  wipe.style.transition='transform .62s cubic-bezier(.7,0,.2,1)';wipe.style.transform='translateY(0)';await wait(640);
+  swap();await wait(40);wipe.style.transform='translateY(-100%)';await wait(70);db.classList.remove('enter');await wait(600);wipe.style.visibility='hidden'}
+function show(key){document.body.classList.add('lock','paged');fill(key);det.style.transition='none';det.scrollTop=0;db.classList.add('enter');det.classList.add('show');void det.offsetWidth;det.style.transition=''}
+async function open(key,src,push=true){if(busy)return;busy=true;if(push)history.pushState(null,'',hashOf(key));
+  document.body.classList.add('lock','paged');fill(key);det.scrollTop=0;db.classList.add('enter');await wait(180);det.classList.add('show');await wait(120);db.classList.remove('enter');await wait(700);jump(key);busy=false}
+async function go(key,src,push=true){if(busy)return;if(!det.classList.contains('show'))return open(key,null,push);busy=true;
+  if(push)history.pushState(null,'',hashOf(key));
+  if(TR==='wipe')await curtain(()=>{fill(key);det.scrollTop=0;db.classList.add('enter')});
+  else{db.classList.add('sl-out');await wait(520);fill(key);det.scrollTop=0;db.classList.remove('sl-out');db.classList.add('sl-in');void db.offsetWidth;await wait(30);db.classList.remove('sl-in');await wait(700)}
+  jump(key);busy=false}
+async function home(push=true){if(!det.classList.contains('show'))return;if(push)history.pushState(null,'',location.pathname+location.search);
+  det.classList.remove('show');document.body.classList.remove('paged');await wait(400);document.body.classList.remove('lock');cur=null}
+document.addEventListener('click',e=>{
+  const c=e.target.closest('[data-cv]');if(c){e.preventDefault();if(CV_PDF[lang]){const a=document.createElement('a');a.href=CV_PDF[lang];a.download='';a.click()}else det.classList.contains('show')?go('cv'):open('cv');return}
+  const g=e.target.closest('[data-go]');if(g){e.preventDefault();go(g.dataset.go,g.hasAttribute('data-relay')?g:null);return}
+  if(e.target.closest('[data-home]')){e.preventDefault();home();return}
+  const o=e.target.closest('[data-open]');if(o){e.preventDefault();const k=o.dataset.open;
+    const t=k.startsWith('p')?o.closest('.pj-row')?.querySelector('.pj-head h3 button'):null;open(k,t)}});
+addEventListener('keydown',e=>{if(e.key==='Enter'&&e.target.classList?.contains('ti'))e.target.click()});
+$('back').addEventListener('click',()=>home());
+addEventListener('keydown',e=>{if(e.key==='Escape')home()});
+addEventListener('popstate',()=>{const k=keyOf(location.hash);if(!k)home(false);else if(det.classList.contains('show'))go(k,null,false);else open(k,null,false)});
+
+function setLang(l){if(l===lang)return;const m=$('top');m.style.transition='opacity .4s,filter .4s';m.style.opacity=0;m.style.filter='blur(12px)';
+  setTimeout(()=>{lang=l;try{localStorage.setItem('ax-lang6',l)}catch(e){}render();if(cur){fill(cur)}document.querySelectorAll('.rv,.rise').forEach(x=>x.classList.add('in'));m.style.opacity='';m.style.filter='';setTimeout(()=>m.style.transition='',500)},350)}
+$('lz').onclick=()=>setLang('zh');$('le').onclick=()=>setLang('en');
+render();
+{const k=keyOf(location.hash);if(k){document.body.classList.add('lock','paged');fill(k);det.classList.add('show');setTimeout(()=>jump(k),300)}}
+/* preview panel */
+/* tuning is saved to the artifact's db so Claude can read it (prototype only) */
+let TDB=null,tuneT=null,tuneReady=false;
+function tuneFlag(t){const e=document.getElementById('tuneSt');if(e)e.textContent=t}
+function pushTune(){if(!tuneReady||!TDB)return;clearTimeout(tuneT);tuneFlag('同步中…');tuneT=setTimeout(()=>{
+  TDB.doc('tuning/current').set({fs:FV,sp:SP,at:new Date().toISOString()}).then(()=>tuneFlag('已自动同步给 Claude ✓')).catch(e=>tuneFlag('同步失败（'+(e&&e.code||'未知')+'），可用下方导出'))},900)}
+(async()=>{try{TDB=window.claude&&await window.claude.use('db')}catch(e){TDB=null}
+  if(!TDB){tuneFlag('这个窗口不能同步，请用下方导出');return}tuneReady=true;pushTune()})();
+/* size tuner (prototype only): every kind of text has its own size; fluid ones shrink on small screens */
+const FS=[
+ ['顶部与开场'],
+ ['logo','Logo「AURORA XU」','导航和详情页顶部','.logo',13],
+ ['nav','导航链接','关于 / 经历 / 项目 / 联系 / 简历','.links>a',16],
+ ['langb','中 / EN 切换','','.lang button',13],
+ ['name','名字「徐蕴玮」','开场左上','.who .zh',17],
+ ['nameEn','名字英文「AURORA XU」','名字旁边','.who .en',15],
+ ['stmt','开场标语','最大的那句话','.statement',85,38],
+ ['sub','标语下的介绍','','.sub',17],
+ ['btn','按钮文字','查看项目 / 完整简历 / LinkedIn','.btn',15],
+ ['clock','右下角时间','','.corner',9],
+ ['栏目'],
+ ['secT','栏目名','关于我 / 教育与经历 / 项目案例 / 保持联系','.sh h2',22],
+ ['secEn','栏目英文小字','ABOUT / PATH …','.sh small',13],
+ ['关于我'],
+ ['about','关于我正文','','.about .txt p',21,16],
+ ['教育与经历'],
+ ['tiD','日期','2024 — 2026','.ti .d',16],
+ ['tiT','学校 / 公司名','','.ti h3',22],
+ ['tiR','学位 / 职位','','.ti .r',15],
+ ['项目列表'],
+ ['pjD','年份','','.pj-head .d',15],
+ ['pjT','项目名','','.pj-head h3',31,20],
+ ['pjC','类别','数据分析 · 战略规划','.pj-head .cat',14],
+ ['pjS','展开后的简介','','.pj-in p',17],
+ ['pjO','「查看项目详情」','','.open-btn',14],
+ ['pjTool','工具','R · NodeXL','.tools',13],
+ ['滚动字带与工具箱'],
+ ['band','滚动大字带','组织 · 策略 · 洞察','.track span',85,40],
+ ['kitH','工具箱小标题','人力资源 / 数据分析 …','.kit h3',16],
+ ['kitP','工具箱内容','','.kit p',14],
+ ['联系'],
+ ['big','联系区大字','无论是岗位机会…','.contact .big',56,28],
+ ['mail','邮箱','','.contact .mail',22],
+ ['foot','页脚','© 2026 …','footer',11],
+ ['详情页（项目 / 简历）'],
+ ['back','「返回主页」','顶部左边','.back',15],
+ ['kick','页眉小字','CASE STUDY · 01 / 05','.detail .kick',11],
+ ['h1','页面大标题','项目名 / 简历','.detail h1',69,32],
+ ['metaL','信息标签','时间 / 类别 / 工具','.meta small',12],
+ ['metaV','信息内容','2025.09 — 11 …','.meta div',15],
+ ['chap','段落标签','01 背景 / 02 过程 …','.chap h2',15],
+ ['chapP','背景正文','','.chap p',18],
+ ['steps','过程条目','','.steps li',18],
+ ['bul','结果 / 证书 / 荣誉条目','','.bullets li',18],
+ ['eT','简历：学校 / 公司名','','.entry h3',22],
+ ['eR','简历：学位 / 职位','','.entry .r',15],
+ ['eD','简历：日期','','.entry .d',12],
+ ['eP','简历：说明文字','','.entry p',16],
+ ['course','简历：课程','','.courses li',15],
+ ['prv','「上一个项目」','','.prv',13],
+ ['nxL','「下一个项目」小字','','.nx small',13],
+ ['nxT','下一个项目名（页底大字）','','.nx .t',69,28]];
+const FSD={};FS.forEach(r=>{if(r.length>1)FSD[r[0]]=r[4]});
+let FV={...FSD};try{Object.assign(FV,JSON.parse(localStorage.getItem('ax-fs2')||'{}'))}catch(e){}
+const fst=document.createElement('style');document.head.appendChild(fst);
+function fsCSS(){fst.textContent=FS.filter(r=>r.length>1).map(([k,,,sel,,fl])=>{const v=FV[k];
+  return `${sel}{font-size:${fl?`clamp(${Math.min(fl,v)}px,${(v/14.4).toFixed(2)}vw,${v}px)`:v+'px'}!important}`}).join('\n');
+  try{localStorage.setItem('ax-fs2',JSON.stringify(FV))}catch(e){}pushTune()}
+function fsUI(){$('sz').innerHTML=FS.map(r=>r.length===1?`<h4>${r[0]}</h4>`:`<div class="row" data-fk="${r[0]}"><span>${r[1]}${r[2]?`<i>${r[2]}</i>`:''}</span><b>${FV[r[0]]}</b><button class="st" data-d="-1" aria-label="小一号">−</button><input type="range" min="${Math.max(8,Math.round(r[4]*.4))}" max="${Math.round(r[4]*2.2)}" step="1" value="${FV[r[0]]}"><button class="st" data-d="1" aria-label="大一号">+</button></div>`).join('')
+  +'<div class="ft"><button id="fsCopy">导出全部数值（发给我）</button><button id="fsReset">全部恢复默认</button></div>';
+  $('fsCopy').onclick=()=>{let g='',out=[];FS.forEach(r=>{if(r.length===1){g=r[0];out.push('\n【'+g+'】');return}
+      const v=FV[r[0]];out.push(`${r[1]}：${v}${v!==r[4]?`（原 ${r[4]}，已改）`:''}`)});
+    $('fsBox').hidden=false;const t=$('fsTxt');const sp=Object.entries(SP).filter(([k,v])=>roleOf(k)&&(v.mt!==v.mt0||v.dx||v.lh!==v.lh0||(v.ls!=null&&v.ls!==v.ls0))).map(([k,v])=>`${roleOf(k)[1]}：${[v.mt!==v.mt0?`上方距离 ${v.mt0} → ${v.mt}`:'',v.dx?`左右偏移 ${v.dx}`:'',v.lh!==v.lh0?`行距 ${v.lh0} → ${v.lh}`:'',v.ls!=null&&v.ls!==v.ls0?`字间距 ${v.ls0} → ${v.ls}em`:''].filter(Boolean).join('，')}`);
+    t.value='字号（电脑屏幕，单位 px）'+out.join('\n')+'\n\n【间距与行距（只列改过的）】\n'+(sp.join('\n')||'（没有改动）');t.focus();t.select()};
+  $('fsReset').onclick=()=>{FV={...FSD};fsCSS();fsUI();SP={};spCSS();lensAll()}}
+$('sz').addEventListener('input',e=>{const row=e.target.closest('.row');if(!row)return;FV[row.dataset.fk]=+e.target.value;row.querySelector('b').textContent=e.target.value;fsCSS()});
+$('sz').addEventListener('change',()=>lensAll());
+$('sz').addEventListener('click',e=>{const b=e.target.closest('.st');if(!b)return;const row=b.closest('.row'),inp=row.querySelector('input'),v=Math.min(+inp.max,Math.max(+inp.min,+inp.value+ +b.dataset.d));
+  inp.value=v;FV[row.dataset.fk]=v;row.querySelector('b').textContent=v;fsCSS();lensAll()});
+/* hover a row → outline the text it controls */
+let hl=[];const unhl=()=>{hl.forEach(x=>x.classList.remove('fs-hl'));hl=[]};
+$('sz').addEventListener('mouseover',e=>{const row=e.target.closest('.row');unhl();if(!row)return;const r=FS.find(x=>x[0]===row.dataset.fk);
+  hl=[...document.querySelectorAll(r[3])].filter(x=>!x.closest('.lens'));hl.forEach(x=>x.classList.add('fs-hl'))});
+$('sz').addEventListener('mouseleave',unhl);
+fsCSS();fsUI();
+/* the tuning panel is for Aurora only: shown in the Claude preview, or on the live site with ?tune */
+if(window.claude||/[?&]tune\b/.test(location.search))$('szp').hidden=false;
+/* spacing mode: pick a kind of text, nudge it with arrow keys; applies to every element of that kind */
+const BOX={name:'.who',nameEn:'.who',secT:'.sh',secEn:'.sh',btn:'.cta',nav:'.links',langb:'.lang'};
+let SP={};try{SP=JSON.parse(localStorage.getItem('ax-sp2')||'{}')}catch(e){}
+const spst=document.createElement('style');document.head.appendChild(spst);
+const roleOf=k=>FS.find(r=>r[0]===k),boxOf=k=>BOX[k]||roleOf(k)[3];
+function spCSS(){spst.textContent=Object.entries(SP).map(([k,v])=>{const r=roleOf(k);if(!r)return'';let c='';
+  if(v.mt!=null&&v.mt!==v.mt0||v.dx)c+=`${boxOf(k)}{${v.mt!=null&&v.mt!==v.mt0?`margin-top:${v.mt}px!important;`:''}${v.dx?`translate:${v.dx}px 0;`:''}}`;
+  if(v.lh!=null&&v.lh!==v.lh0)c+=`${r[3]}{line-height:${v.lh}!important}`;if(v.ls!=null&&v.ls!==v.ls0)c+=`${r[3]}{letter-spacing:${v.ls}em!important}`;return c}).join('\n');
+  pushTune();
+  try{localStorage.setItem('ax-sp2',JSON.stringify(SP))}catch(e){}}
+spCSS();
+let spOn=false,spK=null;
+function spEls(k){return [...document.querySelectorAll(roleOf(k)[3])].filter(x=>!x.closest('.lens')&&x.getClientRects().length)}
+function spState(k){if(!SP[k]){const t=spEls(k)[0],b=t&&(t.closest(boxOf(k))||t),cs=b?getComputedStyle(b):null,ct=t?getComputedStyle(t):null;
+    const mt=cs?Math.round(parseFloat(cs.marginTop)):0,lh=ct?(parseFloat(ct.lineHeight)/parseFloat(ct.fontSize)||1.5):1.5;
+    const ls=ct?((parseFloat(ct.letterSpacing)||0)/parseFloat(ct.fontSize)):0;
+    SP[k]={mt0:mt,mt,dx:0,lh0:+lh.toFixed(2),lh:+lh.toFixed(2),ls0:+ls.toFixed(2),ls:+ls.toFixed(2)}}if(SP[k].ls==null){SP[k].ls0=0;SP[k].ls=0}return SP[k]}
+function spMark(){document.querySelectorAll('.sp-sel').forEach(x=>x.classList.remove('sp-sel'));if(!spK)return;
+  const bs=[...new Set(spEls(spK).map(x=>x.closest(boxOf(spK))||x))];bs.forEach(x=>x.classList.add('sp-sel'));return bs.length}
+function spInfo(){if(!spK){$('spInfo').innerHTML='间距模式：点页面上任意一段文字来选中它';return}const r=roleOf(spK),v=spState(spK),n=spMark();
+  $('spInfo').innerHTML=`已选中：<b>${r[1]}</b>${n>1?`（页面上共 ${n} 处，会一起变）`:''}<small>上方距离 ${v.mt}px${v.mt!==v.mt0?`（原 ${v.mt0}）`:''} · 左右偏移 ${v.dx}px · 行距 ${v.lh}${v.lh!==v.lh0?`（原 ${v.lh0}）`:''} · 字间距 ${v.ls}${v.ls!==v.ls0?`（原 ${v.ls0}）`:''}</small>`}
+function spDo(a,big){if(!spK)return;const v=spState(spK),st=big?10:2;
+  if(a==='up')v.mt-=st;else if(a==='down')v.mt+=st;else if(a==='left')v.dx-=st;else if(a==='right')v.dx+=st;
+  else if(a==='lh+')v.lh=+(v.lh+(big?.2:.05)).toFixed(2);else if(a==='lh-')v.lh=+Math.max(.8,v.lh-(big?.2:.05)).toFixed(2);
+  else if(a==='ls+')v.ls=+(v.ls+(big?.05:.01)).toFixed(2);else if(a==='ls-')v.ls=+(v.ls-(big?.05:.01)).toFixed(2);
+  else if(a==='undo'){delete SP[spK]}
+  spCSS();spInfo()}
+function spToggle(on){spOn=on;document.body.classList.toggle('spmode',on);$('spbar').hidden=!on;if(!on){spK=null;spMark();unhl()}else{$('szp').open=false;spInfo()}}
+$('spOn').onclick=()=>spToggle(true);
+$('spbar').addEventListener('click',e=>{const b=e.target.closest('button');if(!b)return;const a=b.dataset.a;if(a==='exit')spToggle(false);else spDo(a,e.altKey)});
+function roleAt(el){for(let n=el;n&&n!==document.body;n=n.parentElement){if(n.closest('.rvp,.spbar,.fsbox'))return null;
+  const r=FS.find(r=>r.length>1&&n.matches(r[3]));if(r)return r[0]}return null}
+document.addEventListener('click',e=>{if(!spOn)return;if(e.target.closest('.spbar'))return;e.preventDefault();e.stopPropagation();
+  const k=roleAt(e.target);if(k){spK=k;spInfo()}},true);
+document.addEventListener('mouseover',e=>{if(!spOn||e.target.closest('.spbar'))return;const k=roleAt(e.target);unhl();if(!k)return;hl=spEls(k);hl.forEach(x=>x.classList.add('fs-hl'))});
+addEventListener('keydown',e=>{if(!spOn)return;const m={ArrowUp:'up',ArrowDown:'down',ArrowLeft:'left',ArrowRight:'right'}[e.key];
+  if(e.key==='Escape'){e.stopImmediatePropagation();spToggle(false);return}
+  if(!m)return;e.preventDefault();e.stopImmediatePropagation();
+  if(e.shiftKey)spDo({up:'lh+',down:'lh-',left:'ls-',right:'ls+'}[m],e.altKey);else spDo(m,e.altKey)},true);
+$('fsX').onclick=()=>$('fsBox').hidden=true;
+$('fsBox').addEventListener('click',e=>{if(e.target===$('fsBox'))$('fsBox').hidden=true});
+$('fsDo').onclick=async()=>{const t=$('fsTxt');t.select();let ok=false;try{await navigator.clipboard.writeText(t.value);ok=true}catch(e){try{ok=document.execCommand('copy')}catch(_){}}
+  $('fsOk').textContent=ok?'已复制 ✓':'浏览器不允许自动复制，请按 Ctrl+C / ⌘+C'};
+if(matchMedia('(max-width:700px)').matches)$('szp').open=false;
+requestAnimationFrame(()=>setTimeout(()=>$('top').classList.remove('pre'),120));
+
+/* reveal on scroll */
+const io=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target)}}),{rootMargin:'0px 0px -12% 0px'});
+document.querySelectorAll('.rv,.rise').forEach(x=>io.observe(x));
+
+/* scroll-linked */
+const nav=$('nav'),pimg=$('pimg'),por=$('portrait'),rail=$('rail');
+function onScroll(){const vh=innerHeight;nav.classList.toggle('solid',scrollY>vh*.6);
+  const r=por.getBoundingClientRect(),p=Math.min(1,Math.max(0,(vh-r.top)/(vh*.55)));
+  pimg.style.filter=`blur(${(1-p)*20}px)`;pimg.style.transform=`scale(${1.1-.1*p})`;
+  const rr=rail.getBoundingClientRect();rail.style.setProperty('--p',Math.min(1,Math.max(0,(vh*.65-rr.top)/rr.height)));
+  rail.querySelectorAll('.ti').forEach(t=>t.classList.toggle('on',t.getBoundingClientRect().top+34<vh*.65));
+  let c=null;['about','path','work','contact'].forEach(id=>{if($(id).getBoundingClientRect().top<vh*.45)c=id});
+  document.querySelectorAll('.links>a').forEach(a=>a.classList.toggle('on',a.getAttribute('href')==='#'+c))}
+addEventListener('scroll',onScroll,{passive:true});addEventListener('resize',onScroll);onScroll();
+
+/* cursor */
+const stars={mx:-999,my:-999};
+if(matchMedia('(hover:hover) and (pointer:fine)').matches){
+  document.body.classList.add('fx-cursor');
+  const c=$('cur'),ring=$('ring');let mx=-100,my=-100,rx=-100,ry=-100;
+  addEventListener('pointermove',e=>{mx=e.clientX;my=e.clientY;stars.mx=mx;stars.my=my;
+    const lens=e.target.closest('[data-lens]'),link=e.target.closest('a,button');
+    document.body.classList.toggle('c-lens',!!lens);document.body.classList.toggle('c-link',!!link&&!lens);
+    if(lens){const b=lens.getBoundingClientRect(),pd=+lens.dataset.lpad||0,btn=pd===0;lens.style.setProperty('--lx',(mx-b.left+pd)+'px');lens.style.setProperty('--ly',(my-b.top+pd)+'px');lens.style.setProperty('--lrh',(btn?Math.max(40,b.height*.95):Math.min(46,Math.max(26,b.height*.9)))+'px')}});
+  (function loop(){rx+=(mx-rx)*.16;ry+=(my-ry)*.16;c.style.transform=`translate(${mx}px,${my}px)`;ring.style.transform=`translate(${rx}px,${ry}px)`;requestAnimationFrame(loop)})();
+}
+
+/* constellation (from the original site) */
+(function(){const cv=$('stars'),x=cv.getContext('2d'),hero=cv.parentElement,still=matchMedia('(prefers-reduced-motion: reduce)').matches;
+  let W,H,DPR=Math.min(devicePixelRatio||1,2),P=[],vis=true;
+  const T0=performance.now();
+  function size(){W=hero.clientWidth;H=hero.clientHeight;cv.width=W*DPR;cv.height=H*DPR;x.setTransform(DPR,0,0,DPR,0,0);
+    const hb=hero.getBoundingClientRect(),rs=['.who','#statement','.sub','.cta'].map(q=>document.querySelector(q).getBoundingClientRect());
+    const L0=Math.min(...rs.map(r=>r.left))-hb.left,T0_=Math.min(...rs.map(r=>r.top))-hb.top,R0=Math.max(...rs.map(r=>r.right))-hb.left,B0=Math.max(...rs.map(r=>r.bottom))-hb.top;
+    const cx=(L0+R0)/2,cy=(T0_+B0)/2,rx=(R0-L0)/2+10,ry=(B0-T0_)/2+10;
+    const n=Math.round(Math.min(130,Math.max(45,W*H/10000)));
+    P=Array.from({length:n},(_,i)=>{if(i<n*.72){const a=Math.random()*Math.PI*2,pad=24+Math.random()*150,px=Math.min(W-6,Math.max(6,cx+Math.cos(a)*(rx+pad))),py=Math.min(H-6,Math.max(6,cy+Math.sin(a)*(ry+pad*.6)));
+        return {x:px,y:py,hx:px,hy:py,vx:-Math.sin(a)*.18,vy:Math.cos(a)*.18,r:Math.random()*1.5+.7}}
+      return {x:Math.random()*W,y:Math.random()*H,vx:(Math.random()-.5)*.28,vy:(Math.random()-.5)*.28,r:Math.random()*1.5+.7}})}
+  size();addEventListener('resize',size);new IntersectionObserver(e=>vis=e[0].isIntersecting).observe(hero);
+  function f(){if(vis){x.clearRect(0,0,W,H);const hb=hero.getBoundingClientRect(),mx=stars.mx-hb.left,my=stars.my-hb.top;
+    const hold=Math.max(0,1-(performance.now()-T0)/9000);
+    for(const p of P){if(p.hx!=null&&hold>0){p.vx+=(p.hx-p.x)*.0009*hold;p.vy+=(p.hy-p.y)*.0009*hold}const dx=p.x-mx,dy=p.y-my,d=Math.hypot(dx,dy);if(d<150&&d>0){p.vx+=dx/d*.022;p.vy+=dy/d*.022}p.vx*=.992;p.vy*=.992;
+      if(Math.hypot(p.vx,p.vy)<.08){p.vx+=(Math.random()-.5)*.02;p.vy+=(Math.random()-.5)*.02}p.x+=p.vx;p.y+=p.vy;if(p.x<0||p.x>W)p.vx*=-1;if(p.y<0||p.y>H)p.vy*=-1}
+    for(let i=0;i<P.length;i++){const a=P[i];for(let j=i+1;j<P.length;j++){const b=P[j],d=Math.hypot(a.x-b.x,a.y-b.y);if(d<135){x.strokeStyle=`rgba(124,82,220,${.26*(1-d/135)})`;x.lineWidth=1;x.beginPath();x.moveTo(a.x,a.y);x.lineTo(b.x,b.y);x.stroke()}}
+      const dm=Math.hypot(a.x-mx,a.y-my);if(dm<170){x.strokeStyle=`rgba(124,82,220,${.3*(1-dm/170)})`;x.beginPath();x.moveTo(a.x,a.y);x.lineTo(mx,my);x.stroke()}
+      x.fillStyle=`rgba(124,82,220,${dm<170?.8:.5})`;x.beginPath();x.arc(a.x,a.y,a.r,0,7);x.fill()}}
+    if(!still)requestAnimationFrame(f)}f()})();
+</script>

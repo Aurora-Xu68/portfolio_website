@@ -113,51 +113,6 @@ html[lang=en] .sh small{display:none}
 .cvl{color:var(--ink)!important}.cvl i{font-style:normal;color:var(--accent)}
 @media (max-width:900px){.links>a:not(.cvl){display:none!important}.links>a.cvl{display:inline-block}}
 /* preview panel (prototype only) */
-.rvp{box-sizing:border-box;position:fixed;right:16px;bottom:16px;z-index:110;background:rgba(253,252,255,.94);-webkit-backdrop-filter:blur(12px);backdrop-filter:blur(12px);border:1px solid var(--line);border-radius:16px;box-shadow:0 18px 40px -24px rgba(91,58,176,.5);font-family:'Inter',sans-serif;font-size:12px;color:var(--ink-2);max-width:calc(100vw - 32px)}
-.rvp .sz{width:min(340px,calc(100vw - 32px));max-height:min(70vh,640px);overflow:auto;padding:0 16px 14px}
-.rvp .sz h4{margin:14px 0 6px;font-size:11px;font-weight:500;letter-spacing:.14em;color:var(--ink)}
-.rvp .row{display:grid;grid-template-columns:26px minmax(0,1fr) 26px;grid-template-areas:'l l v' 'm s p';gap:2px 8px;align-items:center;padding:6px;margin:0 -6px;border-radius:8px}
-.rvp .row>span{grid-area:l}.rvp .row>b{grid-area:v}.rvp .row>input{grid-area:s;min-width:0}.rvp .row>.st[data-d='-1']{grid-area:m}.rvp .row>.st[data-d='1']{grid-area:p}
-.rvp .st{width:26px;height:26px;border-radius:50%;border:1px solid var(--line);background:var(--surface);color:var(--accent-deep);text-align:center;font-size:15px;line-height:1}
-.rvp .st:hover{background:var(--tint)}
-.rvp .row:hover{background:var(--tint)}
-.rvp .row span{font-size:12px;color:var(--ink-2);line-height:1.35}
-.rvp .row span i{display:block;font-style:normal;font-size:10.5px;color:var(--mute)}
-.rvp input[type=range]{width:100%;accent-color:var(--accent)}
-.rvp .row b{font:500 12px 'Inter',sans-serif;color:var(--accent-deep);text-align:right;margin:0;letter-spacing:0}
-.rvp .ft{position:sticky;bottom:-14px;background:rgba(253,252,255,.97);padding:10px 0 4px;margin-top:10px;border-top:1px solid var(--line);display:flex;gap:14px;font-size:12px}
-.rvp .ft button{color:var(--accent)}
-.rvp textarea{width:100%;height:120px;margin-top:8px;font:11px/1.5 'Inter',monospace;color:var(--ink-2);border:1px solid var(--line);border-radius:8px;padding:8px;background:var(--surface)}
-.fsbox{position:fixed;inset:0;z-index:115;background:rgba(39,31,63,.18);display:grid;place-items:center;padding:16px}
-.fsbox[hidden]{display:none}
-.fsbox>div{width:min(560px,100%);background:var(--surface);border:1px solid var(--line);border-radius:18px;padding:22px;box-shadow:0 30px 70px -30px rgba(91,58,176,.5);font-family:'Inter','Noto Sans SC',sans-serif}
-.fsbox b{font-weight:500;color:var(--ink)}.fsbox p{margin:6px 0 12px;font-size:13px;color:var(--ink-2)}
-.fsbox textarea{width:100%;height:min(52vh,460px);font:12px/1.7 'Inter','Noto Sans SC',sans-serif;color:var(--ink);border:1px solid var(--line);border-radius:10px;padding:10px;background:var(--ground);resize:vertical}
-.fsbox .acts{display:flex;gap:16px;align-items:center;margin-top:12px;font-size:13px}.fsbox .acts button{color:var(--accent)}.fsbox #fsX{margin-left:auto;color:var(--ink-2)}
-.rvp .modes{padding:0 16px 4px}.rvp .tst{margin:0 0 8px;font-size:11px;color:var(--mute)}.rvp .modes button{width:100%;text-align:left;padding:9px 12px;border-radius:10px;background:var(--tint);color:var(--accent-deep);font-size:12px}
-.spbar{position:fixed;left:50%;bottom:16px;transform:translateX(-50%);z-index:112;width:min(640px,calc(100vw - 24px));background:rgba(253,252,255,.97);border:1px solid #CDBDF3;border-radius:16px;box-shadow:0 20px 50px -24px rgba(91,58,176,.55);padding:12px 14px;font-family:'Inter','Noto Sans SC',sans-serif}
-.spbar[hidden]{display:none}
-.spinfo{font-size:13px;color:var(--ink);line-height:1.5}.spinfo small{display:block;color:var(--ink-2);font-size:12px}
-.spkeys{display:flex;flex-wrap:wrap;gap:6px;align-items:center;margin-top:8px}
-.spkeys button{min-width:34px;height:32px;padding:0 10px;border-radius:9px;border:1px solid var(--line);background:var(--surface);color:var(--accent-deep);font-size:13px}
-.spkeys button:hover{background:var(--tint)}.spkeys .sep{width:1px;height:20px;background:var(--line);margin:0 4px}.spkeys .ex{margin-left:auto;background:var(--accent);color:#fff;border-color:var(--accent)}
-.sphint{margin-top:6px;font-size:11px;color:var(--mute)}
-body.spmode .rvp{display:none}
-.sp-sel{outline:2px solid var(--accent)!important;outline-offset:5px;border-radius:4px}
-@media (hover:none){.sphint{display:none}}
-.fs-hl{outline:1.5px dashed var(--accent)!important;outline-offset:4px;border-radius:4px}
-.rvp summary{list-style:none;padding:10px 16px;cursor:pointer;color:var(--accent-deep);letter-spacing:.06em}
-.rvp summary::-webkit-details-marker{display:none}
-.rvp .in{padding:2px 16px 14px;display:grid;grid-template-columns:auto minmax(0,1fr);gap:8px 12px;align-items:center;width:min(430px,calc(100vw - 32px))}
-.rvp .in h4{grid-column:1/-1;margin:8px 0 0;font-size:11px;font-weight:500;letter-spacing:.14em;color:var(--ink)}
-.rvp label{font-size:12px;color:var(--ink-2);white-space:nowrap}
-.rvp select{font:inherit;font-size:12px;color:var(--accent-deep);background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:6px 8px;width:100%}
-.rvp .now{grid-column:1/-1;font-size:11px;line-height:1.7;color:var(--mute);border-top:1px solid var(--line);padding-top:8px;margin-top:4px}
-.rvp .now button{margin-left:6px;color:var(--accent)}
-.rvp b{font-weight:500;color:var(--ink);font-size:11px;letter-spacing:.12em;margin-top:4px}
-.seg{display:flex;flex-wrap:wrap;gap:6px}
-.seg button{padding:5px 11px;border-radius:99px;border:1px solid var(--line);background:var(--surface);color:var(--ink-2);font-size:12px}
-.seg button[aria-pressed="true"]{background:var(--tint);border-color:#CDBDF3;color:var(--accent-deep)}
 
 /* ---------- projects: big editorial rows, hover expands ---------- */
 .pj{border-top:1px solid var(--line)}
@@ -337,6 +292,52 @@ body.paged main{opacity:0;filter:blur(8px);transform:translateX(-6vw)}
 .entry h3{margin-top:-4px}
 .entry .d{margin-top:6px}
 .chap p{line-height:2;letter-spacing:.02em}
+
+/* type scale (tuned by Aurora) */
+.logo{font-size:13px!important}
+.links>a{font-size:16px!important}
+.lang button{font-size:13px!important}
+.who .zh{font-size:17px!important}
+.who .en{font-size:15px!important}
+.statement{font-size:clamp(38px,5.90vw,85px)!important}
+.sub{font-size:17px!important}
+.btn{font-size:15px!important}
+.corner{font-size:9px!important}
+.sh h2{font-size:22px!important}
+.sh small{font-size:13px!important}
+.about .txt p{font-size:clamp(16px,1.46vw,21px)!important}
+.ti .d{font-size:16px!important}
+.ti h3{font-size:22px!important}
+.ti .r{font-size:15px!important}
+.pj-head .d{font-size:15px!important}
+.pj-head h3{font-size:clamp(20px,2.15vw,31px)!important}
+.pj-head .cat{font-size:14px!important}
+.pj-in p{font-size:17px!important}
+.open-btn{font-size:14px!important}
+.tools{font-size:13px!important}
+.track span{font-size:clamp(40px,5.90vw,85px)!important}
+.kit h3{font-size:16px!important}
+.kit p{font-size:14px!important}
+.contact .big{font-size:clamp(28px,3.89vw,56px)!important}
+.contact .mail{font-size:22px!important}
+footer{font-size:11px!important}
+.back{font-size:15px!important}
+.detail .kick{font-size:11px!important}
+.detail h1{font-size:clamp(32px,4.79vw,69px)!important}
+.meta small{font-size:12px!important}
+.meta div{font-size:15px!important}
+.chap h2{font-size:15px!important}
+.chap p{font-size:18px!important}
+.steps li{font-size:18px!important}
+.bullets li{font-size:18px!important}
+.entry h3{font-size:22px!important}
+.entry .r{font-size:15px!important}
+.entry .d{font-size:12px!important}
+.entry p{font-size:16px!important}
+.courses li{font-size:15px!important}
+.prv{font-size:13px!important}
+.nx small{font-size:13px!important}
+.nx .t{font-size:clamp(28px,4.79vw,69px)!important}
 </style>
 
 <div class="wipe" id="wipe" aria-hidden="true"></div><div class="cur" id="cur"></div><div class="ring" id="ring"></div>
@@ -409,15 +410,6 @@ body.paged main{opacity:0;filter:blur(8px);transform:translateX(-6vw)}
   <div class="wrap" id="dbody"></div>
 </div>
 
-<div class="fsbox" id="fsBox" hidden><div><b>全部字号</b><p>已经全部选中，按 Ctrl+C（Mac 用 ⌘+C）复制，或点「复制」，然后粘贴发给我。</p><textarea id="fsTxt" readonly></textarea><div class="acts"><button id="fsDo">复制</button><span id="fsOk"></span><button id="fsX">关闭</button></div></div></div>
-<details class="rvp" id="szp" hidden><summary>排版调节 ▸</summary><div class="modes"><p class="tst" id="tuneSt">连接中…</p><button id="spOn">间距模式：点页面上的字来移动 ▸</button></div><div class="sz" id="sz"></div></details>
-<div class="spbar" id="spbar" hidden>
-  <div class="spinfo" id="spInfo">间距模式：点页面上任意一段文字来选中它</div>
-  <div class="spkeys"><button data-a="up" title="上移（键盘 ↑）">↑</button><button data-a="down" title="下移（键盘 ↓）">↓</button><button data-a="left" title="左移（键盘 ←）">←</button><button data-a="right" title="右移（键盘 →）">→</button>
-  <span class="sep"></span><button data-a="lh-" title="行距变小（Shift+↓）">行距 −</button><button data-a="lh+" title="行距变大（Shift+↑）">行距 +</button><button data-a="ls-" title="字间距变小（Shift+←）">字距 −</button><button data-a="ls+" title="字间距变大（Shift+→）">字距 +</button>
-  <span class="sep"></span><button data-a="undo" title="把这一项恢复原样">还原这项</button><button data-a="exit" class="ex">完成</button></div>
-  <div class="sphint">键盘：↑↓←→ 移动 2px · 按住 Alt/Option 一次 10px · Shift+↑↓ 行距（行与行）· Shift+←→ 字间距（字与字）· Esc 完成</div>
-</div>
 
 <script>
 const T={
@@ -569,136 +561,6 @@ $('lz').onclick=()=>setLang('zh');$('le').onclick=()=>setLang('en');
 render();
 {const k=keyOf(location.hash);if(k){document.body.classList.add('lock','paged');fill(k);det.classList.add('show');setTimeout(()=>jump(k),300)}}
 /* preview panel */
-/* tuning is saved to the artifact's db so Claude can read it (prototype only) */
-let TDB=null,tuneT=null,tuneReady=false;
-function tuneFlag(t){const e=document.getElementById('tuneSt');if(e)e.textContent=t}
-function pushTune(){if(!tuneReady||!TDB)return;clearTimeout(tuneT);tuneFlag('同步中…');tuneT=setTimeout(()=>{
-  TDB.doc('tuning/current').set({fs:FV,sp:SP,at:new Date().toISOString()}).then(()=>tuneFlag('已自动同步给 Claude ✓')).catch(e=>tuneFlag('同步失败（'+(e&&e.code||'未知')+'），可用下方导出'))},900)}
-(async()=>{try{TDB=window.claude&&await window.claude.use('db')}catch(e){TDB=null}
-  if(!TDB){tuneFlag('这个窗口不能同步，请用下方导出');return}tuneReady=true;pushTune()})();
-/* size tuner (prototype only): every kind of text has its own size; fluid ones shrink on small screens */
-const FS=[
- ['顶部与开场'],
- ['logo','Logo「AURORA XU」','导航和详情页顶部','.logo',13],
- ['nav','导航链接','关于 / 经历 / 项目 / 联系 / 简历','.links>a',16],
- ['langb','中 / EN 切换','','.lang button',13],
- ['name','名字「徐蕴玮」','开场左上','.who .zh',17],
- ['nameEn','名字英文「AURORA XU」','名字旁边','.who .en',15],
- ['stmt','开场标语','最大的那句话','.statement',85,38],
- ['sub','标语下的介绍','','.sub',17],
- ['btn','按钮文字','查看项目 / 完整简历 / LinkedIn','.btn',15],
- ['clock','右下角时间','','.corner',9],
- ['栏目'],
- ['secT','栏目名','关于我 / 教育与经历 / 项目案例 / 保持联系','.sh h2',22],
- ['secEn','栏目英文小字','ABOUT / PATH …','.sh small',13],
- ['关于我'],
- ['about','关于我正文','','.about .txt p',21,16],
- ['教育与经历'],
- ['tiD','日期','2024 — 2026','.ti .d',16],
- ['tiT','学校 / 公司名','','.ti h3',22],
- ['tiR','学位 / 职位','','.ti .r',15],
- ['项目列表'],
- ['pjD','年份','','.pj-head .d',15],
- ['pjT','项目名','','.pj-head h3',31,20],
- ['pjC','类别','数据分析 · 战略规划','.pj-head .cat',14],
- ['pjS','展开后的简介','','.pj-in p',17],
- ['pjO','「查看项目详情」','','.open-btn',14],
- ['pjTool','工具','R · NodeXL','.tools',13],
- ['滚动字带与工具箱'],
- ['band','滚动大字带','组织 · 策略 · 洞察','.track span',85,40],
- ['kitH','工具箱小标题','人力资源 / 数据分析 …','.kit h3',16],
- ['kitP','工具箱内容','','.kit p',14],
- ['联系'],
- ['big','联系区大字','无论是岗位机会…','.contact .big',56,28],
- ['mail','邮箱','','.contact .mail',22],
- ['foot','页脚','© 2026 …','footer',11],
- ['详情页（项目 / 简历）'],
- ['back','「返回主页」','顶部左边','.back',15],
- ['kick','页眉小字','CASE STUDY · 01 / 05','.detail .kick',11],
- ['h1','页面大标题','项目名 / 简历','.detail h1',69,32],
- ['metaL','信息标签','时间 / 类别 / 工具','.meta small',12],
- ['metaV','信息内容','2025.09 — 11 …','.meta div',15],
- ['chap','段落标签','01 背景 / 02 过程 …','.chap h2',15],
- ['chapP','背景正文','','.chap p',18],
- ['steps','过程条目','','.steps li',18],
- ['bul','结果 / 证书 / 荣誉条目','','.bullets li',18],
- ['eT','简历：学校 / 公司名','','.entry h3',22],
- ['eR','简历：学位 / 职位','','.entry .r',15],
- ['eD','简历：日期','','.entry .d',12],
- ['eP','简历：说明文字','','.entry p',16],
- ['course','简历：课程','','.courses li',15],
- ['prv','「上一个项目」','','.prv',13],
- ['nxL','「下一个项目」小字','','.nx small',13],
- ['nxT','下一个项目名（页底大字）','','.nx .t',69,28]];
-const FSD={};FS.forEach(r=>{if(r.length>1)FSD[r[0]]=r[4]});
-let FV={...FSD};try{Object.assign(FV,JSON.parse(localStorage.getItem('ax-fs2')||'{}'))}catch(e){}
-const fst=document.createElement('style');document.head.appendChild(fst);
-function fsCSS(){fst.textContent=FS.filter(r=>r.length>1).map(([k,,,sel,,fl])=>{const v=FV[k];
-  return `${sel}{font-size:${fl?`clamp(${Math.min(fl,v)}px,${(v/14.4).toFixed(2)}vw,${v}px)`:v+'px'}!important}`}).join('\n');
-  try{localStorage.setItem('ax-fs2',JSON.stringify(FV))}catch(e){}pushTune()}
-function fsUI(){$('sz').innerHTML=FS.map(r=>r.length===1?`<h4>${r[0]}</h4>`:`<div class="row" data-fk="${r[0]}"><span>${r[1]}${r[2]?`<i>${r[2]}</i>`:''}</span><b>${FV[r[0]]}</b><button class="st" data-d="-1" aria-label="小一号">−</button><input type="range" min="${Math.max(8,Math.round(r[4]*.4))}" max="${Math.round(r[4]*2.2)}" step="1" value="${FV[r[0]]}"><button class="st" data-d="1" aria-label="大一号">+</button></div>`).join('')
-  +'<div class="ft"><button id="fsCopy">导出全部数值（发给我）</button><button id="fsReset">全部恢复默认</button></div>';
-  $('fsCopy').onclick=()=>{let g='',out=[];FS.forEach(r=>{if(r.length===1){g=r[0];out.push('\n【'+g+'】');return}
-      const v=FV[r[0]];out.push(`${r[1]}：${v}${v!==r[4]?`（原 ${r[4]}，已改）`:''}`)});
-    $('fsBox').hidden=false;const t=$('fsTxt');const sp=Object.entries(SP).filter(([k,v])=>roleOf(k)&&(v.mt!==v.mt0||v.dx||v.lh!==v.lh0||(v.ls!=null&&v.ls!==v.ls0))).map(([k,v])=>`${roleOf(k)[1]}：${[v.mt!==v.mt0?`上方距离 ${v.mt0} → ${v.mt}`:'',v.dx?`左右偏移 ${v.dx}`:'',v.lh!==v.lh0?`行距 ${v.lh0} → ${v.lh}`:'',v.ls!=null&&v.ls!==v.ls0?`字间距 ${v.ls0} → ${v.ls}em`:''].filter(Boolean).join('，')}`);
-    t.value='字号（电脑屏幕，单位 px）'+out.join('\n')+'\n\n【间距与行距（只列改过的）】\n'+(sp.join('\n')||'（没有改动）');t.focus();t.select()};
-  $('fsReset').onclick=()=>{FV={...FSD};fsCSS();fsUI();SP={};spCSS();lensAll()}}
-$('sz').addEventListener('input',e=>{const row=e.target.closest('.row');if(!row)return;FV[row.dataset.fk]=+e.target.value;row.querySelector('b').textContent=e.target.value;fsCSS()});
-$('sz').addEventListener('change',()=>lensAll());
-$('sz').addEventListener('click',e=>{const b=e.target.closest('.st');if(!b)return;const row=b.closest('.row'),inp=row.querySelector('input'),v=Math.min(+inp.max,Math.max(+inp.min,+inp.value+ +b.dataset.d));
-  inp.value=v;FV[row.dataset.fk]=v;row.querySelector('b').textContent=v;fsCSS();lensAll()});
-/* hover a row → outline the text it controls */
-let hl=[];const unhl=()=>{hl.forEach(x=>x.classList.remove('fs-hl'));hl=[]};
-$('sz').addEventListener('mouseover',e=>{const row=e.target.closest('.row');unhl();if(!row)return;const r=FS.find(x=>x[0]===row.dataset.fk);
-  hl=[...document.querySelectorAll(r[3])].filter(x=>!x.closest('.lens'));hl.forEach(x=>x.classList.add('fs-hl'))});
-$('sz').addEventListener('mouseleave',unhl);
-fsCSS();fsUI();
-/* the tuning panel is for Aurora only: shown in the Claude preview, or on the live site with ?tune */
-if(window.claude||/[?&]tune\b/.test(location.search))$('szp').hidden=false;
-/* spacing mode: pick a kind of text, nudge it with arrow keys; applies to every element of that kind */
-const BOX={name:'.who',nameEn:'.who',secT:'.sh',secEn:'.sh',btn:'.cta',nav:'.links',langb:'.lang'};
-let SP={};try{SP=JSON.parse(localStorage.getItem('ax-sp2')||'{}')}catch(e){}
-const spst=document.createElement('style');document.head.appendChild(spst);
-const roleOf=k=>FS.find(r=>r[0]===k),boxOf=k=>BOX[k]||roleOf(k)[3];
-function spCSS(){spst.textContent=Object.entries(SP).map(([k,v])=>{const r=roleOf(k);if(!r)return'';let c='';
-  if(v.mt!=null&&v.mt!==v.mt0||v.dx)c+=`${boxOf(k)}{${v.mt!=null&&v.mt!==v.mt0?`margin-top:${v.mt}px!important;`:''}${v.dx?`translate:${v.dx}px 0;`:''}}`;
-  if(v.lh!=null&&v.lh!==v.lh0)c+=`${r[3]}{line-height:${v.lh}!important}`;if(v.ls!=null&&v.ls!==v.ls0)c+=`${r[3]}{letter-spacing:${v.ls}em!important}`;return c}).join('\n');
-  pushTune();
-  try{localStorage.setItem('ax-sp2',JSON.stringify(SP))}catch(e){}}
-spCSS();
-let spOn=false,spK=null;
-function spEls(k){return [...document.querySelectorAll(roleOf(k)[3])].filter(x=>!x.closest('.lens')&&x.getClientRects().length)}
-function spState(k){if(!SP[k]){const t=spEls(k)[0],b=t&&(t.closest(boxOf(k))||t),cs=b?getComputedStyle(b):null,ct=t?getComputedStyle(t):null;
-    const mt=cs?Math.round(parseFloat(cs.marginTop)):0,lh=ct?(parseFloat(ct.lineHeight)/parseFloat(ct.fontSize)||1.5):1.5;
-    const ls=ct?((parseFloat(ct.letterSpacing)||0)/parseFloat(ct.fontSize)):0;
-    SP[k]={mt0:mt,mt,dx:0,lh0:+lh.toFixed(2),lh:+lh.toFixed(2),ls0:+ls.toFixed(2),ls:+ls.toFixed(2)}}if(SP[k].ls==null){SP[k].ls0=0;SP[k].ls=0}return SP[k]}
-function spMark(){document.querySelectorAll('.sp-sel').forEach(x=>x.classList.remove('sp-sel'));if(!spK)return;
-  const bs=[...new Set(spEls(spK).map(x=>x.closest(boxOf(spK))||x))];bs.forEach(x=>x.classList.add('sp-sel'));return bs.length}
-function spInfo(){if(!spK){$('spInfo').innerHTML='间距模式：点页面上任意一段文字来选中它';return}const r=roleOf(spK),v=spState(spK),n=spMark();
-  $('spInfo').innerHTML=`已选中：<b>${r[1]}</b>${n>1?`（页面上共 ${n} 处，会一起变）`:''}<small>上方距离 ${v.mt}px${v.mt!==v.mt0?`（原 ${v.mt0}）`:''} · 左右偏移 ${v.dx}px · 行距 ${v.lh}${v.lh!==v.lh0?`（原 ${v.lh0}）`:''} · 字间距 ${v.ls}${v.ls!==v.ls0?`（原 ${v.ls0}）`:''}</small>`}
-function spDo(a,big){if(!spK)return;const v=spState(spK),st=big?10:2;
-  if(a==='up')v.mt-=st;else if(a==='down')v.mt+=st;else if(a==='left')v.dx-=st;else if(a==='right')v.dx+=st;
-  else if(a==='lh+')v.lh=+(v.lh+(big?.2:.05)).toFixed(2);else if(a==='lh-')v.lh=+Math.max(.8,v.lh-(big?.2:.05)).toFixed(2);
-  else if(a==='ls+')v.ls=+(v.ls+(big?.05:.01)).toFixed(2);else if(a==='ls-')v.ls=+(v.ls-(big?.05:.01)).toFixed(2);
-  else if(a==='undo'){delete SP[spK]}
-  spCSS();spInfo()}
-function spToggle(on){spOn=on;document.body.classList.toggle('spmode',on);$('spbar').hidden=!on;if(!on){spK=null;spMark();unhl()}else{$('szp').open=false;spInfo()}}
-$('spOn').onclick=()=>spToggle(true);
-$('spbar').addEventListener('click',e=>{const b=e.target.closest('button');if(!b)return;const a=b.dataset.a;if(a==='exit')spToggle(false);else spDo(a,e.altKey)});
-function roleAt(el){for(let n=el;n&&n!==document.body;n=n.parentElement){if(n.closest('.rvp,.spbar,.fsbox'))return null;
-  const r=FS.find(r=>r.length>1&&n.matches(r[3]));if(r)return r[0]}return null}
-document.addEventListener('click',e=>{if(!spOn)return;if(e.target.closest('.spbar'))return;e.preventDefault();e.stopPropagation();
-  const k=roleAt(e.target);if(k){spK=k;spInfo()}},true);
-document.addEventListener('mouseover',e=>{if(!spOn||e.target.closest('.spbar'))return;const k=roleAt(e.target);unhl();if(!k)return;hl=spEls(k);hl.forEach(x=>x.classList.add('fs-hl'))});
-addEventListener('keydown',e=>{if(!spOn)return;const m={ArrowUp:'up',ArrowDown:'down',ArrowLeft:'left',ArrowRight:'right'}[e.key];
-  if(e.key==='Escape'){e.stopImmediatePropagation();spToggle(false);return}
-  if(!m)return;e.preventDefault();e.stopImmediatePropagation();
-  if(e.shiftKey)spDo({up:'lh+',down:'lh-',left:'ls-',right:'ls+'}[m],e.altKey);else spDo(m,e.altKey)},true);
-$('fsX').onclick=()=>$('fsBox').hidden=true;
-$('fsBox').addEventListener('click',e=>{if(e.target===$('fsBox'))$('fsBox').hidden=true});
-$('fsDo').onclick=async()=>{const t=$('fsTxt');t.select();let ok=false;try{await navigator.clipboard.writeText(t.value);ok=true}catch(e){try{ok=document.execCommand('copy')}catch(_){}}
-  $('fsOk').textContent=ok?'已复制 ✓':'浏览器不允许自动复制，请按 Ctrl+C / ⌘+C'};
-if(matchMedia('(max-width:700px)').matches)$('szp').open=false;
 requestAnimationFrame(()=>setTimeout(()=>$('top').classList.remove('pre'),120));
 
 /* reveal on scroll */

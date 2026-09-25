@@ -667,7 +667,7 @@ const STAR_MAP=null;
    each wandering near its own spot; the ones the pointer / finger stirs are let go and drift freely;
    a reload settles them again */
 (function(){const cv=$('stars'),x=cv.getContext('2d'),hero=cv.parentElement,still=matchMedia('(prefers-reduced-motion: reduce)').matches;
-  let W,H,DPR=Math.min(devicePixelRatio||1,2),P=[],vis=true,B,lastW=0,pmx=-999,pmy=-999,svx=0,svy=0;
+  let W,H,DPR=Math.min(devicePixelRatio||1,2),P=[],vis=true,B,lastW=0;
   /* how likely a star settles at (px,py): thin over the words, densest just around them, still present far away */
   function want(px,py){const dx=Math.max(B.l-px,0,px-B.r),dy=Math.max(B.t-py,0,py-B.b),d=Math.hypot(dx,dy);
     if(d===0)return W<700?.8:.3; /* on phones the words fill almost the screen, so they can't push the stars away */return .45+.55*Math.exp(-d/(Math.min(W,H)*.35))}
@@ -697,11 +697,9 @@ const STAR_MAP=null;
   size();addEventListener('resize',size);new IntersectionObserver(e=>vis=e[0].isIntersecting).observe(hero);
   function f(){if(vis){x.clearRect(0,0,W,H);const hb=hero.getBoundingClientRect(),mx=stars.mx-hb.left,my=stars.my-hb.top;
     const now=performance.now();
-    /* how fast the pointer / finger is moving: resting = lines reach to it, moving = it cuts through */
-    let cvx=0,cvy=0;if(mx>-900&&pmx>-900){cvx=mx-pmx;cvy=my-pmy}pmx=mx;pmy=my;svx=svx*.6+cvx*.4;svy=svy*.6+cvy*.4;const sp=Math.hypot(svx,svy);
     for(const p of P){const dx=p.x-mx,dy=p.y-my,d=Math.hypot(dx,dy);
-      if(d<110&&d>0&&sp>1.2){const nx=-svy/sp,ny=svx/sp,side=(dx*nx+dy*ny)>=0?1:-1,f=1-d/110,k=f*Math.min(1,(sp-1.2)/10)*.9;p.vx+=nx*side*k+svx/sp*k*.25;p.vy+=ny*side*k+svy/sp*k*.25;p.h=0;p.hit=now}
-      else if(!p.h&&now-p.hit>3500){const q=spot();p.hx=q[0];p.hy=q[1];p.h=.001}
+      if(d<130&&d>0){const f=1-d/130,k=f*f*.012;p.vx+=dx/d*k;p.vy+=dy/d*k;if(f>.25){p.h=0;p.hit=now}}
+      else if(!p.h&&now-p.hit>3500){let q=spot();for(let k=0;k<12&&Math.hypot(q[0]-mx,q[1]-my)<200;k++)q=spot();if(Math.hypot(q[0]-mx,q[1]-my)>=200){p.hx=q[0];p.hy=q[1];p.h=.001}else p.hit=now}
       if(p.h){if(p.h<1)p.h=Math.min(1,p.h+.004); /* a star let go eases back in slowly, no snap */
         /* the spot itself wanders (random walk, no direction), so the field breathes instead of sitting still */
         p.hx=Math.min(W-6,Math.max(6,p.hx+(Math.random()-.5)*.6));p.hy=Math.min(H-6,Math.max(6,p.hy+(Math.random()-.5)*.6));
@@ -710,7 +708,7 @@ const STAR_MAP=null;
       const damp=.992-.05*(p.h||0);p.vx*=damp;p.vy*=damp;
       if(!p.h&&Math.hypot(p.vx,p.vy)<.08){p.vx+=(Math.random()-.5)*.02;p.vy+=(Math.random()-.5)*.02}p.x+=p.vx;p.y+=p.vy;if(p.x<2){p.x=2;p.vx=Math.abs(p.vx)}else if(p.x>W-2){p.x=W-2;p.vx=-Math.abs(p.vx)}if(p.y<2){p.y=2;p.vy=Math.abs(p.vy)}else if(p.y>H-2){p.y=H-2;p.vy=-Math.abs(p.vy)}}
     for(let i=0;i<P.length;i++){const a=P[i];for(let j=i+1;j<P.length;j++){const b=P[j],d=Math.hypot(a.x-b.x,a.y-b.y);if(d<135){x.strokeStyle=`rgba(124,82,220,${.26*(1-d/135)})`;x.lineWidth=1;x.beginPath();x.moveTo(a.x,a.y);x.lineTo(b.x,b.y);x.stroke()}}
-      const dm=Math.hypot(a.x-mx,a.y-my);if(dm<170){x.strokeStyle=`rgba(124,82,220,${.3*(1-dm/170)})`;x.beginPath();x.moveTo(a.x,a.y);x.lineTo(mx,my);x.stroke()}
+      const dm=Math.hypot(a.x-mx,a.y-my);if(dm<170){x.strokeStyle=`rgba(124,82,220,${.45*(1-dm/170)})`;x.beginPath();x.moveTo(a.x,a.y);x.lineTo(mx,my);x.stroke()}
       x.fillStyle=`rgba(124,82,220,${dm<170?.8:.5})`;x.beginPath();x.arc(a.x,a.y,a.r,0,7);x.fill()}}
     if(!still)requestAnimationFrame(f)}f()})();
 </script>

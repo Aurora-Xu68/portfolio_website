@@ -13,9 +13,9 @@
   /* Chinese: --zd = large type, --zs = small headings; body stays 思源黑体 (Noto Sans SC) as in the specimen */
   --zd:'SHSerif';--zs:'WenKai';--zb:'ZQFS';--zdw:300;
   --serif:var(--ed),var(--zd),'SHSerif',serif;
-  --ks:var(--es),var(--zs),'Noto Sans SC',serif;
-  --sans:var(--et),var(--zb),'Noto Sans SC',sans-serif;
-  --latin:var(--el),var(--zb),'Noto Sans SC',sans-serif;
+  --ks:var(--es),var(--zs),'Songti SC',serif;
+  --sans:var(--et),var(--zb),'Songti SC',serif;
+  --latin:var(--el),var(--zb),'Songti SC',serif;
   --ease:cubic-bezier(.2,.8,.2,1);
   --gut:clamp(20px,5vw,72px);
 }
@@ -42,8 +42,8 @@ nav.top .wrap{display:flex;justify-content:space-between;align-items:center;padd
 .lang button[aria-pressed="true"]{background:var(--tint);color:var(--accent)}
 
 /* ---------- hero ---------- */
-.hero{position:relative;min-height:100svh;display:flex;align-items:center;overflow:hidden}
-#stars{position:absolute;inset:0;width:100%;height:100%;display:block}
+.hero{position:relative;min-height:100vh;min-height:100svh;display:flex;align-items:center;overflow:hidden}
+#stars{position:absolute;top:0;left:0;inset:0;width:100%;height:100%;display:block}
 .hero::after{content:none}
 .hero .wrap{position:relative;z-index:2;width:100%;padding-block:130px 90px}
 .who{display:flex;align-items:baseline;gap:18px;flex-wrap:wrap}
@@ -117,7 +117,7 @@ html[lang=en] .sh small{display:none}
 /* ---------- projects: big editorial rows, hover expands ---------- */
 .pj{border-top:1px solid var(--line)}
 .pj-row{border-bottom:1px solid var(--line);position:relative;transition:background .6s var(--ease)}
-.pj-row::before{content:"";position:absolute;inset:0 calc(var(--gut) * -1);background:var(--surface);opacity:0;transition:opacity .6s var(--ease);z-index:-1;border-radius:0}
+.pj-row::before{content:"";position:absolute;top:0;bottom:0;left:calc(var(--gut) * -1);right:calc(var(--gut) * -1);inset:0 calc(var(--gut) * -1);background:var(--surface);opacity:0;transition:opacity .6s var(--ease);z-index:-1;border-radius:0}
 .pj-row.open::before{opacity:1}
 .pj-head{display:grid;grid-template-columns:minmax(0,3fr) minmax(0,9fr);gap:24px;align-items:baseline;padding:30px 0}
 .pj-head .d{font-family:var(--latin);font-size:13px;letter-spacing:.06em;color:var(--mute)}
@@ -127,7 +127,7 @@ html[lang=en] .sh small{display:none}
 .pj-row.open h3,.pj:not(.has-open) h3{color:var(--ink)}
 .pj.has-open .pj-row:not(.open) h3{color:var(--mute)}
 .pj-body{display:grid;grid-template-rows:0fr;transition:grid-template-rows .65s var(--ease)}
-.pj-body>div{overflow:hidden}
+.pj-body>div{overflow:hidden;margin-inline:calc(var(--gut) * -1);padding-inline:var(--gut)}
 .pj-in{display:grid;grid-template-columns:minmax(0,3fr) minmax(0,9fr);gap:24px;padding:0 0 34px;opacity:0;transform:translateY(-8px);transition:opacity .5s .05s,transform .65s var(--ease)}
 .pj-in p{margin:0 0 18px;font-size:16px;color:var(--ink-2);max-width:40em}
 .pj-in .foot{display:flex;flex-wrap:wrap;gap:10px 22px;align-items:center}
@@ -160,7 +160,7 @@ footer{display:flex;justify-content:space-between;flex-wrap:wrap;gap:12px;paddin
 .rv.in{opacity:1;transform:none}
 
 /* ---------- detail view ---------- */
-.detail{position:fixed;inset:0;z-index:70;background:var(--ground);overflow-y:auto;visibility:hidden}
+.detail{position:fixed;top:0;right:0;bottom:0;left:0;inset:0;z-index:70;background:var(--ground);overflow-y:auto;visibility:hidden}
 .detail.show{visibility:visible}
 .detail .bar{position:sticky;top:0;z-index:2;background:rgba(247,245,252,.86);-webkit-backdrop-filter:blur(14px);backdrop-filter:blur(14px);border-bottom:1px solid var(--line)}
 .detail .bar .wrap{display:flex;justify-content:space-between;align-items:center;padding-block:18px}
@@ -250,7 +250,7 @@ body.c-link .ring{width:56px;height:56px;margin:-28px 0 0 -28px}
 .btn .ic{display:inline-block;width:0;opacity:0;overflow:hidden;transform:translateX(-6px);transition:width .5s var(--ease),opacity .4s,transform .5s var(--ease)}
 .btn:hover .ic{width:1em;opacity:1;transform:none}
 /* full-page detail */
-.wipe{position:fixed;inset:0;z-index:95;background:var(--tint);visibility:hidden;transform:translateY(100%);pointer-events:none}
+.wipe{position:fixed;top:0;right:0;bottom:0;left:0;inset:0;z-index:95;background:var(--tint);visibility:hidden;transform:translateY(100%);pointer-events:none}
 .detail .head h1{transition:clip-path 1.1s var(--ease) .1s,transform 1.1s var(--ease) .1s}
 #dbody.enter .head h1{clip-path:inset(0 0 100% 0);transform:translateY(34px)}
 main{transition:opacity .6s var(--ease),filter .6s var(--ease),transform .7s var(--ease)}
@@ -282,8 +282,38 @@ body.paged main{opacity:0;filter:blur(8px);transform:translateX(-6vw)}
 .prv:hover{color:var(--accent)}
 #top{overflow-x:hidden}
 
+/* headline: three lines, each kept on one line; on phones all three shrink to fit the longest line */
+.statement{max-width:none}
+.statement .ln{display:block;white-space:nowrap}
+.en-line{margin:22px 0 0;font-family:'Newsreader',serif;font-style:italic;font-weight:300;color:var(--mute);letter-spacing:.01em;line-height:1.6;max-width:44em}
+@media (max-width:600px){html .en-line{font-size:15px!important;margin-top:16px}}
+/* copied: the cursor ring swells and a quiet word follows it */
+.cur-lab{position:fixed;left:0;top:0;z-index:121;pointer-events:none;font-family:var(--ks);font-size:12px;letter-spacing:.16em;color:var(--accent-deep);white-space:nowrap;opacity:0;filter:blur(4px);transition:opacity .4s var(--ease),filter .4s var(--ease)}
+body.c-copied .cur-lab{opacity:1;filter:none}
+.cur-lab>span{display:block;transform:translate(-50%,-100%)}
+body.c-copied .ring{opacity:1!important;width:52px;height:52px;margin:-26px 0 0 -26px;border-color:rgba(124,82,220,.7);background:rgba(241,236,253,.55)}
+body.c-copied .cur{opacity:1!important}
+body.c-copied [data-lens]>.lens{--lr:0px!important}
+body.c-tap [data-lens]>.lens{display:none!important}
+.tap-ring{position:absolute;z-index:126;pointer-events:none;width:0;height:0}
+.tap-ring i{position:absolute;left:-26px;top:-26px;width:52px;height:52px;border-radius:50%;border:1px solid rgba(124,82,220,.7);background:rgba(241,236,253,.55);box-shadow:0 8px 22px -8px rgba(91,58,176,.4);transform:scale(.55);opacity:0;transition:transform .6s var(--ease),opacity .4s var(--ease)}
+.tap-ring span{position:absolute;left:0;top:-38px;transform:translate(-50%,-100%);font-family:var(--ks);font-size:12px;letter-spacing:.16em;color:var(--accent-deep);white-space:nowrap;opacity:0;filter:blur(4px);transition:opacity .4s var(--ease),filter .4s var(--ease)}
+.tap-ring.on i{transform:none;opacity:1}.tap-ring.on span{opacity:1;filter:none}
+.tap-ring.off i,.tap-ring.off span{opacity:0}
+/* mail fallback toast */
+.toast{font-family:var(--ks);letter-spacing:.06em;display:flex;align-items:center;gap:10px;-webkit-backdrop-filter:blur(14px);backdrop-filter:blur(14px);background:rgba(253,252,255,.92)}
+.toast i{font-style:normal;display:grid;place-items:center;width:20px;height:20px;border-radius:50%;background:var(--tint);color:var(--accent);font-size:11px}
+/* touch screens: pressed state instead of hover, like native apps */
+html{-webkit-tap-highlight-color:transparent}
+@media (hover:none){
+  a,button,.ti,.pj-head{transition:opacity .18s ease,transform .18s ease}
+  a:active,button:active,.ti:active,.pj-head:active{opacity:.55}
+  .btn:active{opacity:1;transform:scale(.97)}
+}
+.toast{position:fixed;left:50%;bottom:calc(24px + env(safe-area-inset-bottom,0px));z-index:125;transform:translate(-50%,16px);opacity:0;pointer-events:none;background:var(--surface);color:var(--ink);border:1px solid var(--line);border-radius:99px;padding:12px 22px;font-size:14px;box-shadow:0 18px 40px -22px rgba(91,58,176,.55);transition:opacity .4s var(--ease),transform .4s var(--ease);max-width:calc(100vw - 32px);text-align:center}
+.toast.show{opacity:1;transform:translate(-50%,0)}
 /* spacing tuned by Aurora (2026-09) */
-.statement{line-height:1.23}
+.statement{line-height:1.25}
 .sub{line-height:1.9;letter-spacing:-.03em}
 .about .txt p{line-height:2.2}
 .sh{margin-top:2px}
@@ -299,8 +329,11 @@ body.paged main{opacity:0;filter:blur(8px);transform:translateX(-6vw)}
 .lang button{font-size:13px!important}
 .who .zh{font-size:17px!important}
 .who .en{font-size:15px!important}
-.statement{font-size:clamp(38px,5.90vw,85px)!important}
-.sub{font-size:17px!important}
+.statement .ln1{font-size:min(66px,calc((100vw - 2 * var(--gut)) / 11))!important}
+.statement .ln2{font-size:min(68px,calc((100vw - 2 * var(--gut)) / 11))!important}
+.statement .ln3{font-size:min(70px,calc((100vw - 2 * var(--gut)) / 11))!important}
+.en-line{font-size:18px!important}
+.sub{font-size:18px!important}
 .btn{font-size:15px!important}
 .corner{font-size:9px!important}
 .sh h2{font-size:22px!important}
@@ -340,7 +373,7 @@ footer{font-size:11px!important}
 .nx .t{font-size:clamp(28px,4.79vw,69px)!important}
 </style>
 
-<div class="wipe" id="wipe" aria-hidden="true"></div><div class="cur" id="cur"></div><div class="ring" id="ring"></div>
+<div class="wipe" id="wipe" aria-hidden="true"></div><div class="toast" id="toast" role="status" aria-live="polite"></div><div class="cur-lab" id="curLab" aria-hidden="true"></div><div class="cur" id="cur"></div><div class="ring" id="ring"></div>
 
 <nav class="top" id="nav"><div class="wrap">
   <a class="logo" href="#top" data-lens>AURORA XU</a>
@@ -357,6 +390,7 @@ footer{font-size:11px!important}
     <div class="wrap">
       <div class="who"><span class="zh" aria-label="徐蕴玮"><span>徐</span><span>蕴</span><span>玮</span></span><span class="en">Aurora Xu</span></div>
       <h1 class="statement disp" id="statement"></h1>
+      <p class="en-line fade" id="enLine"></p>
       <p class="sub fade" data-k="sub"></p>
       <div class="cta fade">
         <a class="btn btn-solid" href="#work" data-lens><span class="rt"><span><span data-k="b1"></span><span data-k="b1"></span></span></span><span class="ic">→</span></a>
@@ -396,7 +430,7 @@ footer{font-size:11px!important}
       <div class="rv">
         <p class="big disp" id="bigC"></p>
         <div class="row">
-          <a class="mail" href="#contact" id="mail" data-lens>1657715662@qq.com</a>
+          <a class="mail" href="mailto:xu.aurora@outlook.com" id="mail" data-lens>xu.aurora@outlook.com</a>
           <a class="btn btn-ghost" href="https://www.linkedin.com/in/yunwei-xu-83a056310/" target="_blank" rel="noopener" data-lens><span class="rt"><span><span>LinkedIn ↗</span><span>LinkedIn ↗</span></span></span></a>
         </div>
       </div>
@@ -414,28 +448,30 @@ footer{font-size:11px!important}
 <script>
 const T={
 zh:{n1:'关于',n2:'经历',n3:'项目',n4:'联系',b1:'查看项目',b2:'完整简历',m1:'查看完整简历',back:'返回主页',cvn:'简历',foot:'样品页 · 内容待更新',
- statement:[['让组织里的',0],['每一个决定',0],['，',0],['<br>',0],['既有',0],['温度',1],['，',0],['也有',0],['依据',1],['。',0]],
- sub:'新南威尔士大学人力资源管理与商业分析硕士。在 HR 数据、HR 系统和产品之间工作，也自己动手做软件。',
+ statement:[['穿行领域之间',0],['，',0],['<br>',0],['理解问题的',0],['来处',1],['，',0],['<br>',0],['在',0],['行动',1],['中发现',0],['答案',1],['。',0]],
+ enLine:'Crossing fields, back to the roots, finding as I go.',
+ sub:'新南威尔士大学商科硕士。关注人与数据，也做自己的产品。',
  corner:'SYDNEY · HANGZHOU<br>PEOPLE · DATA · SYSTEMS',
  h1:'关于我',h2:'教育与经历',h3:'项目案例',h4:'保持联系',
- about:['我是徐蕴玮，<b>新南威尔士大学人力资源管理与商业分析</b>硕士，2026 年 10 月毕业；本科就读于天津外国语大学人力资源管理与日语双专业。','在贝达药业组织与人才发展部，我管理三个 HR 学习平台，把各方的需求写成供应商可以直接开发的规格，也用 VBA 和 Python 把重复的 HR 数据工作自动化；更早在海康威视做 HRBP 与招聘。工作之外，我用 AI 编程工具做了两款自己的软件。','我反复练习的是同一件事：<b>把人的需求和数据，变成可以落地的系统与判断</b>。'],
+ about:['我是徐蕴玮，<b>新南威尔士大学人力资源管理与商业分析</b>硕士，2026 年 10 月毕业；本科就读于天津外国语大学人力资源管理与日语双专业。','在贝达药业组织与人才发展部，我管理三个 HR 学习平台，把各方的需求写成供应商可以直接开发的规格，也用 VBA 和 Python 把重复的 HR 数据工作自动化；更早在海康威视做 HRBP 与招聘。工作之外，我用 AI 编程工具做了两款自己的软件。','我反复琢磨的是同一件事：<b>在人的需求与数据之间建立连接，将它们落成可用的系统与判断</b>。'],
  path:[['2026.03 — 06','贝达药业','组织与人才发展实习生','w0'],['2024 — 2026.10','新南威尔士大学','硕士 · 人力资源管理与商业分析','e0'],['2022.05 — 07','海康威视','HRBP & 招聘实习生','w1'],['2019 — 2023','天津外国语大学','本科 · 人力资源管理与日语','e1']],
  band:'Organisation · Strategy · Insight · 组织 · 策略 · 洞察 · ',
  kit:[['工具箱',''],['人力资源','培训与项目设计<br>人才测评 · OPQ32r · Belbin<br>结构化面试 · 问卷调研'],['数据分析','SQL · Python · R<br>SAS Viya · Power BI<br>Tableau · Excel'],['HR 系统与产品','北森 LMS · 阔知<br>需求与字段级规格<br>SOP · 供应商协同'],['自动化与开发','VBA · AI 大模型 API<br>Claude Code<br>Cloudflare Workers']],
- big:'无论是<span class="k">项目合作</span>，还是想聊聊<span class="k">组织、数据与系统</span>，都欢迎写信给我。',
+ big:'<span class="k">工作机会</span>、<span class="k">项目合作</span>，或者<span class="k">产品反馈</span>，都欢迎来信。',
  open:'查看项目详情',
  meta:['时间','类别','工具'],chap:['背景','过程','结果'],cvnote:'暂无 PDF 附件，这里是完整内容。',pdf:'下载 PDF',nextL:'下一个项目',prevL:'上一个项目',allL:'已是最后一个项目',backL:'回到主页',
  cv:{kick:'Résumé',title:'简历',edu:'教育背景',work:'工作经历',prod:'独立产品',hon:'荣誉奖项',extra:'课外活动',courses:'主修课程'}},
 en:{n1:'About',n2:'Experience',n3:'Projects',n4:'Contact',b1:'View projects',b2:'Full résumé',m1:'Read the full résumé',back:'Back to home',cvn:'Résumé',foot:'Sample page · content pending',
- statement:[['Every',0],['decision',0],['in',0],['an',0],['organisation,',0],['<br>',0],['made',0],['with',0],['warmth',1],['and',0],['with',0],['evidence.',1]],
- sub:'Master of HR Management & Business Analytics, UNSW. I work between HR data, HR systems and product — and build software of my own.',
+ statement:[['Crossing',0],['fields,',0],['<br>',0],['back',0],['to',0],['the',0],['roots,',1],['<br>',0],['finding',1],['as',0],['I',0],['go.',0]],
+ enLine:'',
+ sub:'Master of Commerce, UNSW. Drawn to people and data, and building products on my own.',
  corner:'SYDNEY · HANGZHOU<br>PEOPLE · DATA · SYSTEMS',
  h1:'About',h2:'Education & experience',h3:'Projects',h4:'Keep in touch',
- about:['I am Aurora Xu, graduating from UNSW Sydney in October 2026 with a Master of Commerce in <b>HR Management & Business Analytics</b>, after a double major in HR Management and Japanese at Tianjin Foreign Studies University.','At Betta Pharmaceuticals I ran three HR learning platforms, turned stakeholders’ needs into specifications vendors could build against, and automated repetitive HR data work in VBA and Python; before that I worked in HRBP and recruitment at Hikvision. Outside work, I have built two software products with AI coding tools.','The thing I keep practising: <b>turning people’s needs and data into systems and judgement that hold up in practice</b>.'],
+ about:['I am Aurora Xu, graduating from UNSW Sydney in October 2026 with a Master of Commerce in <b>HR Management & Business Analytics</b>, after a double major in HR Management and Japanese at Tianjin Foreign Studies University.','At Betta Pharmaceuticals I ran three HR learning platforms, turned stakeholders’ needs into specifications vendors could build against, and automated repetitive HR data work in VBA and Python; before that I worked in HRBP and recruitment at Hikvision. Outside work, I have built two software products with AI coding tools.','The one thing I keep turning over: <b>how to connect what people want with data, and turn both into systems and decisions</b>.'],
  path:[['2026.03 — 06','Betta Pharmaceuticals','Organisational & Talent Development Intern','w0'],['2024 — 2026.10','UNSW Sydney','Master of Commerce · HRM & Business Analytics','e0'],['2022.05 — 07','Hikvision','HRBP & Recruiter Intern','w1'],['2019 — 2023','Tianjin Foreign Studies University','Bachelor · HR Management & Japanese','e1']],
  band:'Organisation · Strategy · Insight · Warmth · Evidence · ',
  kit:[['Toolkit',''],['People','Training & programme design<br>Assessment · OPQ32r · Belbin<br>Interviews · surveys'],['Analytics','SQL · Python · R<br>SAS Viya · Power BI<br>Tableau · Excel'],['HR systems & product','Beisen LMS · Kuozhi<br>Requirements & field specs<br>SOPs · vendor liaison'],['Automation & build','VBA · AI model APIs<br>Claude Code<br>Cloudflare Workers']],
- big:'Whether it is a <span class="k">project</span>, or a conversation about <span class="k">organisations, data and systems</span>, I would love to hear from you.',
+ big:'Whether it’s a <span class="k">role</span>, a <span class="k">project</span>, or <span class="k">feedback</span> on something I’ve built — I’d love to hear from you.',
  open:'Open case study',
  meta:['Period','Category','Tools'],chap:['Context','Approach','Outcome'],cvnote:'No PDF attached yet — the full content is below.',pdf:'Download PDF',nextL:'Next project',prevL:'Previous project',allL:'That is the last one',backL:'Back to home',
  cv:{kick:'Résumé',title:'Résumé',edu:'Education',work:'Experience',prod:'Independent products',hon:'Awards',extra:'Extra-curricular',courses:'Selected courses'}}};
@@ -457,14 +493,17 @@ function lensify(el){el.querySelectorAll(':scope>.lens').forEach(x=>x.remove());
   const cs=getComputedStyle(el),btn=el.classList.contains('btn'),pad=btn?0:52;el.dataset.lpad=pad;const l=document.createElement('span');l.className='lens';l.setAttribute('aria-hidden','true');
   l.innerHTML=el.innerHTML;l.style.cssText=`inset:-${pad}px;padding:${parseFloat(cs.paddingTop)+pad}px ${parseFloat(cs.paddingRight)+pad}px ${parseFloat(cs.paddingBottom)+pad}px ${parseFloat(cs.paddingLeft)+pad}px;display:${cs.display.includes('flex')?cs.display:'block'};align-items:${cs.alignItems};gap:${cs.gap};font:inherit;letter-spacing:inherit;justify-content:${cs.justifyContent}`;
   el.appendChild(l)}
-function lensAll(){document.querySelectorAll('[data-lens]').forEach(lensify)}
+/* touch screens have no hover, so no lens at all */
+const COARSE=matchMedia('(hover:none), (pointer:coarse)').matches;
+function lensAll(){if(COARSE)return;document.querySelectorAll('[data-lens]').forEach(lensify)}
 
 function render(){
   const L=T[lang];document.documentElement.lang=lang==='zh'?'zh-CN':'en';
   document.querySelectorAll('[data-k]').forEach(e=>{const v=L[e.dataset.k];if(v!=null)e.textContent=v});
-  {const out=[];L.statement.forEach(([w,k],i)=>{if(w==='<br>'){out.push('<br>');return}const h=`<span class="w${k?' k':''}" style="transition-delay:${.5+i*.08}s">${w}</span>`;
-    if(/^[，。、,.]$/.test(w)&&out.length&&out[out.length-1]!=='<br>')out[out.length-1]=`<span style="white-space:nowrap">${out[out.length-1]}${h}</span>`;else out.push(h)});
-  $('statement').innerHTML=out.join(lang==='en'?' ':'')}
+  {const lines=[[]];L.statement.forEach(([w,k],i)=>{if(w==='<br>'){lines.push([]);return}const h=`<span class="w${k?' k':''}" style="transition-delay:${.5+i*.08}s">${w}</span>`,cur=lines[lines.length-1];
+    if(/^[，。、,.]$/.test(w)&&cur.length)cur[cur.length-1]=`<span style="white-space:nowrap">${cur[cur.length-1]}${h}</span>`;else cur.push(h)});
+  $('statement').innerHTML=lines.map((l,i)=>`<span class="ln ln${i+1}">${l.join(lang==='en'?' ':'')}</span>`).join('');
+  $('enLine').textContent=L.enLine||'';$('enLine').hidden=!L.enLine}
   tick();
   ['h1','h2','h3','h4'].forEach(h=>$(h).innerHTML=`<span class="ln">${L[h]}</span>`);
   $('aboutP').innerHTML=L.about.map(p=>`<p>${p}</p>`).join('');
@@ -505,7 +544,7 @@ function projectHTML(i){const p=PJ[i],L=T[lang],D=lang==='en'?p.en_:p,n=i<PJ.len
       :`<button class="nx" data-home><small>${L.allL}</small><span class="t">${L.backL}</span><span class="ar">→</span></button>`}`}
 function cvHTML(){const C=T[lang].cv,L=T[lang],V=lang==='en'?CV_EN:CV;
   return `<div class="head"><div class="kick">${C.kick}</div><h1 id="dh1">${C.title}</h1>
-   <div class="meta"><div><small>Email</small>1657715662@qq.com</div><div><small>Base</small>Sydney / Hangzhou</div><div><small>Languages</small>${lang==='en'?'Mandarin · English (PTE 71) · Japanese':'中文 · English（PTE 71）· 日本語'}</div></div>
+   <div class="meta"><div><small>Email</small><a href="mailto:xu.aurora@outlook.com">xu.aurora@outlook.com</a></div><div><small>Base</small>Sydney / Hangzhou</div><div><small>Languages</small>${lang==='en'?'Mandarin · English (PTE 71) · Japanese':'中文 · English（PTE 71）· 日本語'}</div></div>
    <p style="margin:26px 0 0;font-size:13px;color:var(--mute)">${CV_PDF[lang]?`<a class="btn btn-ghost" href="${CV_PDF[lang]}" download>${L.pdf} ↓</a>`:L.cvnote}</p></div>
    <div class="chap"><h2><i>01</i>${C.edu}</h2><div>${V.edu.map(([s,m,d,p,c],k)=>`<div class="entry" id="cv-e${k}"><h3>${s}</h3><div class="r">${m}</div><div class="d">${d}</div><p>${p}</p>${c.length?`<ul class="courses">${c.map(x=>`<li>${x}</li>`).join('')}</ul>`:''}</div>`).join('')}</div></div>
    <div class="chap"><h2><i>02</i>${C.work}</h2><div>${V.work.map(([s,m,d,p,g],k)=>`<div class="entry" id="cv-w${k}"><h3>${s}</h3><div class="r">${m}</div><div class="d">${d}</div>${p?`<p>${p}</p>`:''}${g.map(([t,b])=>`${t?`<h4 class="grp">${t}</h4>`:''}<ul class="bullets">${b.map(x=>`<li>${x}</li>`).join('')}</ul>`).join('')}</div>`).join('')}</div></div>
@@ -549,8 +588,8 @@ document.addEventListener('click',e=>{
   const g=e.target.closest('[data-go]');if(g){e.preventDefault();go(g.dataset.go,g.hasAttribute('data-relay')?g:null);return}
   if(e.target.closest('[data-home]')){e.preventDefault();home();return}
   const o=e.target.closest('[data-open]');if(o){e.preventDefault();const k=o.dataset.open;
-    const t=k.startsWith('p')?o.closest('.pj-row')?.querySelector('.pj-head h3 button'):null;open(k,t)}});
-addEventListener('keydown',e=>{if(e.key==='Enter'&&e.target.classList?.contains('ti'))e.target.click()});
+    const row=k.startsWith('p')?o.closest('.pj-row'):null,t=row?row.querySelector('.pj-head h3 button'):null;open(k,t)}});
+addEventListener('keydown',e=>{if(e.key==='Enter'&&e.target.classList&&e.target.classList.contains('ti'))e.target.click()});
 $('back').addEventListener('click',()=>home());
 addEventListener('keydown',e=>{if(e.key==='Escape')home()});
 addEventListener('popstate',()=>{const k=keyOf(location.hash);if(!k)home(false);else if(det.classList.contains('show'))go(k,null,false);else open(k,null,false)});
@@ -562,6 +601,26 @@ render();
 {const k=keyOf(location.hash);if(k){document.body.classList.add('lock','paged');fill(k);det.classList.add('show');setTimeout(()=>jump(k),300)}}
 /* preview panel */
 requestAnimationFrame(()=>setTimeout(()=>$('top').classList.remove('pre'),120));
+
+/* mailto: copy the address and say so right away (works with or without a mail app) */
+async function copyText(t){try{await navigator.clipboard.writeText(t);return true}catch(e){}
+  try{const a=document.createElement('textarea');a.value=t;a.style.cssText='position:fixed;opacity:0';document.body.appendChild(a);a.select();const ok=document.execCommand('copy');a.remove();return ok}catch(e){return false}}
+let toastT;function toast(m){const e=$('toast');e.innerHTML='<i>✓</i>'+m;e.classList.add('show');clearTimeout(toastT);toastT=setTimeout(()=>e.classList.remove('show'),3200)}
+const framed=(()=>{try{return window.self!==window.top}catch(e){return true}})();
+document.addEventListener('click',e=>{const a=e.target.closest('a[href^="mailto:"]');if(!a)return;const addr=a.getAttribute('href').slice(7);
+  if(framed)e.preventDefault(); /* inside a preview frame a mailto jump blanks the page, so only copy there */
+  copyText(addr).then(ok=>{
+    /* desktop: the cursor itself answers; touch screens (no custom cursor): bottom toast */
+    if(ok&&document.body.classList.contains('fx-cursor')){const l=$('curLab');l.innerHTML=`<span>${lang==='en'?'Copied':'已复制'}</span>`;
+      document.body.classList.add('c-copied');clearTimeout(copiedInPlace.t);copiedInPlace.t=setTimeout(()=>document.body.classList.remove('c-copied'),1200)}
+    else if(ok)toast(lang==='en'?'Email address copied':'邮箱地址已复制');
+    else toast(lang==='en'?'Email: '+addr:'邮箱：'+addr)})});
+/* touch screens: the same ring appears where the finger landed, with the word above it */
+function tapRing(x,y){if(!x&&!y){const r=document.activeElement.getBoundingClientRect();x=r.left+r.width/2;y=r.top+r.height/2}
+  const d=document.createElement('div');d.className='tap-ring';d.style.left=(x+scrollX)+'px';d.style.top=(y+scrollY)+'px';
+  d.innerHTML=`<i></i><span>${lang==='en'?'Copied':'已复制'}</span>`;document.body.appendChild(d);
+  document.body.classList.add('c-tap');requestAnimationFrame(()=>requestAnimationFrame(()=>d.classList.add('on')));setTimeout(()=>d.classList.add('off'),1100);setTimeout(()=>{d.remove();document.body.classList.remove('c-tap')},1700)}
+function copiedInPlace(){}
 
 /* reveal on scroll */
 const io=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target)}}),{rootMargin:'0px 0px -12% 0px'});
@@ -587,8 +646,16 @@ if(matchMedia('(hover:hover) and (pointer:fine)').matches){
     const lens=e.target.closest('[data-lens]'),link=e.target.closest('a,button');
     document.body.classList.toggle('c-lens',!!lens);document.body.classList.toggle('c-link',!!link&&!lens);
     if(lens){const b=lens.getBoundingClientRect(),pd=+lens.dataset.lpad||0,btn=pd===0;lens.style.setProperty('--lx',(mx-b.left+pd)+'px');lens.style.setProperty('--ly',(my-b.top+pd)+'px');lens.style.setProperty('--lrh',(btn?Math.max(40,b.height*.95):Math.min(46,Math.max(26,b.height*.9)))+'px')}});
-  (function loop(){rx+=(mx-rx)*.16;ry+=(my-ry)*.16;c.style.transform=`translate(${mx}px,${my}px)`;ring.style.transform=`translate(${rx}px,${ry}px)`;requestAnimationFrame(loop)})();
+  const lab=$('curLab');
+  (function loop(){rx+=(mx-rx)*.16;ry+=(my-ry)*.16;c.style.transform=`translate(${mx}px,${my}px)`;ring.style.transform=`translate(${rx}px,${ry}px)`;lab.style.transform=`translate(${rx}px,${ry-36}px)`;requestAnimationFrame(loop)})();
 }
+
+/* touch screens: the finger stirs the constellation, like the mouse does on desktop */
+if(!document.body.classList.contains('fx-cursor')){let tOff=0;
+  const tp=e=>{const t=e.touches[0];if(!t)return;clearTimeout(tOff);stars.t=1;stars.mx=t.clientX;stars.my=t.clientY};
+  addEventListener('touchstart',tp,{passive:true});addEventListener('touchmove',tp,{passive:true});
+  const tu=()=>{clearTimeout(tOff);tOff=setTimeout(()=>{stars.mx=-999;stars.my=-999;stars.t=0},450)};
+  addEventListener('touchend',tu,{passive:true});addEventListener('touchcancel',tu,{passive:true})}
 
 /* constellation (from the original site) */
 (function(){const cv=$('stars'),x=cv.getContext('2d'),hero=cv.parentElement,still=matchMedia('(prefers-reduced-motion: reduce)').matches;
@@ -600,12 +667,12 @@ if(matchMedia('(hover:hover) and (pointer:fine)').matches){
     const cx=(L0+R0)/2,cy=(T0_+B0)/2,rx=(R0-L0)/2+10,ry=(B0-T0_)/2+10;
     const n=Math.round(Math.min(130,Math.max(45,W*H/10000)));
     P=Array.from({length:n},(_,i)=>{if(i<n*.72){const a=Math.random()*Math.PI*2,pad=24+Math.random()*150,px=Math.min(W-6,Math.max(6,cx+Math.cos(a)*(rx+pad))),py=Math.min(H-6,Math.max(6,cy+Math.sin(a)*(ry+pad*.6)));
-        return {x:px,y:py,hx:px,hy:py,vx:-Math.sin(a)*.18,vy:Math.cos(a)*.18,r:Math.random()*1.5+.7}}
+        return {x:px,y:py,hx:px,hy:py,vx:(Math.random()-.5)*.28,vy:(Math.random()-.5)*.28,r:Math.random()*1.5+.7}}
       return {x:Math.random()*W,y:Math.random()*H,vx:(Math.random()-.5)*.28,vy:(Math.random()-.5)*.28,r:Math.random()*1.5+.7}})}
   size();addEventListener('resize',size);new IntersectionObserver(e=>vis=e[0].isIntersecting).observe(hero);
   function f(){if(vis){x.clearRect(0,0,W,H);const hb=hero.getBoundingClientRect(),mx=stars.mx-hb.left,my=stars.my-hb.top;
     const hold=Math.max(0,1-(performance.now()-T0)/9000);
-    for(const p of P){if(p.hx!=null&&hold>0){p.vx+=(p.hx-p.x)*.0009*hold;p.vy+=(p.hy-p.y)*.0009*hold}const dx=p.x-mx,dy=p.y-my,d=Math.hypot(dx,dy);if(d<150&&d>0){p.vx+=dx/d*.022;p.vy+=dy/d*.022}p.vx*=.992;p.vy*=.992;
+    for(const p of P){if(p.hx!=null&&hold>0){p.vx+=(p.hx-p.x)*.0009*hold;p.vy+=(p.hy-p.y)*.0009*hold}const dx=p.x-mx,dy=p.y-my,d=Math.hypot(dx,dy);if(d<150&&d>0){const k=stars.t ? 0.022+(150-d)/150*0.09 : 0.022;p.vx+=dx/d*k;p.vy+=dy/d*k}p.vx*=.992;p.vy*=.992;
       if(Math.hypot(p.vx,p.vy)<.08){p.vx+=(Math.random()-.5)*.02;p.vy+=(Math.random()-.5)*.02}p.x+=p.vx;p.y+=p.vy;if(p.x<0||p.x>W)p.vx*=-1;if(p.y<0||p.y>H)p.vy*=-1}
     for(let i=0;i<P.length;i++){const a=P[i];for(let j=i+1;j<P.length;j++){const b=P[j],d=Math.hypot(a.x-b.x,a.y-b.y);if(d<135){x.strokeStyle=`rgba(124,82,220,${.26*(1-d/135)})`;x.lineWidth=1;x.beginPath();x.moveTo(a.x,a.y);x.lineTo(b.x,b.y);x.stroke()}}
       const dm=Math.hypot(a.x-mx,a.y-my);if(dm<170){x.strokeStyle=`rgba(124,82,220,${.3*(1-dm/170)})`;x.beginPath();x.moveTo(a.x,a.y);x.lineTo(mx,my);x.stroke()}

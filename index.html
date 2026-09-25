@@ -668,7 +668,18 @@ if(!document.body.classList.contains('fx-cursor')){let tOff=0;
   /* how likely a star settles at (px,py): thin over the words, densest just around them, still present far away */
   function want(px,py){const dx=Math.max(B.l-px,0,px-B.r),dy=Math.max(B.t-py,0,py-B.b),d=Math.hypot(dx,dy);
     if(d===0)return W<700?.8:.3; /* on phones the words fill almost the screen, so they can't push the stars away */return .45+.55*Math.exp(-d/(Math.min(W,H)*.35))}
-  function spot(){for(let k=0;k<40;k++){const px=6+Math.random()*(W-12),py=6+Math.random()*(H-12);if(Math.random()<want(px,py))return [px,py]}return [Math.random()*W,Math.random()*H]}
+  const gs=()=>{let u=0,v=0;while(!u)u=Math.random();while(!v)v=Math.random();return Math.sqrt(-2*Math.log(u))*Math.cos(2*Math.PI*v)};
+  /* wide screens: a composed field instead of an even scatter — a soft galaxy band sweeping up the open right side,
+     a loose halo hugging the words, and a few strays */
+  function spotWide(){const r=Math.random(),cl=(px,py)=>[Math.min(W-6,Math.max(6,px)),Math.min(H-6,Math.max(6,py))];
+    if(r<.5){const t=Math.random(),x0=B.l+(B.r-B.l)*.2,y0=H*1.04,cx=W*.95,cy=H*.98,x1=W*.76,y1=-H*.06,
+        bx=(1-t)*(1-t)*x0+2*(1-t)*t*cx+t*t*x1,by=(1-t)*(1-t)*y0+2*(1-t)*t*cy+t*t*y1,
+        tx=2*(1-t)*(cx-x0)+2*t*(x1-cx),ty=2*(1-t)*(cy-y0)+2*t*(y1-cy),tl=Math.hypot(tx,ty)||1,o=gs()*Math.min(W,H)*.13;
+      return cl(bx-ty/tl*o,by+tx/tl*o)}
+    if(r<.9){const per=2*((B.r-B.l)+(B.b-B.t)),u=Math.random()*per,w=B.r-B.l,h=B.b-B.t,o=16+Math.abs(gs())*70;
+      if(u<w)return cl(B.l+u,B.t-o);if(u<w+h)return cl(B.r+o,B.t+u-w);if(u<2*w+h)return cl(B.l+(u-w-h),B.b+o);return cl(B.l-o,B.t+(u-2*w-h))}
+    return cl(Math.random()*W,Math.random()*H)}
+  function spot(){if(W>=700)return spotWide();for(let k=0;k<40;k++){const px=6+Math.random()*(W-12),py=6+Math.random()*(H-12);if(Math.random()<want(px,py))return [px,py]}return [Math.random()*W,Math.random()*H]}
   function size(){const w=hero.clientWidth;W=w;H=hero.clientHeight;cv.width=W*DPR;cv.height=H*DPR;x.setTransform(DPR,0,0,DPR,0,0);
     if(w===lastW&&P.length)return;lastW=w; /* phones resize on scroll (address bar): keep the stars, only redo on a real width change */
     const hb=hero.getBoundingClientRect(),rs=['.who','#statement','.sub','.cta'].map(q=>document.querySelector(q).getBoundingClientRect());

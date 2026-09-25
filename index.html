@@ -457,7 +457,7 @@ zh:{n1:'关于',n2:'经历',n3:'项目',n4:'联系',b1:'查看项目',b2:'完整
  h1:'关于我',h2:'教育与经历',h3:'项目案例',h4:'保持联系',
  about:['我是徐蕴玮，<b>新南威尔士大学人力资源管理与商业分析</b>硕士，2026 年 10 月毕业；本科就读于天津外国语大学人力资源管理与日语双专业。','在贝达药业组织与人才发展部，我管理三个 HR 学习平台，把各方的需求写成供应商可以直接开发的规格，也用 VBA 和 Python 把重复的 HR 数据工作自动化；更早在海康威视做 HRBP 与招聘。工作之外，我用 AI 编程工具做了两款自己的软件。','我反复琢磨的是同一件事：<b>在人的需求与数据之间建立连接，将它们落成可用的系统与判断</b>。'],
  path:[['2026.03 — 06','贝达药业','组织与人才发展实习生','w0'],['2024 — 2026.10','新南威尔士大学','硕士 · 人力资源管理与商业分析','e0'],['2022.05 — 07','海康威视','HRBP & 招聘实习生','w1'],['2019 — 2023','天津外国语大学','本科 · 人力资源管理与日语','e1']],
- band:'People · Data · Systems · 人 · 数据 · 系统 · ',
+ band:'People · Data · Systems · ',
  kit:[['工具箱',''],['人力资源','培训与项目设计<br>人才测评 · OPQ32r · Belbin<br>结构化面试 · 问卷调研'],['数据分析','SQL · Python · R<br>SAS Viya · Power BI<br>Tableau · Excel'],['HR 系统与产品','北森 LMS · 阔知<br>需求与字段级规格<br>SOP · 供应商协同'],['自动化与开发','VBA · AI 大模型 API<br>Claude Code<br>Cloudflare Workers']],
  big:'<span class="k">工作机会</span>、<span class="k">项目合作</span>，或者<span class="k">产品反馈</span>，都欢迎来信。',
  open:'查看项目详情',
@@ -471,7 +471,7 @@ en:{n1:'About',n2:'Experience',n3:'Projects',n4:'Contact',b1:'View projects',b2:
  h1:'About',h2:'Education & experience',h3:'Projects',h4:'Keep in touch',
  about:['I am Aurora Xu, graduating from UNSW Sydney in October 2026 with a Master of Commerce in <b>HR Management & Business Analytics</b>, after a double major in HR Management and Japanese at Tianjin Foreign Studies University.','At Betta Pharmaceuticals I ran three HR learning platforms, turned stakeholders’ needs into specifications vendors could build against, and automated repetitive HR data work in VBA and Python; before that I worked in HRBP and recruitment at Hikvision. Outside work, I have built two software products with AI coding tools.','The one thing I keep turning over: <b>how to connect what people want with data, and turn both into systems and decisions</b>.'],
  path:[['2026.03 — 06','Betta Pharmaceuticals','Organisational & Talent Development Intern','w0'],['2024 — 2026.10','UNSW Sydney','Master of Commerce · HRM & Business Analytics','e0'],['2022.05 — 07','Hikvision','HRBP & Recruiter Intern','w1'],['2019 — 2023','Tianjin Foreign Studies University','Bachelor · HR Management & Japanese','e1']],
- band:'People · Data · Systems · Roots · Action · ',
+ band:'People · Data · Systems · ',
  kit:[['Toolkit',''],['People','Training & programme design<br>Assessment · OPQ32r · Belbin<br>Interviews · surveys'],['Analytics','SQL · Python · R<br>SAS Viya · Power BI<br>Tableau · Excel'],['HR systems & product','Beisen LMS · Kuozhi<br>Requirements & field specs<br>SOPs · vendor liaison'],['Automation & build','VBA · AI model APIs<br>Claude Code<br>Cloudflare Workers']],
  big:'Whether it’s a <span class="k">role</span>, a <span class="k">project</span>, or <span class="k">feedback</span> on something I’ve built — I’d love to hear from you.',
  open:'Open case study',
@@ -511,7 +511,7 @@ function render(){
   $('aboutP').innerHTML=L.about.map(p=>`<p>${p}</p>`).join('');
   $('tl').innerHTML=L.path.map(([d,h,r,id])=>`<div class="ti" data-open="cv:${id}" role="link" tabindex="0"><div class="d">${d}</div><div><div><h3>${h}</h3><div class="r">${r}</div></div><span class="ar">→</span></div></div>`).join('');
   $$('.cvl span').forEach(e=>e.innerHTML=L.cvn+(CV_PDF[lang]?' <i>↓</i>':''));
-  $('track').innerHTML=`<span>${L.band.repeat(3)}</span><span>${L.band.repeat(3)}</span>`;
+  const br=L.band.repeat(Math.max(3,Math.ceil(120/L.band.length)));$('track').innerHTML=`<span>${br}</span><span>${br}</span>`;
   $('kit').innerHTML=L.kit.map(([h,p],i)=>i===0?`<div><h3 style="font-family:var(--latin);font-weight:400;letter-spacing:.36em;font-size:11px;color:var(--mute);text-transform:uppercase">${h}</h3></div>`:`<div><h3>${h}</h3><p>${p}</p></div>`).join('');
   $('bigC').innerHTML=L.big;
   renderPJ();

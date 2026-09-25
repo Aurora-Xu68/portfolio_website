@@ -714,7 +714,7 @@ if(document.getElementById('stars').parentElement.clientWidth<700){
   resize();addEventListener('resize',resize);new IntersectionObserver(e=>vis=e[0].isIntersecting).observe(hero);
   function f(){if(vis){x.clearRect(0,0,W,H);const hb=hero.getBoundingClientRect(),mouseX=stars.mx-hb.left,mouseY=stars.my-hb.top;
     /* pointer moved far enough: sprinkle a new short-lived particle */
-    if(false&&stars.mx>-900){const moveDist=Math.hypot(mouseX-lastMouseX,mouseY-lastMouseY);
+    if(stars.mx>-900){const moveDist=Math.hypot(mouseX-lastMouseX,mouseY-lastMouseY);
       if(moveDist>30&&particles.length<60){particles.push({x:mouseX+(Math.random()-.5)*20,y:mouseY+(Math.random()-.5)*20,vx:(Math.random()-.5)*2,vy:(Math.random()-.5)*2,size:Math.random()*2+1.5,opacity:.7,life:300});lastMouseX=mouseX;lastMouseY=mouseY}}
     for(let i=particles.length-1;i>=0;i--)if(particles[i].life!==-1&&particles[i].life<=0)particles.splice(i,1);
     particles.forEach((p,i)=>{

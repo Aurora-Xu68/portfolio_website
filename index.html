@@ -771,7 +771,7 @@ window.__LAY=window.__layFor(1440,820);
         p.vx+=ux*f*.3;p.vy+=uy*f*.3;p.calm=false;p.currentSize=p.size*(1+f*.6);p.currentOpacity=Math.min(1,p.opacity+f*.4)}
       else{p.currentSize=p.size;p.currentOpacity=dist<120?.8:p.opacity}
       /* calm (untouched ring) stars wander: direction keeps changing, so they stay near the words without ever being pulled back */
-      if(p.calm){const ck=.016*(window.__SPDc||1.6);p.vx=p.vx*.992+(Math.random()-.5)*ck;p.vy=p.vy*.992+(Math.random()-.5)*ck}
+      if(p.calm){const ck=.016*(window.__SPDc||3.1);p.vx=p.vx*.992+(Math.random()-.5)*ck;p.vy=p.vy*.992+(Math.random()-.5)*ck}
       else{const fv=window.__SPDf||1;if(Math.abs(p.vx)<.3*fv)p.vx+=(Math.random()-.5)*.1*fv;if(Math.abs(p.vy)<.3*fv)p.vy+=(Math.random()-.5)*.1*fv;}
       const maxSpeed=2;p.vx=Math.max(-maxSpeed,Math.min(maxSpeed,p.vx));p.vy=Math.max(-maxSpeed,Math.min(maxSpeed,p.vy));
       {const sv=.4*(p.calm?1:(window.__SPDf||1));if(Math.abs(p.vx)>sv)p.vx*=.985;if(Math.abs(p.vy)>sv)p.vy*=.985;}

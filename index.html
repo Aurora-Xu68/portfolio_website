@@ -660,28 +660,28 @@ if(!document.body.classList.contains('fx-cursor')){let tOff=0;
   addEventListener('touchend',tu,{passive:true});addEventListener('touchcancel',tu,{passive:true})}
 
 /* constellation (from the original site)
-   at rest the stars loosely gather around the words, each wandering near its own spot;
-   the ones the pointer / finger stirs are let go and drift freely; a reload gathers them again */
+   at rest the stars spread over the whole screen, a little denser around the words (not a ring),
+   each wandering near its own spot; the ones the pointer / finger stirs are let go and drift freely;
+   a reload settles them again */
 (function(){const cv=$('stars'),x=cv.getContext('2d'),hero=cv.parentElement,still=matchMedia('(prefers-reduced-motion: reduce)').matches;
-  let W,H,DPR=Math.min(devicePixelRatio||1,2),P=[],vis=true,E,lastW=0;
-  function home(p){p.hx=Math.min(W-6,Math.max(6,E.cx+Math.cos(p.a)*(E.rx+p.pad)));p.hy=Math.min(H-6,Math.max(6,E.cy+Math.sin(p.a)*(E.ry+p.pad*.6)))}
+  let W,H,DPR=Math.min(devicePixelRatio||1,2),P=[],vis=true,B,lastW=0;
+  /* how likely a star settles at (px,py): thin over the words, densest just around them, still present far away */
+  function want(px,py){const dx=Math.max(B.l-px,0,px-B.r),dy=Math.max(B.t-py,0,py-B.b),d=Math.hypot(dx,dy);
+    if(d===0)return .3;return .45+.55*Math.exp(-d/(Math.min(W,H)*.35))}
+  function spot(){for(let k=0;k<40;k++){const px=6+Math.random()*(W-12),py=6+Math.random()*(H-12);if(Math.random()<want(px,py))return [px,py]}return [Math.random()*W,Math.random()*H]}
   function size(){const w=hero.clientWidth;W=w;H=hero.clientHeight;cv.width=W*DPR;cv.height=H*DPR;x.setTransform(DPR,0,0,DPR,0,0);
     if(w===lastW&&P.length)return;lastW=w; /* phones resize on scroll (address bar): keep the stars, only redo on a real width change */
     const hb=hero.getBoundingClientRect(),rs=['.who','#statement','.sub','.cta'].map(q=>document.querySelector(q).getBoundingClientRect());
-    const L0=Math.min(...rs.map(r=>r.left))-hb.left,T0_=Math.min(...rs.map(r=>r.top))-hb.top,R0=Math.max(...rs.map(r=>r.right))-hb.left,B0=Math.max(...rs.map(r=>r.bottom))-hb.top;
-    E={cx:(L0+R0)/2,cy:(T0_+B0)/2,rx:(R0-L0)/2+10,ry:(B0-T0_)/2+10};
+    B={l:Math.min(...rs.map(r=>r.left))-hb.left,t:Math.min(...rs.map(r=>r.top))-hb.top,r:Math.max(...rs.map(r=>r.right))-hb.left,b:Math.max(...rs.map(r=>r.bottom))-hb.top};
     const n=Math.round(Math.min(130,Math.max(45,W*H/10000)));
-    P=Array.from({length:n},(_,i)=>{const v={vx:(Math.random()-.5)*.28,vy:(Math.random()-.5)*.28,r:Math.random()*1.5+.7};
-      if(i<n*.72){v.a=Math.random()*Math.PI*2;v.pad=24+Math.random()*150;v.h=1;home(v);v.x=v.hx;v.y=v.hy;return v}
-      v.x=Math.random()*W;v.y=Math.random()*H;return v})}
+    P=Array.from({length:n},()=>{const [px,py]=spot();return {x:px,y:py,hx:px,hy:py,h:1,vx:(Math.random()-.5)*.28,vy:(Math.random()-.5)*.28,r:Math.random()*1.5+.7}})}
   size();addEventListener('resize',size);new IntersectionObserver(e=>vis=e[0].isIntersecting).observe(hero);
   function f(){if(vis){x.clearRect(0,0,W,H);const hb=hero.getBoundingClientRect(),mx=stars.mx-hb.left,my=stars.my-hb.top;
     for(const p of P){const dx=p.x-mx,dy=p.y-my,d=Math.hypot(dx,dy);
       if(d<150&&d>0){p.vx+=dx/d*.022;p.vy+=dy/d*.022;p.h=0}
-      if(p.h){
-        /* the spot itself wanders a little (random walk, no direction), so the gathering breathes instead of sitting still */
-        p.a+=(Math.random()-.5)*.006;p.pad=Math.min(190,Math.max(18,p.pad+(Math.random()-.5)*.5));home(p);
-        p.vx+=(p.hx-p.x)*.0004*p.h;p.vy+=(p.hy-p.y)*.0004*p.h}
+      if(p.h){/* the spot itself wanders (random walk, no direction), so the field breathes instead of sitting still */
+        p.hx=Math.min(W-6,Math.max(6,p.hx+(Math.random()-.5)*.6));p.hy=Math.min(H-6,Math.max(6,p.hy+(Math.random()-.5)*.6));
+        p.vx+=(p.hx-p.x)*.0004;p.vy+=(p.hy-p.y)*.0004}
       p.vx*=.992;p.vy*=.992;
       if(Math.hypot(p.vx,p.vy)<.08){p.vx+=(Math.random()-.5)*.02;p.vy+=(Math.random()-.5)*.02}p.x+=p.vx;p.y+=p.vy;if(p.x<0||p.x>W)p.vx*=-1;if(p.y<0||p.y>H)p.vy*=-1}
     for(let i=0;i<P.length;i++){const a=P[i];for(let j=i+1;j<P.length;j++){const b=P[j],d=Math.hypot(a.x-b.x,a.y-b.y);if(d<135){x.strokeStyle=`rgba(124,82,220,${.26*(1-d/135)})`;x.lineWidth=1;x.beginPath();x.moveTo(a.x,a.y);x.lineTo(b.x,b.y);x.stroke()}}

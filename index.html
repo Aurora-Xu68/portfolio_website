@@ -597,7 +597,7 @@ addEventListener('keydown',e=>{if(e.key==='Escape')home()});
 addEventListener('popstate',()=>{const k=keyOf(location.hash);if(!k)home(false);else if(det.classList.contains('show'))go(k,null,false);else open(k,null,false)});
 
 function setLang(l){if(l===lang)return;const m=$('top');m.style.transition='opacity .4s,filter .4s';m.style.opacity=0;m.style.filter='blur(12px)';
-  setTimeout(()=>{lang=l;try{localStorage.setItem('ax-lang6',l)}catch(e){}render();if(cur){fill(cur)}document.querySelectorAll('.rv,.rise').forEach(x=>x.classList.add('in'));m.style.opacity='';m.style.filter='';setTimeout(()=>m.style.transition='',500)},350)}
+  setTimeout(()=>{lang=l;try{localStorage.setItem('ax-lang6',l)}catch(e){}render();if(cur){fill(cur)}setTimeout(()=>window.__regenStars&&window.__regenStars(),80);document.querySelectorAll('.rv,.rise').forEach(x=>x.classList.add('in'));m.style.opacity='';m.style.filter='';setTimeout(()=>m.style.transition='',500)},350)}
 $('lz').onclick=()=>setLang('zh');$('le').onclick=()=>setLang('en');
 render();
 {const k=keyOf(location.hash);if(k){document.body.classList.add('lock','paged');fill(k);det.classList.add('show');setTimeout(()=>jump(k),300)}}
@@ -660,7 +660,7 @@ if(!document.body.classList.contains('fx-cursor')){let tOff=0;
   addEventListener('touchend',tu,{passive:true});addEventListener('touchcancel',tu,{passive:true})}
 
 /* stars: phones keep the approved phone version (v39) as-is; wide screens run the original site's particle code */
-if(document.getElementById('stars').parentElement.clientWidth<700){
+if(!matchMedia('(hover:hover) and (pointer:fine)').matches){ /* touch devices get the phone version; anything with a mouse gets the desktop one, however narrow the window */
 /* constellation (from the original site)
    at rest the stars spread over the whole screen, a little denser around the words (not a ring),
    each wandering near its own spot; the ones the pointer / finger stirs are let go and drift freely;
@@ -694,6 +694,14 @@ if(document.getElementById('stars').parentElement.clientWidth<700){
       x.fillStyle=`rgba(124,82,220,${dm<170?.8:.5})`;x.beginPath();x.arc(a.x,a.y,a.r,0,7);x.fill()}}
     if(!still)requestAnimationFrame(f)}f()})();
 }else{
+window.__BASE={"version":2,"stray":6,"strayGap":80,"blobs":[{"x":0.79,"y":0.47,"rx":0.16,"ry":0.3,"count":20,"gap":32},{"x":0.8,"y":0.46,"rx":0.42,"ry":0.78,"count":36,"gap":58}],"strokes":[{"spread":22,"gap":50,"count":14,"pts":[[-0.1,-0.08,1.5],[-0.0583,-0.0925,1.467],[-0.0167,-0.1049,1.433],[0.025,-0.1171,1.4],[0.0667,-0.1288,1.367],[0.1083,-0.14,1.333],[0.15,-0.1505,1.3],[0.1917,-0.1603,1.267],[0.2333,-0.1692,1.233],[0.275,-0.1771,1.2],[0.3167,-0.1839,1.167],[0.3583,-0.1896,1.133],[0.4,-0.1941,1.1],[0.4417,-0.1974,1.067],[0.4833,-0.1993,1.033],[0.525,-0.2,1.0],[0.5667,-0.1993,0.967],[0.6083,-0.1974,0.933],[0.65,-0.1941,0.9],[0.6917,-0.1896,0.867],[0.7333,-0.1839,0.833],[0.775,-0.1771,0.8],[0.8167,-0.1692,0.767],[0.8583,-0.1603,0.733],[0.9,-0.1505,0.7],[0.9417,-0.14,0.667],[0.9833,-0.1288,0.633],[1.025,-0.1171,0.6],[1.0667,-0.1049,0.567],[1.1083,-0.0925,0.533],[1.15,-0.08,0.5]]},{"spread":22,"gap":50,"count":12,"pts":[[0.02,1.12,1.5],[0.06,1.1263,1.467],[0.1,1.1325,1.433],[0.14,1.1385,1.4],[0.18,1.1444,1.367],[0.22,1.15,1.333],[0.26,1.1553,1.3],[0.3,1.1601,1.267],[0.34,1.1646,1.233],[0.38,1.1685,1.2],[0.42,1.172,1.167],[0.46,1.1748,1.133],[0.5,1.1771,1.1],[0.54,1.1787,1.067],[0.58,1.1797,1.033],[0.62,1.18,1.0],[0.66,1.1797,0.967],[0.7,1.1787,0.933],[0.74,1.1771,0.9],[0.78,1.1748,0.867],[0.82,1.172,0.833],[0.86,1.1685,0.8],[0.9,1.1646,0.767],[0.94,1.1601,0.733],[0.98,1.1553,0.7],[1.02,1.15,0.667],[1.06,1.1444,0.633],[1.1,1.1385,0.6],[1.14,1.1325,0.567],[1.18,1.1263,0.533],[1.22,1.12,0.5]]}]};
+/* particle amount follows the window: Aurora's pick is 155% on a 1440x820 first screen; other window sizes get the same density
+   (count scales with the area, spacing stays), so half-screen, small and full windows all look equally full */
+window.__layFor=(W,H)=>{const b=JSON.parse(JSON.stringify(window.__BASE)),dens=1.55,area=Math.max(.3,Math.min(1.8,(W*H)/(1440*820))),
+    c=v=>Math.max(1,Math.round(v*dens*area)),g=v=>Math.round(v/Math.sqrt(dens));
+  (b.strokes||[]).forEach(z=>{z.count=c(z.count);z.gap=g(z.gap)});(b.blobs||[]).forEach(z=>{z.count=c(z.count);z.gap=g(z.gap)});
+  b.stray=c(b.stray||0);b.strayGap=g(b.strayGap||0);return b};
+window.__LAY=window.__layFor(1440,820);
 /* particles: the original site's code (Dec 2025 version), moved into the first screen as-is.
    40 drifting particles; moving the pointer / finger sprinkles short-lived extra ones (up to 60);
    near the pointer they are flicked away, swell and brighten; lines join close particles and the pointer. */
@@ -702,37 +710,79 @@ if(document.getElementById('stars').parentElement.clientWidth<700){
   function resize(){const w=hero.clientWidth;W=w;H=hero.clientHeight;cv.width=W*DPR;cv.height=H*DPR;x.setTransform(DPR,0,0,DPR,0,0);
     if(w===lastW&&particles.length)return;lastW=w;particles=[];
     /* opening placement: most particles loosely around the words (thinning out with distance), a few anywhere */
-    const hb=hero.getBoundingClientRect(),rs=['.who','#statement','.sub','.cta'].map(q=>document.querySelector(q).getBoundingClientRect()),
-      B={l:Math.min(...rs.map(r=>r.left))-hb.left,t:Math.min(...rs.map(r=>r.top))-hb.top,r:Math.max(...rs.map(r=>r.right))-hb.left,b:Math.max(...rs.map(r=>r.bottom))-hb.top},
-      gs=()=>{let u=0,v=0;while(!u)u=Math.random();while(!v)v=Math.random();return Math.sqrt(-2*Math.log(u))*Math.cos(2*Math.PI*v)},cl=(v,m)=>Math.min(m-4,Math.max(4,v));
-    const initialParticles=40;
-    for(let k=0;k<initialParticles;k++){let px,py;
-      if(k<initialParticles*.72){const w=B.r-B.l,h=B.b-B.t,u=Math.random()*2*(w+h),o=24+Math.abs(gs())*95;
-        if(u<w){px=B.l+u;py=B.t-o}else if(u<w+h){px=B.r+o;py=B.t+u-w}else if(u<2*w+h){px=B.l+(u-w-h);py=B.b+o}else{px=B.l-o;py=B.t+(u-2*w-h)}}
-      else{px=Math.random()*W;py=Math.random()*H}
-      particles.push({x:cl(px,W),y:cl(py,H),vx:(Math.random()-.5)*.8,vy:(Math.random()-.5)*.8,size:Math.random()*3+1,opacity:Math.random()*.5+.2,life:-1})}}
+    /* the words' real outline: one box per line of text (not the element boxes, which run to the page edge) */
+    const hb=hero.getBoundingClientRect(),lines=[],rg=document.createRange();
+    /* measure the text itself only (a range over a whole element would also return the full-width line boxes) */
+    ['.who','#statement','.sub'].forEach(q=>{const el=document.querySelector(q);if(!el)return;const tw=document.createTreeWalker(el,NodeFilter.SHOW_TEXT);let tn;
+      while((tn=tw.nextNode())){if(!tn.textContent.trim())continue;rg.selectNodeContents(tn);
+      [...rg.getClientRects()].forEach(r=>{if(r.width<2||r.height<2)return;const t=r.top-hb.top,b=r.bottom-hb.top,l=r.left-hb.left,rr=r.right-hb.left;
+        const ln=lines.find(z=>Math.abs(z.t-t)<r.height*.5);if(ln){ln.l=Math.min(ln.l,l);ln.r=Math.max(ln.r,rr);ln.t=Math.min(ln.t,t);ln.b=Math.max(ln.b,b)}else lines.push({l,r:rr,t,b})})}});
+    document.querySelectorAll('.cta .btn').forEach(el=>{const r=el.getBoundingClientRect();lines.push({l:r.left-hb.left,r:r.right-hb.left,t:r.top-hb.top,b:r.bottom-hb.top})});
+    const gs=()=>{let u=0,v=0;while(!u)u=Math.random();while(!v)v=Math.random();return Math.sqrt(-2*Math.log(u))*Math.cos(2*Math.PI*v)},cl=(v,m)=>Math.min(m-4,Math.max(4,v)),
+      clear=(x,y)=>lines.every(z=>x<z.l-10||x>z.r+10||y<z.t-10||y>z.b+10),per=lines.map(z=>2*((z.r-z.l)+(z.b-z.t))),perT=per.reduce((a,b)=>a+b,0);
+    /* a point just outside one line of text, on any side, never on top of the words */
+    function hug(){for(let n=0;n<40;n++){let u=Math.random()*perT,k=0;while(u>per[k]){u-=per[k];k++}const z=lines[k],w=z.r-z.l,h=z.b-z.t,o=14+Math.abs(gs())*40;let x,y;
+        if(u<w){x=z.l+u;y=z.t-o}else if(u<w+h){x=z.r+o;y=z.t+u-w}else if(u<2*w+h){x=z.l+(u-w-h);y=z.b+o}else{x=z.l-o;y=z.t+(u-2*w-h)}
+        if(clear(x,y))return [x,y]}return [Math.random()*W,Math.random()*H]}
+    const add=(px,py,calm)=>particles.push({calm,x:cl(px,W),y:cl(py,H),vx:(Math.random()-.5)*(calm?.06:.8),vy:(Math.random()-.5)*(calm?.06:.8),size:Math.random()*1.5+.7,opacity:.5,life:-1});
+    /* the words' overall box: drawn layouts are stored relative to it, so they follow the words on any screen width */
+    const U=lines.length?{l:Math.min(...lines.map(z=>z.l)),t:Math.min(...lines.map(z=>z.t)),r:Math.max(...lines.map(z=>z.r)),b:Math.max(...lines.map(z=>z.b))}:{l:0,t:0,r:W,b:H};
+    window.__textBox=U;
+    if(window.__layFor)window.__LAY=window.__layFor(W,H);
+    const LAY=window.__LAY&&(window.__LAY.blobs||window.__LAY.field||(window.__LAY.strokes&&window.__LAY.strokes.some(q=>q.pts&&q.pts.length>1)))?window.__LAY:null;
+    if(!LAY){const initialParticles=Math.round(Math.min(130,Math.max(45,W*H/10000)));
+      for(let k=0;k<initialParticles;k++){const calm=k<initialParticles*.85,pt=calm&&lines.length?hug():[Math.random()*W,Math.random()*H];add(pt[0],pt[1],calm)}
+      window.__fit=null;return}
+    /* drawn layout: each stroke has its own spread, spacing and count; along a stroke, painted density (w) packs particles closer or looser */
+    const placed=[],far=(x,y,g)=>placed.every(q=>Math.hypot(q[0]-x,q[1]-y)>=g),P2=p=>[U.l+p[0]*(U.r-U.l),U.t+p[1]*(U.b-U.t)],fit=[];
+    LAY.strokes.forEach(st=>{const segs=[];let T=0;
+      for(let q=1;q<st.pts.length;q++){const a=P2(st.pts[q-1]),b=P2(st.pts[q]),Lg=Math.hypot(b[0]-a[0],b[1]-a[1]),w=((st.pts[q-1][2]||1)+(st.pts[q][2]||1))/2;if(Lg>0){segs.push({a,b,Lg,w});T+=Lg*w}}
+      let got=0;
+      for(let c=0;c<st.count&&segs.length;c++){let pt=null;
+        for(let n=0;n<150&&!pt;n++){let u=Math.random()*T,k=0;while(k<segs.length-1&&u>segs[k].Lg*segs[k].w){u-=segs[k].Lg*segs[k].w;k++}
+          const sg=segs[k],t=Math.min(1,u/(sg.Lg*sg.w)),nx=-(sg.b[1]-sg.a[1])/sg.Lg,ny=(sg.b[0]-sg.a[0])/sg.Lg,o=gs()*st.spread,
+            x=sg.a[0]+(sg.b[0]-sg.a[0])*t+nx*o,y=sg.a[1]+(sg.b[1]-sg.a[1])*t+ny*o,g=st.gap/Math.sqrt(sg.w); /* denser paint = closer spacing there */
+          if(x>2&&y>2&&x<W-2&&y<H-2&&clear(x,y)&&far(x,y,g))pt=[x,y]}
+        if(pt){placed.push(pt);add(pt[0],pt[1],true);got++}}   /* spacing is never squeezed: no room, no particle */
+      fit.push([got,st.count])});
+    /* star clouds: soft round groups, placed by screen position (0-1 of the first screen), densest in the middle */
+    (LAY.blobs||[]).forEach(bl=>{let got=0;for(let c=0;c<bl.count;c++){for(let n=0;n<120;n++){const x=(bl.x+gs()*bl.rx*.5)*W,y=(bl.y+gs()*bl.ry*.5)*H;
+      if(x>2&&y>2&&x<W-2&&y<H-2&&clear(x,y)&&far(x,y,bl.gap)){placed.push([x,y]);add(x,y,true);got++;break}}}fit.push([got,bl.count])});
+    /* a field over the whole screen that stays clear right around the words and gets denser further away */
+    if(LAY.field){const F=LAY.field;let got=0;const dist=(x,y)=>Math.min(...lines.map(z=>Math.hypot(Math.max(z.l-x,0,x-z.r),Math.max(z.t-y,0,y-z.b))));
+      for(let c=0;c<F.count;c++){for(let n=0;n<200;n++){const x=Math.random()*W,y=Math.random()*H,d=lines.length?dist(x,y):999;
+        if(d<F.clear||Math.random()>Math.min(1,Math.pow((d-F.clear)/F.fall,F.curve||1)))continue;
+        if(far(x,y,F.gap)){placed.push([x,y]);add(x,y,true);got++;break}}}fit.push([got,F.count])}
+    let sg=0;for(let c=0;c<(LAY.stray||0);c++){for(let n=0;n<80;n++){const x=Math.random()*W,y=Math.random()*H;if(clear(x,y)&&far(x,y,LAY.strayGap||0)){placed.push([x,y]);add(x,y,false);sg++;break}}}
+    fit.push([sg,LAY.stray||0]);window.__fit=fit}
+  window.__regenStars=()=>{lastW=0;resize()};
   resize();addEventListener('resize',resize);new IntersectionObserver(e=>vis=e[0].isIntersecting).observe(hero);
   function f(){if(vis){x.clearRect(0,0,W,H);const hb=hero.getBoundingClientRect(),mouseX=stars.mx-hb.left,mouseY=stars.my-hb.top;
     /* pointer moved far enough: sprinkle a new short-lived particle */
-    if(stars.mx>-900){const moveDist=Math.hypot(mouseX-lastMouseX,mouseY-lastMouseY);
+    if(false&&stars.mx>-900){const moveDist=Math.hypot(mouseX-lastMouseX,mouseY-lastMouseY);
       if(moveDist>30&&particles.length<60){particles.push({x:mouseX+(Math.random()-.5)*20,y:mouseY+(Math.random()-.5)*20,vx:(Math.random()-.5)*2,vy:(Math.random()-.5)*2,size:Math.random()*2+1.5,opacity:.7,life:300});lastMouseX=mouseX;lastMouseY=mouseY}}
     for(let i=particles.length-1;i>=0;i--)if(particles[i].life!==-1&&particles[i].life<=0)particles.splice(i,1);
     particles.forEach((p,i)=>{
       if(p.life!==-1){p.life--;p.opacity=Math.max(0,(p.life/300)*.7)}
       const dx=mouseX-p.x,dy=mouseY-p.y,dist=Math.sqrt(dx*dx+dy*dy);
-      if(dist<40&&dist>0){const f=(40-dist)/40;p.vx-=(dx/dist)*f*.3;p.vy-=(dy/dist)*f*.3;p.currentSize=p.size*(1+f*.6);p.currentOpacity=Math.min(1,p.opacity+f*.4)}
-      else{p.currentSize=p.size;p.currentOpacity=p.opacity}
-      if(Math.abs(p.vx)<.3)p.vx+=(Math.random()-.5)*.1;if(Math.abs(p.vy)<.3)p.vy+=(Math.random()-.5)*.1;
+      if(dist<40&&dist>0){const f=(40-dist)/40;let ux=-dx/dist,uy=-dy/dist;const e=30;
+        /* near an edge, never push into the wall: turn that part of the push around so the particle squeezes out */
+        if((p.x<e&&ux<0)||(p.x>W-e&&ux>0))ux=-ux;if((p.y<e&&uy<0)||(p.y>H-e&&uy>0))uy=-uy;
+        p.vx+=ux*f*.3;p.vy+=uy*f*.3;p.calm=false;p.currentSize=p.size*(1+f*.6);p.currentOpacity=Math.min(1,p.opacity+f*.4)}
+      else{p.currentSize=p.size;p.currentOpacity=dist<120?.8:p.opacity}
+      /* calm (untouched ring) stars wander: direction keeps changing, so they stay near the words without ever being pulled back */
+      if(p.calm){p.vx=p.vx*.992+(Math.random()-.5)*.016;p.vy=p.vy*.992+(Math.random()-.5)*.016}
+      else{if(Math.abs(p.vx)<.3)p.vx+=(Math.random()-.5)*.1;if(Math.abs(p.vy)<.3)p.vy+=(Math.random()-.5)*.1;}
       const maxSpeed=2;p.vx=Math.max(-maxSpeed,Math.min(maxSpeed,p.vx));p.vy=Math.max(-maxSpeed,Math.min(maxSpeed,p.vy));
-      if(Math.abs(p.vx)>.8)p.vx*=.96;if(Math.abs(p.vy)>.8)p.vy*=.96;
+      if(Math.abs(p.vx)>.4)p.vx*=.985;if(Math.abs(p.vy)>.4)p.vy*=.985;
       p.x+=p.vx;p.y+=p.vy;
       /* bounce off the edges (kept inside, so none get stuck trembling on the border) */
       if(p.x<0){p.x=0;p.vx=Math.abs(p.vx)}else if(p.x>W){p.x=W;p.vx=-Math.abs(p.vx)}
       if(p.y<0){p.y=0;p.vy=Math.abs(p.vy)}else if(p.y>H){p.y=H;p.vy=-Math.abs(p.vy)}
-      x.beginPath();x.arc(p.x,p.y,p.currentSize||p.size,0,Math.PI*2);x.fillStyle=`rgba(139,92,246,${p.currentOpacity||p.opacity})`;x.fill();
+      x.beginPath();x.arc(p.x,p.y,p.currentSize||p.size,0,Math.PI*2);x.fillStyle=`rgba(124,82,220,${p.currentOpacity||p.opacity})`;x.fill();
       for(let j=i+1;j<particles.length;j++){const p2=particles[j],d=Math.hypot(p.x-p2.x,p.y-p2.y);
-        if(d<120){x.beginPath();x.moveTo(p.x,p.y);x.lineTo(p2.x,p2.y);x.strokeStyle=`rgba(139,92,246,${.15*(1-d/120)})`;x.lineWidth=1;x.stroke()}}
-      if(dist<50){x.beginPath();x.moveTo(p.x,p.y);x.lineTo(mouseX,mouseY);x.strokeStyle=`rgba(139,92,246,${.3*(1-dist/50)})`;x.lineWidth=1;x.stroke()}});}
+        if(d<135){x.beginPath();x.moveTo(p.x,p.y);x.lineTo(p2.x,p2.y);x.strokeStyle=`rgba(124,82,220,${.26*(1-d/135)})`;x.lineWidth=1;x.stroke()}}
+      if(dist<120){x.beginPath();x.moveTo(p.x,p.y);x.lineTo(mouseX,mouseY);x.strokeStyle=`rgba(124,82,220,${.3*(1-dist/120)})`;x.lineWidth=1;x.stroke()}});}
     if(!still)requestAnimationFrame(f)}f()})();
 }
 </script>

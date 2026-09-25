@@ -659,6 +659,41 @@ if(!document.body.classList.contains('fx-cursor')){let tOff=0;
   const tu=()=>{clearTimeout(tOff);tOff=setTimeout(()=>{stars.mx=-999;stars.my=-999;stars.t=0},450)};
   addEventListener('touchend',tu,{passive:true});addEventListener('touchcancel',tu,{passive:true})}
 
+/* stars: phones keep the approved phone version (v39) as-is; wide screens run the original site's particle code */
+if(document.getElementById('stars').parentElement.clientWidth<700){
+/* constellation (from the original site)
+   at rest the stars spread over the whole screen, a little denser around the words (not a ring),
+   each wandering near its own spot; the ones the pointer / finger stirs are let go and drift freely;
+   a reload settles them again */
+(function(){const cv=$('stars'),x=cv.getContext('2d'),hero=cv.parentElement,still=matchMedia('(prefers-reduced-motion: reduce)').matches;
+  let W,H,DPR=Math.min(devicePixelRatio||1,2),P=[],vis=true,B,lastW=0;
+  /* how likely a star settles at (px,py): thin over the words, densest just around them, still present far away */
+  function want(px,py){const dx=Math.max(B.l-px,0,px-B.r),dy=Math.max(B.t-py,0,py-B.b),d=Math.hypot(dx,dy);
+    if(d===0)return W<700?.8:.3; /* on phones the words fill almost the screen, so they can't push the stars away */return .45+.55*Math.exp(-d/(Math.min(W,H)*.35))}
+  function spot(){for(let k=0;k<40;k++){const px=6+Math.random()*(W-12),py=6+Math.random()*(H-12);if(Math.random()<want(px,py))return [px,py]}return [Math.random()*W,Math.random()*H]}
+  function size(){const w=hero.clientWidth;W=w;H=hero.clientHeight;cv.width=W*DPR;cv.height=H*DPR;x.setTransform(DPR,0,0,DPR,0,0);
+    if(w===lastW&&P.length)return;lastW=w; /* phones resize on scroll (address bar): keep the stars, only redo on a real width change */
+    const hb=hero.getBoundingClientRect(),rs=['.who','#statement','.sub','.cta'].map(q=>document.querySelector(q).getBoundingClientRect());
+    B={l:Math.min(...rs.map(r=>r.left))-hb.left,t:Math.min(...rs.map(r=>r.top))-hb.top,r:Math.max(...rs.map(r=>r.right))-hb.left,b:Math.max(...rs.map(r=>r.bottom))-hb.top};
+    const n=Math.round(Math.min(130,Math.max(45,W*H/10000)));
+    P=Array.from({length:n},()=>{const [px,py]=spot();return {x:px,y:py,hx:px,hy:py,h:1,vx:(Math.random()-.5)*.28,vy:(Math.random()-.5)*.28,r:Math.random()*1.5+.7}})}
+  size();addEventListener('resize',size);new IntersectionObserver(e=>vis=e[0].isIntersecting).observe(hero);
+  function f(){if(vis){x.clearRect(0,0,W,H);const hb=hero.getBoundingClientRect(),mx=stars.mx-hb.left,my=stars.my-hb.top;
+    const now=performance.now();
+    for(const p of P){const dx=p.x-mx,dy=p.y-my,d=Math.hypot(dx,dy);
+      if(d<150&&d>0){p.vx+=dx/d*.022;p.vy+=dy/d*.022;p.h=0;p.hit=now}
+      else if(!p.h&&now-p.hit>3500){const q=spot();p.hx=q[0];p.hy=q[1];p.h=.001}
+      if(p.h){if(p.h<1)p.h=Math.min(1,p.h+.004); /* a star let go eases back in slowly, no snap */
+        /* the spot itself wanders (random walk, no direction), so the field breathes instead of sitting still */
+        p.hx=Math.min(W-6,Math.max(6,p.hx+(Math.random()-.5)*.6));p.hy=Math.min(H-6,Math.max(6,p.hy+(Math.random()-.5)*.6));
+        p.vx+=(p.hx-p.x)*.0004*p.h;p.vy+=(p.hy-p.y)*.0004*p.h}
+      p.vx*=.992;p.vy*=.992;
+      if(Math.hypot(p.vx,p.vy)<.08){p.vx+=(Math.random()-.5)*.02;p.vy+=(Math.random()-.5)*.02}p.x+=p.vx;p.y+=p.vy;if(p.x<2){p.x=2;p.vx=Math.abs(p.vx)}else if(p.x>W-2){p.x=W-2;p.vx=-Math.abs(p.vx)}if(p.y<2){p.y=2;p.vy=Math.abs(p.vy)}else if(p.y>H-2){p.y=H-2;p.vy=-Math.abs(p.vy)}}
+    for(let i=0;i<P.length;i++){const a=P[i];for(let j=i+1;j<P.length;j++){const b=P[j],d=Math.hypot(a.x-b.x,a.y-b.y);if(d<135){x.strokeStyle=`rgba(124,82,220,${.26*(1-d/135)})`;x.lineWidth=1;x.beginPath();x.moveTo(a.x,a.y);x.lineTo(b.x,b.y);x.stroke()}}
+      const dm=Math.hypot(a.x-mx,a.y-my);if(dm<170){x.strokeStyle=`rgba(124,82,220,${.3*(1-dm/170)})`;x.beginPath();x.moveTo(a.x,a.y);x.lineTo(mx,my);x.stroke()}
+      x.fillStyle=`rgba(124,82,220,${dm<170?.8:.5})`;x.beginPath();x.arc(a.x,a.y,a.r,0,7);x.fill()}}
+    if(!still)requestAnimationFrame(f)}f()})();
+}else{
 /* particles: the original site's code (Dec 2025 version), moved into the first screen as-is.
    40 drifting particles; moving the pointer / finger sprinkles short-lived extra ones (up to 60);
    near the pointer they are flicked away, swell and brighten; lines join close particles and the pointer. */
@@ -666,9 +701,16 @@ if(!document.body.classList.contains('fx-cursor')){let tOff=0;
   let W,H,DPR=Math.min(devicePixelRatio||1,2),particles=[],vis=true,lastW=0,lastMouseX=0,lastMouseY=0;
   function resize(){const w=hero.clientWidth;W=w;H=hero.clientHeight;cv.width=W*DPR;cv.height=H*DPR;x.setTransform(DPR,0,0,DPR,0,0);
     if(w===lastW&&particles.length)return;lastW=w;particles=[];
-    const initialParticles=40,cols=Math.ceil(Math.sqrt(initialParticles*(W/H))),rows=Math.ceil(initialParticles/cols),cellWidth=W/cols,cellHeight=H/rows;
-    for(let row=0;row<rows;row++)for(let col=0;col<cols;col++){if(particles.length>=initialParticles)break;
-      particles.push({x:col*cellWidth+Math.random()*cellWidth,y:row*cellHeight+Math.random()*cellHeight,vx:(Math.random()-.5)*.8,vy:(Math.random()-.5)*.8,size:Math.random()*3+1,opacity:Math.random()*.5+.2,life:-1})}}
+    /* opening placement: most particles loosely around the words (thinning out with distance), a few anywhere */
+    const hb=hero.getBoundingClientRect(),rs=['.who','#statement','.sub','.cta'].map(q=>document.querySelector(q).getBoundingClientRect()),
+      B={l:Math.min(...rs.map(r=>r.left))-hb.left,t:Math.min(...rs.map(r=>r.top))-hb.top,r:Math.max(...rs.map(r=>r.right))-hb.left,b:Math.max(...rs.map(r=>r.bottom))-hb.top},
+      gs=()=>{let u=0,v=0;while(!u)u=Math.random();while(!v)v=Math.random();return Math.sqrt(-2*Math.log(u))*Math.cos(2*Math.PI*v)},cl=(v,m)=>Math.min(m-4,Math.max(4,v));
+    const initialParticles=40;
+    for(let k=0;k<initialParticles;k++){let px,py;
+      if(k<initialParticles*.72){const w=B.r-B.l,h=B.b-B.t,u=Math.random()*2*(w+h),o=24+Math.abs(gs())*95;
+        if(u<w){px=B.l+u;py=B.t-o}else if(u<w+h){px=B.r+o;py=B.t+u-w}else if(u<2*w+h){px=B.l+(u-w-h);py=B.b+o}else{px=B.l-o;py=B.t+(u-2*w-h)}}
+      else{px=Math.random()*W;py=Math.random()*H}
+      particles.push({x:cl(px,W),y:cl(py,H),vx:(Math.random()-.5)*.8,vy:(Math.random()-.5)*.8,size:Math.random()*3+1,opacity:Math.random()*.5+.2,life:-1})}}
   resize();addEventListener('resize',resize);new IntersectionObserver(e=>vis=e[0].isIntersecting).observe(hero);
   function f(){if(vis){x.clearRect(0,0,W,H);const hb=hero.getBoundingClientRect(),mouseX=stars.mx-hb.left,mouseY=stars.my-hb.top;
     /* pointer moved far enough: sprinkle a new short-lived particle */
@@ -692,4 +734,5 @@ if(!document.body.classList.contains('fx-cursor')){let tOff=0;
         if(d<120){x.beginPath();x.moveTo(p.x,p.y);x.lineTo(p2.x,p2.y);x.strokeStyle=`rgba(139,92,246,${.15*(1-d/120)})`;x.lineWidth=1;x.stroke()}}
       if(dist<120){x.beginPath();x.moveTo(p.x,p.y);x.lineTo(mouseX,mouseY);x.strokeStyle=`rgba(139,92,246,${.25*(1-dist/120)})`;x.lineWidth=1;x.stroke()}});}
     if(!still)requestAnimationFrame(f)}f()})();
+}
 </script>

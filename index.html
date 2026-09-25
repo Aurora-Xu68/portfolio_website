@@ -659,59 +659,37 @@ if(!document.body.classList.contains('fx-cursor')){let tOff=0;
   const tu=()=>{clearTimeout(tOff);tOff=setTimeout(()=>{stars.mx=-999;stars.my=-999;stars.t=0},450)};
   addEventListener('touchend',tu,{passive:true});addEventListener('touchcancel',tu,{passive:true})}
 
-/* Aurora's star layout for wide screens: density grid over the first screen (cols x rows, 0-1), plus star count */
-const STAR_MAP=null;
-
-/* constellation (from the original site)
-   at rest the stars spread over the whole screen, a little denser around the words (not a ring),
-   each wandering near its own spot; the ones the pointer / finger stirs are let go and drift freely;
-   a reload settles them again */
+/* particles: the original site's code (Dec 2025 version), moved into the first screen as-is.
+   40 drifting particles; moving the pointer / finger sprinkles short-lived extra ones (up to 60);
+   near the pointer they are flicked away, swell and brighten; lines join close particles and the pointer. */
 (function(){const cv=$('stars'),x=cv.getContext('2d'),hero=cv.parentElement,still=matchMedia('(prefers-reduced-motion: reduce)').matches;
-  let W,H,DPR=Math.min(devicePixelRatio||1,2),P=[],vis=true,B,lastW=0,pmx=-999,pmy=-999,svx=0,svy=0;
-  /* how likely a star settles at (px,py): thin over the words, densest just around them, still present far away */
-  function want(px,py){const dx=Math.max(B.l-px,0,px-B.r),dy=Math.max(B.t-py,0,py-B.b),d=Math.hypot(dx,dy);
-    if(d===0)return W<700?.8:.3; /* on phones the words fill almost the screen, so they can't push the stars away */return .45+.55*Math.exp(-d/(Math.min(W,H)*.35))}
-  const gs=()=>{let u=0,v=0;while(!u)u=Math.random();while(!v)v=Math.random();return Math.sqrt(-2*Math.log(u))*Math.cos(2*Math.PI*v)};
-  /* wide screens: a composed field instead of an even scatter — a soft galaxy band sweeping up the open right side,
-     a loose halo hugging the words, and a few strays */
-  function spotWide(){const r=Math.random(),cl=(px,py)=>[Math.min(W-6,Math.max(6,px)),Math.min(H-6,Math.max(6,py))];
-    if(r<.5){const t=Math.random(),x0=B.l+(B.r-B.l)*.2,y0=H*1.04,cx=W*.95,cy=H*.98,x1=W*.76,y1=-H*.06,
-        bx=(1-t)*(1-t)*x0+2*(1-t)*t*cx+t*t*x1,by=(1-t)*(1-t)*y0+2*(1-t)*t*cy+t*t*y1,
-        tx=2*(1-t)*(cx-x0)+2*t*(x1-cx),ty=2*(1-t)*(cy-y0)+2*t*(y1-cy),tl=Math.hypot(tx,ty)||1,o=gs()*Math.min(W,H)*.13;
-      return cl(bx-ty/tl*o,by+tx/tl*o)}
-    if(r<.9){const per=2*((B.r-B.l)+(B.b-B.t)),u=Math.random()*per,w=B.r-B.l,h=B.b-B.t,o=16+Math.abs(gs())*70;
-      if(u<w)return cl(B.l+u,B.t-o);if(u<w+h)return cl(B.r+o,B.t+u-w);if(u<2*w+h)return cl(B.l+(u-w-h),B.b+o);return cl(B.l-o,B.t+(u-2*w-h))}
-    return cl(Math.random()*W,Math.random()*H)}
-  const smap=()=>STAR_MAP;let CUM=null;
-  function cum(){const m=smap();if(!m){CUM=null;return}let t=0;CUM=m.g.map(v=>t+=v*v);if(!t)CUM=null}
-  function spotMap(){const m=smap(),r=Math.random()*CUM[CUM.length-1];let i=0;while(CUM[i]<r)i++;
-    const cx=i%m.c,cy=(i/m.c)|0;return [Math.min(W-6,Math.max(6,(cx+Math.random())*W/m.c)),Math.min(H-6,Math.max(6,(cy+Math.random())*H/m.r))]}
-  function spot(){if(W>=700)return CUM?(Math.random()<.12?[6+Math.random()*(W-12),6+Math.random()*(H-12)]:spotMap()):spotWide();for(let k=0;k<40;k++){const px=6+Math.random()*(W-12),py=6+Math.random()*(H-12);if(Math.random()<want(px,py))return [px,py]}return [Math.random()*W,Math.random()*H]}
-  function size(){const w=hero.clientWidth;W=w;H=hero.clientHeight;cv.width=W*DPR;cv.height=H*DPR;x.setTransform(DPR,0,0,DPR,0,0);
-    if(w===lastW&&P.length)return;lastW=w; /* phones resize on scroll (address bar): keep the stars, only redo on a real width change */
-    const hb=hero.getBoundingClientRect(),rs=['.who','#statement','.sub','.cta'].map(q=>document.querySelector(q).getBoundingClientRect());
-    B={l:Math.min(...rs.map(r=>r.left))-hb.left,t:Math.min(...rs.map(r=>r.top))-hb.top,r:Math.max(...rs.map(r=>r.right))-hb.left,b:Math.max(...rs.map(r=>r.bottom))-hb.top};
-    cum();const m=smap(),n=W>=700&&m&&m.n?m.n:Math.round(Math.min(130,Math.max(45,W*H/10000)));
-    P=Array.from({length:n},()=>{const [px,py]=spot();return {x:px,y:py,ox:px,oy:py,bx:px,by:py,fa:5+Math.random()*9,fw:(.00035+Math.random()*.0004),fp:Math.random()*7,vx:0,vy:0,r:Math.random()*1.5+.7}})}
-  stars.regen=()=>{lastW=0;size()};stars.pts=()=>P;stars.probe=()=>{const q=spotWide();return [q[0]/W,q[1]/H]};
-  size();addEventListener('resize',size);new IntersectionObserver(e=>vis=e[0].isIntersecting).observe(hero);
-  function f(){if(vis){x.clearRect(0,0,W,H);const hb=hero.getBoundingClientRect(),mx=stars.mx-hb.left,my=stars.my-hb.top;
-    const now=performance.now();
-    /* pointer speed: a resting pointer only draws lines to itself; only a moving one parts the stars */
-    let cvx=0,cvy=0;if(mx>-900&&pmx>-900){cvx=mx-pmx;cvy=my-pmy}pmx=mx;pmy=my;svx=svx*.6+cvx*.4;svy=svy*.6+cvy*.4;const sp=Math.hypot(svx,svy);
-    for(const p of P){
-      /* each star floats in a small slow loop around its own place, it never travels */
-      p.bx+=(p.ox-p.bx)*.0015;p.by+=(p.oy-p.by)*.0015; /* a parted spot heals back over ~15s */
-      const hx=p.bx+Math.sin(now*p.fw+p.fp)*p.fa,hy=p.by+Math.cos(now*p.fw*.8+p.fp)*p.fa;
-      const dx=p.x-mx,dy=p.y-my,d=Math.hypot(dx,dy);
-      if(d<110&&d>0&&sp>1.5){ /* the pointer passing through parts them sideways, like a finger through sand */
-        const nx=-svy/sp,ny=svx/sp,side=(dx*nx+dy*ny)>=0?1:-1,k=(1-d/110)*Math.min(1,(sp-1.5)/10)*6;
-        p.bx+=nx*side*k;p.by+=ny*side*k;const o=Math.hypot(p.bx-p.ox,p.by-p.oy);if(o>70){p.bx=p.ox+(p.bx-p.ox)*70/o;p.by=p.oy+(p.by-p.oy)*70/o}}
-      /* glide to the (moving) spot, heavily damped: no overshoot, no swinging */
-      p.vx=(p.vx+(hx-p.x)*.004)*.9;p.vy=(p.vy+(hy-p.y)*.004)*.9;
-      p.x+=p.vx;p.y+=p.vy;p.x=Math.min(W-2,Math.max(2,p.x));p.y=Math.min(H-2,Math.max(2,p.y))}
-    for(let i=0;i<P.length;i++){const a=P[i];for(let j=i+1;j<P.length;j++){const b=P[j],d=Math.hypot(a.x-b.x,a.y-b.y);if(d<135){x.strokeStyle=`rgba(124,82,220,${.26*(1-d/135)})`;x.lineWidth=1;x.beginPath();x.moveTo(a.x,a.y);x.lineTo(b.x,b.y);x.stroke()}}
-      const dm=Math.hypot(a.x-mx,a.y-my);if(dm<170){x.strokeStyle=`rgba(124,82,220,${.45*(1-dm/170)})`;x.beginPath();x.moveTo(a.x,a.y);x.lineTo(mx,my);x.stroke()}
-      x.fillStyle=`rgba(124,82,220,${dm<170?.8:.5})`;x.beginPath();x.arc(a.x,a.y,a.r,0,7);x.fill()}}
+  let W,H,DPR=Math.min(devicePixelRatio||1,2),particles=[],vis=true,lastW=0,lastMouseX=0,lastMouseY=0;
+  function resize(){const w=hero.clientWidth;W=w;H=hero.clientHeight;cv.width=W*DPR;cv.height=H*DPR;x.setTransform(DPR,0,0,DPR,0,0);
+    if(w===lastW&&particles.length)return;lastW=w;particles=[];
+    const initialParticles=40,cols=Math.ceil(Math.sqrt(initialParticles*(W/H))),rows=Math.ceil(initialParticles/cols),cellWidth=W/cols,cellHeight=H/rows;
+    for(let row=0;row<rows;row++)for(let col=0;col<cols;col++){if(particles.length>=initialParticles)break;
+      particles.push({x:col*cellWidth+Math.random()*cellWidth,y:row*cellHeight+Math.random()*cellHeight,vx:(Math.random()-.5)*.8,vy:(Math.random()-.5)*.8,size:Math.random()*3+1,opacity:Math.random()*.5+.2,life:-1})}}
+  resize();addEventListener('resize',resize);new IntersectionObserver(e=>vis=e[0].isIntersecting).observe(hero);
+  function f(){if(vis){x.clearRect(0,0,W,H);const hb=hero.getBoundingClientRect(),mouseX=stars.mx-hb.left,mouseY=stars.my-hb.top;
+    /* pointer moved far enough: sprinkle a new short-lived particle */
+    if(stars.mx>-900){const moveDist=Math.hypot(mouseX-lastMouseX,mouseY-lastMouseY);
+      if(moveDist>30&&particles.length<60){particles.push({x:mouseX+(Math.random()-.5)*20,y:mouseY+(Math.random()-.5)*20,vx:(Math.random()-.5)*2,vy:(Math.random()-.5)*2,size:Math.random()*2+1.5,opacity:.7,life:300});lastMouseX=mouseX;lastMouseY=mouseY}}
+    for(let i=particles.length-1;i>=0;i--)if(particles[i].life!==-1&&particles[i].life<=0)particles.splice(i,1);
+    particles.forEach((p,i)=>{
+      if(p.life!==-1){p.life--;p.opacity=Math.max(0,(p.life/300)*.7)}
+      const dx=mouseX-p.x,dy=mouseY-p.y,dist=Math.sqrt(dx*dx+dy*dy);
+      if(dist<150&&dist>0){const f=(150-dist)/150;p.vx-=(dx/dist)*f*.3;p.vy-=(dy/dist)*f*.3;p.currentSize=p.size*(1+f*.6);p.currentOpacity=Math.min(1,p.opacity+f*.4)}
+      else{p.currentSize=p.size;p.currentOpacity=p.opacity}
+      if(Math.abs(p.vx)<.3)p.vx+=(Math.random()-.5)*.1;if(Math.abs(p.vy)<.3)p.vy+=(Math.random()-.5)*.1;
+      const maxSpeed=2;p.vx=Math.max(-maxSpeed,Math.min(maxSpeed,p.vx));p.vy=Math.max(-maxSpeed,Math.min(maxSpeed,p.vy));
+      if(Math.abs(p.vx)>.8)p.vx*=.99;if(Math.abs(p.vy)>.8)p.vy*=.99;
+      p.x+=p.vx;p.y+=p.vy;
+      /* bounce off the edges (kept inside, so none get stuck trembling on the border) */
+      if(p.x<0){p.x=0;p.vx=Math.abs(p.vx)}else if(p.x>W){p.x=W;p.vx=-Math.abs(p.vx)}
+      if(p.y<0){p.y=0;p.vy=Math.abs(p.vy)}else if(p.y>H){p.y=H;p.vy=-Math.abs(p.vy)}
+      x.beginPath();x.arc(p.x,p.y,p.currentSize||p.size,0,Math.PI*2);x.fillStyle=`rgba(139,92,246,${p.currentOpacity||p.opacity})`;x.fill();
+      for(let j=i+1;j<particles.length;j++){const p2=particles[j],d=Math.hypot(p.x-p2.x,p.y-p2.y);
+        if(d<120){x.beginPath();x.moveTo(p.x,p.y);x.lineTo(p2.x,p2.y);x.strokeStyle=`rgba(139,92,246,${.15*(1-d/120)})`;x.lineWidth=1;x.stroke()}}
+      if(dist<120){x.beginPath();x.moveTo(p.x,p.y);x.lineTo(mouseX,mouseY);x.strokeStyle=`rgba(139,92,246,${.25*(1-dist/120)})`;x.lineWidth=1;x.stroke()}});}
     if(!still)requestAnimationFrame(f)}f()})();
 </script>

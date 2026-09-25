@@ -65,11 +65,11 @@ nav.top .wrap{display:flex;justify-content:space-between;align-items:center;padd
 .btn{display:inline-flex;align-items:center;gap:10px;padding:14px 26px;border-radius:99px;font-size:14px;letter-spacing:.08em;transition:background .5s var(--ease),border-color .5s,box-shadow .5s}
 .btn .rt{display:inline-block;height:1.5em;line-height:1.5em;overflow:hidden}
 .btn .rt>span{display:flex;flex-direction:column;transition:transform .6s var(--ease)}
-.btn:hover .rt>span{transform:translateY(-50%)}
+@media (hover:hover){.btn:hover .rt>span{transform:translateY(-50%)}}
 .btn-solid{background:linear-gradient(135deg,#8B63E6,#6B46C9);color:#FDFCFF;box-shadow:0 12px 28px -14px rgba(124,82,220,.7)}
-.btn-solid:hover{box-shadow:0 16px 34px -14px rgba(124,82,220,.85)}
+@media (hover:hover){.btn-solid:hover{box-shadow:0 16px 34px -14px rgba(124,82,220,.85)}}
 .btn-ghost{border:1px solid var(--line);background:var(--surface);color:var(--ink)}
-.btn-ghost:hover{border-color:#CDBDF3}
+@media (hover:hover){.btn-ghost:hover{border-color:#CDBDF3}}
 
 /* ---------- section heads ---------- */
 section.blk{padding-block:clamp(90px,12vw,160px) 0}
@@ -91,7 +91,7 @@ html[lang=en] .sh small{display:none}
 .about .txt p b{color:var(--ink);font-weight:400}
 .more{display:inline-flex;align-items:center;gap:12px;margin-top:18px;font-size:14px;letter-spacing:.08em;color:var(--ink)}
 .more i{font-style:normal;width:34px;height:34px;border-radius:50%;border:1px solid var(--line);display:grid;place-items:center;transition:transform .5s var(--ease),background .5s,color .5s,border-color .5s}
-.more:hover i{transform:translateX(4px);background:var(--ink);color:var(--ground);border-color:var(--ink)}
+@media (hover:hover){.more:hover i{transform:translateX(4px);background:var(--ink);color:var(--ground);border-color:var(--ink)}}
 
 /* ---------- path ---------- */
 .tl{position:relative;padding-left:44px;max-width:920px}
@@ -107,12 +107,14 @@ html[lang=en] .sh small{display:none}
 .ti .r{font-size:14px;color:var(--ink-2);margin-top:4px}
 .ti{cursor:pointer}.ti>div:last-child{display:flex;justify-content:space-between;gap:20px;align-items:flex-start}
 .ti .ar{flex:none;color:var(--accent);opacity:0;transform:translateX(-10px);transition:opacity .5s,transform .6s var(--ease);padding-top:8px}
-.ti:hover .ar{opacity:1;transform:none}.ti h3{transition:color .5s}.ti:hover h3{color:var(--accent-deep)}
+.ti h3{transition:color .5s}@media (hover:hover){.ti:hover .ar{opacity:1;transform:none}.ti:hover h3{color:var(--accent-deep)}}
 @media (hover:none){.ti .ar{opacity:1;transform:none}}
 .entry{scroll-margin-top:110px;border-radius:14px;transition:background 1.2s}
 .cvl{color:var(--ink)!important}.cvl i{font-style:normal;color:var(--accent)}
 @media (max-width:900px){.links>a:not(.cvl){display:none!important}.links>a.cvl{display:inline-block}}
 /* preview panel (prototype only) */
+@media (hover:hover){.rvp .st:hover{background:var(--tint)}}
+@media (hover:hover){.rvp .row:hover{background:var(--tint)}}
 
 /* ---------- projects: big editorial rows, hover expands ---------- */
 .pj{border-top:1px solid var(--line)}
@@ -216,7 +218,7 @@ body.c-link .ring{width:56px;height:56px;margin:-28px 0 0 -28px}
 .lens{position:absolute;pointer-events:none;color:#FDFCFF!important;-webkit-text-fill-color:#FDFCFF;background:var(--accent);--lr:0px;
   -webkit-mask:radial-gradient(circle var(--lr) at var(--lx,50%) var(--ly,50%),#000 calc(100% - 2px),transparent 100%);mask:radial-gradient(circle var(--lr) at var(--lx,50%) var(--ly,50%),#000 calc(100% - 2px),transparent 100%);
   transition:--lr .5s var(--ease);white-space:inherit}
-[data-lens]:hover>.lens{--lr:var(--lrh,40px)}
+@media (hover:hover){[data-lens]:hover>.lens{--lr:var(--lrh,40px)}}
 .btn>.lens{border-radius:99px;overflow:hidden}
 .btn-solid>.lens{background:#FDFCFF;color:var(--accent-deep)!important;-webkit-text-fill-color:var(--accent-deep)}
 .btn-ghost>.lens{background:var(--accent)}
@@ -248,7 +250,7 @@ body.c-link .ring{width:56px;height:56px;margin:-28px 0 0 -28px}
 .corner b{font-weight:400;color:var(--ink-2)}
 /* button icon slide-in */
 .btn .ic{display:inline-block;width:0;opacity:0;overflow:hidden;transform:translateX(-6px);transition:width .5s var(--ease),opacity .4s,transform .5s var(--ease)}
-.btn:hover .ic{width:1em;opacity:1;transform:none}
+@media (hover:hover){.btn:hover .ic{width:1em;opacity:1;transform:none}}
 /* full-page detail */
 .wipe{position:fixed;top:0;right:0;bottom:0;left:0;inset:0;z-index:95;background:var(--tint);visibility:hidden;transform:translateY(100%);pointer-events:none}
 .detail .head h1{transition:clip-path 1.1s var(--ease) .1s,transform 1.1s var(--ease) .1s}
@@ -275,11 +277,11 @@ body.paged main{opacity:0;filter:blur(8px);transform:translateX(-6vw)}
 .nx small{display:flex;gap:14px;align-items:center;font-family:var(--latin);font-size:11px;letter-spacing:.3em;color:var(--mute);text-transform:uppercase}
 .nx small i{font-style:normal;color:var(--accent)}
 .nx .t{display:block;font-size:clamp(34px,5vw,72px);line-height:1.25;max-width:14em;margin-top:18px;color:var(--mute);transition:color .6s var(--ease);text-wrap:balance}
-.nx:hover .t{color:var(--ink)}
+@media (hover:hover){.nx:hover .t{color:var(--ink)}}
 .nx .ar{display:inline-grid;place-items:center;width:52px;height:52px;margin-top:30px;border-radius:50%;border:1px solid var(--line);color:var(--accent);transition:transform .6s var(--ease),background .6s,color .6s,border-color .6s}
-.nx:hover .ar{transform:translateX(8px);background:var(--accent);color:var(--surface);border-color:var(--accent)}
+@media (hover:hover){.nx:hover .ar{transform:translateX(8px);background:var(--accent);color:var(--surface);border-color:var(--accent)}}
 .prv{display:inline-block;margin-top:44px;font-size:13px;letter-spacing:.08em;color:var(--mute)}
-.prv:hover{color:var(--accent)}
+@media (hover:hover){.prv:hover{color:var(--accent)}}
 #top{overflow-x:hidden}
 
 /* headline: three lines, each kept on one line; on phones all three shrink to fit the longest line */
@@ -675,8 +677,8 @@ if(!document.body.classList.contains('fx-cursor')){let tOff=0;
   size();addEventListener('resize',size);new IntersectionObserver(e=>vis=e[0].isIntersecting).observe(hero);
   function f(){if(vis){x.clearRect(0,0,W,H);const hb=hero.getBoundingClientRect(),mx=stars.mx-hb.left,my=stars.my-hb.top;
     for(const p of P){const dx=p.x-mx,dy=p.y-my,d=Math.hypot(dx,dy);
-      if(d<150&&d>0){const k=stars.t ? 0.022+(150-d)/150*0.09 : 0.022;p.vx+=dx/d*k;p.vy+=dy/d*k;if(p.h)p.free=1}
-      if(p.h){if(p.free){p.h*=.97;if(p.h<.01)p.h=0}
+      if(d<150&&d>0){p.vx+=dx/d*.022;p.vy+=dy/d*.022;p.h=0}
+      if(p.h){
         /* the spot itself wanders a little (random walk, no direction), so the gathering breathes instead of sitting still */
         p.a+=(Math.random()-.5)*.006;p.pad=Math.min(190,Math.max(18,p.pad+(Math.random()-.5)*.5));home(p);
         p.vx+=(p.hx-p.x)*.0004*p.h;p.vy+=(p.hy-p.y)*.0004*p.h}

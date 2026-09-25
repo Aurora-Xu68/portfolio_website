@@ -697,7 +697,7 @@ if(!matchMedia('(hover:hover) and (pointer:fine)').matches){ /* touch devices ge
 window.__BASE={"version":2,"stray":6,"strayGap":80,"blobs":[{"x":0.79,"y":0.47,"rx":0.16,"ry":0.3,"count":20,"gap":32},{"x":0.8,"y":0.46,"rx":0.42,"ry":0.78,"count":36,"gap":58}],"strokes":[{"spread":22,"gap":50,"count":14,"pts":[[-0.1,-0.08,1.5],[-0.0583,-0.0925,1.467],[-0.0167,-0.1049,1.433],[0.025,-0.1171,1.4],[0.0667,-0.1288,1.367],[0.1083,-0.14,1.333],[0.15,-0.1505,1.3],[0.1917,-0.1603,1.267],[0.2333,-0.1692,1.233],[0.275,-0.1771,1.2],[0.3167,-0.1839,1.167],[0.3583,-0.1896,1.133],[0.4,-0.1941,1.1],[0.4417,-0.1974,1.067],[0.4833,-0.1993,1.033],[0.525,-0.2,1.0],[0.5667,-0.1993,0.967],[0.6083,-0.1974,0.933],[0.65,-0.1941,0.9],[0.6917,-0.1896,0.867],[0.7333,-0.1839,0.833],[0.775,-0.1771,0.8],[0.8167,-0.1692,0.767],[0.8583,-0.1603,0.733],[0.9,-0.1505,0.7],[0.9417,-0.14,0.667],[0.9833,-0.1288,0.633],[1.025,-0.1171,0.6],[1.0667,-0.1049,0.567],[1.1083,-0.0925,0.533],[1.15,-0.08,0.5]]},{"spread":22,"gap":50,"count":12,"pts":[[0.02,1.12,1.5],[0.06,1.1263,1.467],[0.1,1.1325,1.433],[0.14,1.1385,1.4],[0.18,1.1444,1.367],[0.22,1.15,1.333],[0.26,1.1553,1.3],[0.3,1.1601,1.267],[0.34,1.1646,1.233],[0.38,1.1685,1.2],[0.42,1.172,1.167],[0.46,1.1748,1.133],[0.5,1.1771,1.1],[0.54,1.1787,1.067],[0.58,1.1797,1.033],[0.62,1.18,1.0],[0.66,1.1797,0.967],[0.7,1.1787,0.933],[0.74,1.1771,0.9],[0.78,1.1748,0.867],[0.82,1.172,0.833],[0.86,1.1685,0.8],[0.9,1.1646,0.767],[0.94,1.1601,0.733],[0.98,1.1553,0.7],[1.02,1.15,0.667],[1.06,1.1444,0.633],[1.1,1.1385,0.6],[1.14,1.1325,0.567],[1.18,1.1263,0.533],[1.22,1.12,0.5]]}]};
 /* particle amount follows the window: Aurora's pick is 155% on a 1440x820 first screen; other window sizes get the same density
    (count scales with the area, spacing stays), so half-screen, small and full windows all look equally full */
-window.__layFor=(W,H)=>{const b=JSON.parse(JSON.stringify(window.__BASE)),dens=1.55,area=Math.max(.3,Math.min(1.8,(W*H)/(1440*820))),
+window.__layFor=(W,H)=>{const b=JSON.parse(JSON.stringify(window.__BASE)),dens=window.__DENS||1.45,area=Math.max(.3,Math.min(1.8,(W*H)/(1440*820))),
     c=v=>Math.max(1,Math.round(v*dens*area)),g=v=>Math.round(v/Math.sqrt(dens));
   (b.strokes||[]).forEach(z=>{z.count=c(z.count);z.gap=g(z.gap)});(b.blobs||[]).forEach(z=>{z.count=c(z.count);z.gap=g(z.gap)});
   b.stray=c(b.stray||0);b.strayGap=g(b.strayGap||0);return b};
@@ -771,10 +771,10 @@ window.__LAY=window.__layFor(1440,820);
         p.vx+=ux*f*.3;p.vy+=uy*f*.3;p.calm=false;p.currentSize=p.size*(1+f*.6);p.currentOpacity=Math.min(1,p.opacity+f*.4)}
       else{p.currentSize=p.size;p.currentOpacity=dist<120?.8:p.opacity}
       /* calm (untouched ring) stars wander: direction keeps changing, so they stay near the words without ever being pulled back */
-      if(p.calm){p.vx=p.vx*.992+(Math.random()-.5)*.016;p.vy=p.vy*.992+(Math.random()-.5)*.016}
-      else{if(Math.abs(p.vx)<.3)p.vx+=(Math.random()-.5)*.1;if(Math.abs(p.vy)<.3)p.vy+=(Math.random()-.5)*.1;}
+      if(p.calm){const ck=.016*(window.__SPDc||1.6);p.vx=p.vx*.992+(Math.random()-.5)*ck;p.vy=p.vy*.992+(Math.random()-.5)*ck}
+      else{const fv=window.__SPDf||1;if(Math.abs(p.vx)<.3*fv)p.vx+=(Math.random()-.5)*.1*fv;if(Math.abs(p.vy)<.3*fv)p.vy+=(Math.random()-.5)*.1*fv;}
       const maxSpeed=2;p.vx=Math.max(-maxSpeed,Math.min(maxSpeed,p.vx));p.vy=Math.max(-maxSpeed,Math.min(maxSpeed,p.vy));
-      if(Math.abs(p.vx)>.4)p.vx*=.985;if(Math.abs(p.vy)>.4)p.vy*=.985;
+      {const sv=.4*(p.calm?1:(window.__SPDf||1));if(Math.abs(p.vx)>sv)p.vx*=.985;if(Math.abs(p.vy)>sv)p.vy*=.985;}
       p.x+=p.vx;p.y+=p.vy;
       /* bounce off the edges (kept inside, so none get stuck trembling on the border) */
       if(p.x<0){p.x=0;p.vx=Math.abs(p.vx)}else if(p.x>W){p.x=W;p.vx=-Math.abs(p.vx)}
@@ -786,3 +786,4 @@ window.__LAY=window.__layFor(1440,820);
     if(!still)requestAnimationFrame(f)}f()})();
 }
 </script>
+
